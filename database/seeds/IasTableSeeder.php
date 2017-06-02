@@ -12,17 +12,6 @@ class IasTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table("statut")->insert([
-            [
-                "code" => "U000",
-                "libelle" => "Utilisateur inactif"
-            ],
-            [
-                "code" => "U001",
-                "libelle" => "Utilisateur actif"
-            ],
-        ]);
-
         DB::table("service")->insert([
             [ "code" => "INFO", "libelle" => "Informatique" ],
             [ "code" => "COMPT","libelle" => "Comptabilité" ],
@@ -55,13 +44,11 @@ class IasTableSeeder extends Seeder
             [
                 "login" => "glamolondon@gmail.com" ,
                 "password" => bcrypt("azerty"),
-                "statut_id" => 2,
                 "employe_id" => 1
             ],
             [
                 "login" => "thierrylandryk@gmail.com" ,
                 "password" => bcrypt("azerty"),
-                "statut_id" => 2,
                 "employe_id" => 2
             ]
         ]);

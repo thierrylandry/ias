@@ -13,11 +13,6 @@ class Iasdatabase extends Migration
      */
     public function up()
     {
-        Schema::create("statut", function(Blueprint $table){
-            $table->increments("id");
-            $table->string("code",5);
-            $table->string("libelle");
-        });
         Schema::create("service", function(Blueprint $table){
             $table->increments("id");
             $table->string("code",5);
@@ -41,9 +36,8 @@ class Iasdatabase extends Migration
             $table->string("login")->unique();
             $table->rememberToken();
             $table->string("password");
-            $table->integer("satut_id",false,true);
+            $table->string("satut",3)->default(\App\Statut::TYPE_UTILISATEUR.\App\Statut::ETAT_ACTIF.\App\Statut::AUTRE_NON_DEFINI);
             $table->integer("employe_id",false,true);
-            $table->foreign("satut_id")->references("id")->on("satut");
             $table->foreign("employe_id")->references("id")->on("employe");
         });
     }
@@ -56,7 +50,6 @@ class Iasdatabase extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statut');
         Schema::dropIfExists('service');
         Schema::dropIfExists('employe');
         Schema::dropIfExists('utilisateur');
