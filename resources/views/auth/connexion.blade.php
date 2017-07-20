@@ -1,61 +1,100 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Connexion</title>
-    <!--Import Google Icon Font-->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="{{ config('app.url') }}theme/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="{{ config('app.url') }}theme/css/ias.css"  media="screen,projection"/>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Connexion | IAS Manager</title>
+    <!-- Favicon-->
+    <link rel="icon" href="{{ config("app.url") }}favicon.ico" type="image/x-icon">
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="{{ config("app.url") }}plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="{{ config("app.url") }}plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="{{ config("app.url") }}plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="{{ config("app.url") }}css/style.css" rel="stylesheet">
+    <style type="text/css">
+        .login-page{
+            background: url("{{ config('app.url') }}images/ias/background.png") no-repeat center right #8a90ff !important;
+            /*url("http://localhost/ias/public/images/ias/background.png") no-repeat 127% -90px #8a90ff !important*/
+        }
+    </style>
 </head>
-<body class="bg-main">
-<br/><br/><br/><br/>
-    <div class="container">
-        <div class="row">
-            <section class="card bg-white col s12 m10 offset-m1 l4 offset-l4" >
-                <div class="card-content">
-                    <form class="col l12" action="" method="post">
-                        {{ csrf_field() }}
-                        <span class="card-title center">
-                            <h2 class="center"><i class="large material-icons">perm_identity</i></h2>
-                            Connexion
-                            @foreach($errors->all() as $error )
-                                <p class="error">{{ $error }}</p>
-                            @endforeach
-                        </span>
-                        <div class="input-field col l12">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input id="icon_prefix" type="email" class="validate" name="login" value="{{ old('login') }}" required>
-                            <label for="icon_prefix">Email</label>
-                        </div>
-                        <div class="input-field col l12">
-                            <i class="material-icons prefix">https</i>
-                            <input id="icon_password" type="password" class="validate" name="password" required>
-                            <label for="icon_password">Mot de passe</label>
-                        </div>
-                        <div class="input-field col offset-l2 l8">
-                            <button class="waves-effect waves-light btn bg-btn" type="submit">Se connecter</button>
-                        </div>
 
-                    </form>
-                    <br class="clearfix"/>
+<body class="login-page">
+<div class="login-box">
+    <div class="logo">
+        <a href="javascript:void(0);">{{ config("app.name") }}</a>
+        <small>Licence accordée à IAS</small>
+    </div>
+    <div class="card">
+        <div class="body">
+            <form id="sign_in" method="POST" action="">
+                {{ csrf_field() }}
+                <div class="msg">Veuillez vous connecter pour démarrer votre session</div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="login" placeholder="Nom d'utilisateur" required value="{{ \Illuminate\Support\Facades\Cookie::get('login') }}">
+                    </div>
                 </div>
-                <div class="card-action">
-                    <a href="#">Mot de passe oublié</a>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="password" class="form-control" name="password" placeholder="Password"  autofocus required>
+                    </div>
                 </div>
-            </section>
+                <div class="row">
+                    <div class="col-xs-8 p-t-5">
+                        <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+                        <label for="remember">Se souvenir de moi</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <button class="btn btn-block bg-pink waves-effect" type="submit">Connexion</button>
+                    </div>
+                </div>
+                <div class="row m-t-15 m-b--20">
+                    <div class="col-xs-6">
+                        <a href="sign-up.html">Register Now!</a>
+                    </div>
+                    <div class="col-xs-6 align-right">
+                        <a href="forgot-password.html">Mot de passe oublié?</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-<!--Import jQuery before materialize.js-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="{{ config('app.url') }}theme/js/materialize.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-       Materialize.updateTextFields();
-    });
-</script>
+</div>
+
+<!-- Jquery Core Js -->
+<script src="{{ config('app.url') }}plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="{{ config('app.url') }}plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="{{ config('app.url') }}plugins/node-waves/waves.js"></script>
+
+<!-- Validation Plugin Js -->
+<script src="{{ config('app.url') }}plugins/jquery-validation/jquery.validate.js"></script>
+
+<!-- Custom Js -->
+<script src="{{ config('app.url') }}js/admin.js"></script>
+<script src="{{ config('app.url') }}js/pages/examples/sign-in.js"></script>
 </body>
+
 </html>

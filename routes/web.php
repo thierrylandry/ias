@@ -30,8 +30,11 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/accueil', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Véhicules
+Route::prefix('vehicules')->middleware('auth')->group(function (){
+    Route::get('liste.html','Car\RegisterController@index')->name('vehicule.liste');
+    Route::get('reparations.html','Car\ReperationController@index')->name('vehicule.reparation');
+});

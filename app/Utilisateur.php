@@ -29,4 +29,8 @@ class Utilisateur extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function employe(){
+        return $this->belongsTo(Employe::class);
+    }
 }

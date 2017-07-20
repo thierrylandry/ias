@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -36,7 +38,7 @@ class LoginController extends Controller
     }
 
 
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/accueil';
 
     /**
      * Create a new controller instance.
@@ -52,5 +54,28 @@ class LoginController extends Controller
     {
         //dd(request());
         return view('auth.connexion');
+    }
+
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect()->route('login');
+    }
+
+    public function authenticated(Request $request,$user)
+    {
+        Cookie::queue(Cookie::make('login',$user->login,60*24*30,"/"));
     }
 }
