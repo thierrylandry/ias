@@ -18,26 +18,26 @@ class IasTableSeeder extends Seeder
         ]);
 
         DB::table("employe")->insert([
-                [
-                    "matricule" => "E001",
-                    "nom" => "Doumbia",
-                    "prenoms" => "Adama",
-                    "datenaissance" => "1960-01-01",
-                    "pieceidentite" => "yerv5646iog",
-                    "dateembauche" => "2000-01-01",
-                    "basesalaire" => 500000,
-                    "service_id" => 1,
-                ],
-                [
-                    "matricule" => "E002",
-                    "nom" => "Doumbia",
-                    "prenoms" => "Fanta",
-                    "datenaissance" => "1970-01-01",
-                    "pieceidentite" => "azer1247cvx",
-                    "dateembauche" => "2000-01-01",
-                    "basesalaire" => 300000,
-                    "service_id" => 1,
-                ],
+            [
+                "matricule" => "E001",
+                "nom" => "Doumbia",
+                "prenoms" => "Adama",
+                "datenaissance" => "1970-05-12",
+                "pieceidentite" => "yerv5646iog",
+                "dateembauche" => "2000-01-01",
+                "basesalaire" => 500000,
+                "service_id" => 1,
+            ],
+            [
+                "matricule" => "E002",
+                "nom" => "Doumbia",
+                "prenoms" => "Fanta",
+                "datenaissance" => "1984-09-25",
+                "pieceidentite" => "azer1247cvx",
+                "dateembauche" => "2009-01-01",
+                "basesalaire" => 300000,
+                "service_id" => 1,
+            ],
         ]);
 
         DB::table("utilisateur")->insert([
@@ -52,6 +52,5 @@ class IasTableSeeder extends Seeder
                 "employe_id" => 2
             ]
         ]);
-
     }
 }
