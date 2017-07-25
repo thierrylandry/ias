@@ -20,8 +20,8 @@ class IasTableSeeder extends Seeder
         DB::table("employe")->insert([
             [
                 "matricule" => "E001",
-                "nom" => "Doumbia",
-                "prenoms" => "Adama",
+                "nom" => "Touré",
+                "prenoms" => "Brice",
                 "datenaissance" => "1970-05-12",
                 "pieceidentite" => "yerv5646iog",
                 "dateembauche" => "2000-01-01",
@@ -30,8 +30,8 @@ class IasTableSeeder extends Seeder
             ],
             [
                 "matricule" => "E002",
-                "nom" => "Doumbia",
-                "prenoms" => "Fanta",
+                "nom" => "Kouassi",
+                "prenoms" => "Yannick",
                 "datenaissance" => "1984-09-25",
                 "pieceidentite" => "azer1247cvx",
                 "dateembauche" => "2009-01-01",
