@@ -39,15 +39,22 @@
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_in" method="POST" action="">
+            <form id="sign_in" method="post" action="{{ route('login') }}">
                 {{ csrf_field() }}
                 <div class="msg">Veuillez vous connecter pour démarrer votre session</div>
+
+                @foreach($errors->all() as $e)
+                    <div class="alert bg-red alert-dismissible ">
+                        {{ $e }}
+                    </div>
+                @endforeach
+
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="login" placeholder="Nom d'utilisateur" required value="{{ \Illuminate\Support\Facades\Cookie::get('login') }}">
+                        <input type="text" class="form-control" name="login" placeholder="Nom d'utilisateur" required value="{{ old('login',\Illuminate\Support\Facades\Cookie::get('login')) }}">
                     </div>
                 </div>
                 <div class="input-group">
@@ -60,7 +67,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-8 p-t-5">
-                        <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+                        <input type="checkbox" name="remember" id="remember" class="filled-in chk-col-pink" checked>
                         <label for="remember">Se souvenir de moi</label>
                     </div>
                     <div class="col-xs-4">

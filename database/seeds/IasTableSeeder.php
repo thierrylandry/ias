@@ -52,5 +52,16 @@ class IasTableSeeder extends Seeder
                 "employe_id" => 2
             ]
         ]);
+
+        DB::table('genre')->insert([
+            ['libelle' => 'Berline'],
+            ['libelle' => 'Camionnette'],
+            ['libelle' => 'Cyclomoteur'],
+            ['libelle' => 'Auto-bus'],
+            ['libelle' => 'Moto'],
+            ['libelle' => 'Tracteur routier'],
+            ['libelle' => 'Véhicule particulier'],
+            ['libelle' => 'Véhicule utilitaire'],
+        ]);
     }
 }

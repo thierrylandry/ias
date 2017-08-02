@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -30,11 +26,13 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/accueil', 'HomeController@index')->name('home');
-
+Route::get('/accueil.html', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 //Véhicules
 Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::get('liste.html','Car\RegisterController@index')->name('vehicule.liste');
     Route::get('reparations.html','Car\ReperationController@index')->name('vehicule.reparation');
+    Route::get('nouveau.html','Car\RegisterController@showNewFormView')->name('vehicule.nouveau');
+    Route::post('nouveau.html','Car\RegisterController@ajouter');
 });

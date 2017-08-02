@@ -9,6 +9,7 @@ class Utilisateur extends Authenticatable
 {
     public $timestamps = false;
     protected $table = 'utilisateur';
+    protected $primaryKey = 'employe_id';
 
     use Notifiable;
 
@@ -18,7 +19,7 @@ class Utilisateur extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'login', 'statut', 'password',
     ];
 
     /**

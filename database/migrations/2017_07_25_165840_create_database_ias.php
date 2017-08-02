@@ -52,23 +52,24 @@ class CreateDatabaseIas extends Migration
             $table->increments('id');
             $table->string('libelle');
         });
-        Schema::create("typecommercial",function (Blueprint $table){
+        Schema::create("genre",function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle');
         });
         Schema::create("vehicule",function (Blueprint $table){
             $table->increments("id");
+            $table->string("cartegrise");
             $table->string("immatriculation");
             $table->string('marque')->nullable();
             $table->date('visite');
             $table->date('assurance');
-            $table->string('genre');
+            $table->string('typecommercial');
             $table->string('couleur')->nullable();
             $table->string('energie')->nullable();
             $table->integer('nbreplace')->default(5);
             $table->integer('puissancefiscale')->nullable();
-            $table->unsignedInteger('typecommercial_id');
-            $table->foreign("typecommercial_id")->references("id")->on("typecommercial");
+            $table->unsignedInteger('genre_id');
+            $table->foreign("genre_id")->references("id")->on("genre");
         });
         Schema::create("intervention",function (Blueprint $table){
             $table->increments('id');
@@ -182,7 +183,7 @@ class CreateDatabaseIas extends Migration
         Schema::dropIfExists('intervention');
         Schema::dropIfExists('typeintervention');
         Schema::dropIfExists('vehicule');
-        Schema::dropIfExists('typecommercial');
+        Schema::dropIfExists('genre');
         Schema::dropIfExists('typeintervention');
         Schema::dropIfExists('chauffeur');
         Schema::dropIfExists('utilisateur');

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -38,7 +40,7 @@ class LoginController extends Controller
     }
 
 
-    protected $redirectTo = '/accueil';
+    protected $redirectTo = '/accueil.html';
 
     /**
      * Create a new controller instance.
@@ -47,12 +49,15 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        if(Auth::check())
+        {
+            redirect($this->redirectTo);
+        }
         $this->middleware('guest')->except('logout');
     }
 
     public function showLoginForm()
     {
-        //dd(request());
         return view('auth.connexion');
     }
 
@@ -76,6 +81,8 @@ class LoginController extends Controller
 
     public function authenticated(Request $request,$user)
     {
+        Auth::login($user);
         Cookie::queue(Cookie::make('login',$user->login,60*24*30,"/"));
+        redirect()->route('home');
     }
 }

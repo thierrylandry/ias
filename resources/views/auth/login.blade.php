@@ -1,4 +1,4 @@
-@extends('layouts.ias')
+@extends('layouts.old.ias')
 
 @section('content')
 <div class="container">
