@@ -16,7 +16,7 @@
                     <div class="col-md-4">
 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-xs-12">
                         <div class="align-right">
                             <a href="{{ route('vehicule.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un véhicule</a>
                         </div>
