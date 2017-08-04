@@ -96,10 +96,13 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="pages/examples/sign-in.html">Utilisateurs</a>
+                <a href="#">Employes</a>
             </li>
             <li>
-                <a href="pages/examples/sign-up.html">Employes</a>
+                <a href="#">Utilisateurs</a>
+            </li>
+            <li>
+                <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>
             </li>
         </ul>
     </li>

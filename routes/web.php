@@ -36,3 +36,12 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::get('nouveau.html','Car\RegisterController@showNewFormView')->name('vehicule.nouveau');
     Route::post('nouveau.html','Car\RegisterController@ajouter');
 });
+
+Route::prefix('missions')->middleware('auth')->group(function (){
+    Route::get('nouvelle.html','Mission\CreateController@ajouter')->name('mission.nouvelle');
+});
+
+Route::prefix('administration')->middleware('auth')->group(function (){
+    Route::get('chauffeurs.html','Admin\ChauffeurController@liste')->name('admin.chauffeur.liste');
+    Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
+});
