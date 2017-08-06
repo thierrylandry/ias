@@ -45,3 +45,5 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('chauffeurs.html','Admin\ChauffeurController@liste')->name('admin.chauffeur.liste');
     Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
 });
+
+Route::get('/pdf.html','HomeController@test');
