@@ -11,14 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Authentication Routes...
-Route::get('connexion.html', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('connexion.html', 'Auth\LoginController@login');
-Route::get('deconnexion.html', 'Auth\LoginController@logout')->name('logout');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -30,8 +26,22 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/accueil.html', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
-// Auth::routes();
+//Véhicules
+Route::prefix('vehicules')->middleware('auth')->group(function (){
+    Route::get('liste.html','Car\RegisterController@index')->name('vehicule.liste');
+    Route::get('reparations.html','Car\ReperationController@index')->name('vehicule.reparation');
+    Route::get('nouveau.html','Car\RegisterController@showNewFormView')->name('vehicule.nouveau');
+    Route::post('nouveau.html','Car\RegisterController@ajouter');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('missions')->middleware('auth')->group(function (){
+    Route::get('nouvelle.html','Mission\CreateController@ajouter')->name('mission.nouvelle');
+});
+
+Route::prefix('administration')->middleware('auth')->group(function (){
+    Route::get('chauffeurs.html','Admin\ChauffeurController@liste')->name('admin.chauffeur.liste');
+    Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
+});
