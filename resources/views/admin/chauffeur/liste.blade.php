@@ -9,8 +9,7 @@
                     <div class="header">
                         <div class="col-md-4">
                             <h2>
-                                Liste des véhicules
-                                <small>Liste de tous les véhicules IAS</small>
+                                Liste des chauffeurs
                             </h2>
                         </div>
                         <div class="col-md-4">
@@ -34,12 +33,24 @@
                             <thead>
                             <tr class="bg-green">
                                 <th width="7.5%"></th>
+                                <th>Nom & prénoms</th>
+                                <th>N° de permis</th>
+                                <th>Exp. catégorie C</th>
+                                <th>Exp. catégorie D</th>
+                                <th>Exp. catégorie E</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($chauffeurs as $chauffeur)
                             <tr>
                                 <td></td>
+                                <td>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</td>
+                                <td>{{ $chauffeur->permis }}</td>
+                                <td>{{ (new \Carbon\Carbon($chauffeur->expiration_c))->format('d/m/Y') }}</td>
+                                <td>{{ (new \Carbon\Carbon($chauffeur->expiration_d))->format('d/m/Y') }}</td>
+                                <td>{{ (new \Carbon\Carbon($chauffeur->expiration_e))->format('d/m/Y') }}</td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

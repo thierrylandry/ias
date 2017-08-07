@@ -16,7 +16,7 @@ a {
 
 body {
     position: relative;
-    width: 18.5cm;
+    width: 18.5cm; /*21cm*/
     height: 29.7cm;
     margin: 0 auto;
     color: #555555;
@@ -29,7 +29,7 @@ body {
 header {
     padding: 10px 0;
     margin-bottom: 20px;
-    /*border-bottom: 1px solid #AAAAAA;*/
+    border-bottom: 1px solid #AAAAAA;
 }
 
 #bord{
