@@ -14,4 +14,8 @@ class Employe extends Model
     public function utilisateur(){
         return $this->hasOne(Utilisateur::class);
     }
+
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
 }

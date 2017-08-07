@@ -42,9 +42,16 @@ Route::prefix('missions')->middleware('auth')->group(function (){
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
+    //Chauffeur
     Route::get('chauffeurs.html','Admin\ChauffeurController@liste')->name('admin.chauffeur.liste');
     Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
     Route::post('chauffeurs/ajouter.html','Admin\ChauffeurController@register');
+
+    //Employé
+    Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');
+    Route::get('employes/ajouter.html','Admin\EmployeController@ajouter')->name('admin.employe.ajouter');
+    Route::post('employes/ajouter.html','Admin\EmployeController@register');
+
 });
 
 Route::get('/pdf.html','HomeController@test');

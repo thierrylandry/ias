@@ -96,7 +96,7 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="#">Employes</a>
+                <a href="{{ route('admin.employe.liste') }}">Employes</a>
             </li>
             <li>
                 <a href="#">Utilisateurs</a>
