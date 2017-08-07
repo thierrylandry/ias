@@ -10,6 +10,11 @@ return [
 
     "vehicule" => [
         "ajout" => "Nouveau véhicule immatriculé :immatriculation ajouté avec succès !"
+    ],
+    "admin" => [
+        "chauffeur" => [
+            "ajout" => "Nouveau chauffeur ajouter aveec succès."
+        ]
     ]
 
 ];
