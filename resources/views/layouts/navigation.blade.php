@@ -37,13 +37,13 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{ route("partenaire.liste",['type' => \App\Partenaire::CLIENT]) }}">
                     <span>Clients</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
-                    <span>Forunisseurs</span>
+                <a href="{{ route("partenaire.liste", ['type' => \App\Partenaire::FOURNISSEUR]) }}">
+                    <span>Fournisseurs</span>
                 </a>
             </li>
         </ul>
