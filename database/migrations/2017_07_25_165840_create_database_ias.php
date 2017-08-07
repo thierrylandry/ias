@@ -115,6 +115,7 @@ class CreateDatabaseIas extends Migration
             $table->date('fineffective');
             $table->string('observation');
             $table->integer('perdiem');
+            $table->integer('montantjour')->default(0);
             $table->integer('soldeperdiem')->default(0);
             $table->boolean('soustraite')->default(false);
             $table->unsignedInteger('chauffeur_id');

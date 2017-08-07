@@ -78,9 +78,12 @@ class IasTableSeeder extends Seeder
             [
                 'employe_id' => '3',
                 'permis' => 'PM544 054545 544',
+                'expiration_c' => null,
+                'expiration_d' => null,
+                'expiration_e' => null,
             ],
             [
-                'employe_id' => '3',
+                'employe_id' => '4',
                 'permis' => 'PM987 018780 545',
                 'expiration_c' => '2019-05-26',
                 'expiration_d' => '2019-05-26',
