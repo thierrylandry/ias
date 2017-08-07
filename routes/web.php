@@ -47,3 +47,10 @@ Route::prefix('administration')->middleware('auth')->group(function (){
 });
 
 Route::get('/pdf.html','HomeController@test');
+
+//Partenaires
+Route::prefix('partenaires')->middleware('auth')->group(function (){
+    Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');
+    Route::get('nouveau.html','Partenaire\RegisterController@showNewFormView')->name('partenaire.nouveau');
+    Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
+});
