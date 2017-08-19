@@ -51,7 +51,7 @@ class CreateController extends Controller
     {
         $noitification = new Notifications();
         $noitification->add(Notifications::SUCCESS,"Votre mission a été prise en compte. Voulez aller définir le bon de commande");
-        //TODO : Faire la route pour le bon de commande issu de la mission et éditer son PDF
+        //TODO : Faire la route pour le bon de commande issu de la mission et éditer son PDF. Après création du mail, proposer d'envoyer la pro forma par email si le client dispose d'un champ email puis envoie à la sélection en mettant commercial@ivoireautoservices.net en copie
     }
 
     /**

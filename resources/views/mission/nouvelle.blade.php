@@ -50,7 +50,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="montantjour">Montant/jour</label>
+                            <label for="montantjour">Tarif journalier</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
