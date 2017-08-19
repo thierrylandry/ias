@@ -1,6 +1,6 @@
-@extends('layouts.main')
+@extends("layouts.main")
 
-@section('content')
+@section("content")
 <div class="container-fluid">
     <!-- Basic Table -->
     <div class="row clearfix">
@@ -9,7 +9,7 @@
                 <div class="header">
                     <div class="col-md-4">
                         <h2>
-                            Liste des partenaires
+                            Mission
                         </h2>
                     </div>
                     <div class="col-md-4">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
-                            <a href="{{ route('partenaire.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un partenaire</a>
+                            <a href="{{ route("mission.nouvelle") }}" class="btn bg-blue waves-effect">Nouvelle mission</a>
                         </div>
                     </div>
                     <br class="clearfix"/>
@@ -33,7 +33,7 @@
                         </tr>
                         </thead>
                         <tbody class="table-hover">
-                        @foreach($partenaires as $partenaire)
+                        @foreach($missions as $mission)
                             <tr>
                                 <th scope="row">
                                     <div class="btn-toolbar" role="toolbar">
@@ -44,9 +44,8 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th valign="center">{{ $partenaire->raisonsociale }}</th>
-                                <td>{{ $partenaire->comptecontribuable }}</td>
-                                <td>{{ $partenaire->contactString() }}</td>
+                                <th valign="center">{{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }}</th>
+                                <td>{{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }}</td>
                             </tr>
                         @endforeach
                         </tbody>

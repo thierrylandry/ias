@@ -7,7 +7,7 @@
         </a>
     </li>
     <li>
-        <a href="javascript:void(0);">
+        <a href="{{ route("mission.liste") }}">
             <i class="material-icons">business_center</i>
             <span>Missions</span>
         </a>
@@ -106,6 +106,8 @@
             </li>
         </ul>
     </li>
+
+    <!--
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">trending_down</i>
@@ -173,4 +175,5 @@
             <span>Information</span>
         </a>
     </li>
+    -->
 </ul>

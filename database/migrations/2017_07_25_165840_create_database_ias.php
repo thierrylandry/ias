@@ -105,28 +105,6 @@ class CreateDatabaseIas extends Migration
             $table->foreign('partenaire_id','fk_reglement_partenaire')->references('id')->on('partenaire');
             $table->foreign('moyenreglement_id','fk_reglement_moyreglmt')->references('id')->on('moyenreglement');
         });
-        Schema::create("mission",function (Blueprint $table){
-            $table->increments('id');
-            $table->string('code')->unique();
-            $table->string('destination');
-            $table->date('debutprogramme');
-            $table->date('debuteffectif');
-            $table->date('finprogramme');
-            $table->date('fineffective');
-            $table->string('observation');
-            $table->integer('perdiem');
-            $table->integer('montantjour')->default(0);
-            $table->integer('soldeperdiem')->default(0);
-            $table->boolean('soustraite')->default(false);
-            $table->unsignedInteger('chauffeur_id');
-            $table->unsignedInteger('vehicule_id');
-            $table->unsignedInteger('client');
-            $table->unsignedInteger('soustraitant')->nullable();
-            $table->foreign('chauffeur_id')->references('employe_id')->on('chauffeur');
-            $table->foreign('vehicule_id')->references('id')->on('vehicule');
-            $table->foreign('client')->references('id')->on('partenaire');
-            $table->foreign('soustraitant')->references('id')->on('partenaire');
-        });
         Schema::create("famille",function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle');
@@ -154,6 +132,31 @@ class CreateDatabaseIas extends Migration
             $table->unsignedInteger('partenaire_id');
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
         });
+        Schema::create("mission",function (Blueprint $table){
+            $table->increments('id');
+            $table->string('code')->unique();
+            $table->string('destination');
+            $table->date('debutprogramme');
+            $table->date('debuteffectif');
+            $table->date('finprogramme');
+            $table->date('fineffective');
+            $table->string('observation');
+            $table->integer('perdiem');
+            $table->integer('montantjour')->default(0);
+            $table->integer('soldeperdiem')->default(0);
+            $table->boolean('soustraite')->default(false);
+            $table->string('status',4);
+            $table->unsignedInteger('chauffeur_id');
+            $table->unsignedInteger('vehicule_id');
+            $table->unsignedInteger('client');
+            $table->unsignedInteger('soustraitant')->nullable();
+            $table->unsignedInteger('piececomptable_id')->nullable();
+            $table->foreign('chauffeur_id')->references('employe_id')->on('chauffeur');
+            $table->foreign('vehicule_id')->references('id')->on('vehicule');
+            $table->foreign('client')->references('id')->on('partenaire');
+            $table->foreign('soustraitant')->references('id')->on('partenaire');
+            $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
+        });
         Schema::create("lignepiece",function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('designation');
@@ -174,10 +177,10 @@ class CreateDatabaseIas extends Migration
     public function down()
     {
         Schema::dropIfExists('lignepiece');
+        Schema::dropIfExists('mission');
         Schema::dropIfExists('piececomptable');
         Schema::dropIfExists('produit');
         Schema::dropIfExists('famille');
-        Schema::dropIfExists('mission');
         Schema::dropIfExists('reglement');
         Schema::dropIfExists('partenaire');
         Schema::dropIfExists('moyenreglement');

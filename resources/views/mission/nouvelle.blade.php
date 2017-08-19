@@ -35,14 +35,14 @@
                         </div>
 
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="code">Client</label>
+                            <label for="client">Client</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select class="form-control selectpicker show-tick" data-live-search="true">
-                                    <option>Hot Dog, Fries and a Soda</option>
-                                    <option>Burger, Shake and a Smile</option>
-                                    <option>Sugar, Spice and all things nice</option>
+                                <select class="form-control selectpicker" id="client" name="client" data-live-search="true" required>
+                                    @foreach($partenaires as $partenaire)
+                                    <option value="{{ $partenaire->id }}">{{ $partenaire->raisonsociale }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" name="montantjour" id="montantjour" class="form-control" placeholder="Montant par jour" value="{{ old('montantjour') }}">
+                                    <input type="number" required name="montantjour" id="montantjour" class="form-control" placeholder="Montant par jour" value="{{ old('montantjour') }}">
                                 </div>
                             </div>
                         </div>
@@ -63,10 +63,11 @@
                             <label for="totalperdiem">Montant total HT</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                            <div class="form-group">
+                            <div class="input-group">
                                 <div class="form-line">
                                     <input type="text" disabled name="montantht" id="montantht" class="form-control" placeholder="Montant HT" value="{{ old('montantht') }}">
                                 </div>
+                                <span class="input-group-addon">F CFA</span>
                             </div>
                         </div>
                     </div>
@@ -80,7 +81,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="debutprogramme" id="debutprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme')}}">
+                                    <input type="text" required name="debutprogramme" id="debutprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme')}}">
                                 </div>
                             </div>
                         </div>
@@ -91,7 +92,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="finprogramme" id="finprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('finprogramme') }}">
+                                    <input type="text" required name="finprogramme" id="finprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('finprogramme') }}">
                                 </div>
                             </div>
                         </div>
@@ -102,21 +103,22 @@
                             <label for="dureeprogramme">Durée de location</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                            <div class="form-group">
+                            <div class="input-group">
                                 <div class="form-line">
                                     <input type="text" disabled name="dureeprogramme" id="dureeprogramme" class="form-control" placeholder="" value="{{old('dureeprogramme')}}">
                                 </div>
+                                <span class="input-group-addon">jour(s)</span>
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="destinations">Destination</label>
+                            <label for="destination">Destination</label>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="destination" id="destination" class="form-control" data-role="tagsinput"/>
+                                    <input type="text" required name="destination" id="destination" class="form-control" data-role="tagsinput"/>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +132,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field">
+                                <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" required>
                                     @foreach($chaufffeurs as $chaufffeur)
                                         <option value="{{ $chaufffeur->employe_id }}" @if(old('vehicule_id') == $chaufffeur->id) selected @endif>{{ $chaufffeur->employe->nom }} {{ $chaufffeur->employe->prenoms }}</option>
                                     @endforeach
@@ -142,7 +144,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field">
+                                <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" required>
                                     @foreach($vehicules as $vehicule)
                                         <option value="{{ $vehicule->id }}" @if(old('vehicule_id') == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
                                     @endforeach
@@ -156,20 +158,22 @@
                             <label for="perdiem">Per diem</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                            <div class="form-group">
+                            <div class="input-group">
                                 <div class="form-line">
-                                    <input type="number" name="perdiem" id="perdiem" class="form-control" placeholder="Per diem" value="{{ old('perdiem') }}">
+                                    <input type="number" required name="perdiem" id="perdiem" class="form-control" placeholder="Per diem" value="{{ old('perdiem') }}">
                                 </div>
+                                <span class="input-group-addon">F CFA</span>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="totalperdiem">Total per diem</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                            <div class="form-group">
+                            <div class="input-group">
                                 <div class="form-line">
                                     <input type="text" disabled name="totalperdiem" id="totalperdiem" class="form-control" placeholder="" value="{{old('totalperdiem')}}">
                                 </div>
+                                <span class="input-group-addon">F CFA</span>
                             </div>
                         </div>
                     </div>
@@ -217,7 +221,7 @@
         nowText : 'AUJOURD\'HUI'
     }).on('change', function(e, date){
         calculDureeMission();
-        calculTotalPerdiem();
+        calculTotalPerDiem();
         calculMontantHT();
     });
 </script>
@@ -235,10 +239,13 @@
         debut = moment(txtdebut.value, 'DD/MM/YYYY', true);
         fin = moment(txtfin.value, 'DD/MM/YYYY', true);
         duree = moment.duration(fin.diff(debut)).asDays();
+
+        if( isNaN(duree) ){ duree = 0; }
+
         document.getElementById('dureeprogramme').value = duree;
     }
 
-    function calculTotalPerdiem()
+    function calculTotalPerDiem()
     {
         montant = document.getElementById('perdiem').value;
         document.getElementById('totalperdiem').value = montant * document.getElementById('dureeprogramme').value;
@@ -250,9 +257,15 @@
         document.getElementById('montantht').value = mtnt * document.getElementById('dureeprogramme').value;
     }
 
-    txtperdiem.addEventListener('change',function (e) {calculTotalPerdiem()});
+    txtperdiem.addEventListener('change',function (e) {calculTotalPerDiem()});
 
     txtmontant.addEventListener('change',function (e) {calculMontantHT()});
+    
+    $(document).ready(function (e) {
+        calculDureeMission();
+        calculTotalPerDiem();
+        calculMontantHT();
+    });
 
 </script>
 @endsection

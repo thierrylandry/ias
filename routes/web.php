@@ -37,8 +37,11 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::post('nouveau.html','Car\RegisterController@ajouter');
 });
 
+//Missions
 Route::prefix('missions')->middleware('auth')->group(function (){
-    Route::get('nouvelle.html','Mission\CreateController@ajouter')->name('mission.nouvelle');
+    Route::get('nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
+    Route::post('nouvelle.html','Mission\CreateController@ajouter');
+    Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
@@ -59,6 +62,6 @@ Route::get('/pdf.html','HomeController@test');
 //Partenaires
 Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');
-    Route::get('nouveau.html','Partenaire\RegisterController@showNewFormView')->name('partenaire.nouveau');
+    Route::get('nouveau.html','Partenaire\RegisterController@nouveau')->name('partenaire.nouveau');
     Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
 });

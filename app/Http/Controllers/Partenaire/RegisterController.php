@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Partenaire;
 
+use App\Metier\Behavior\Notifications;
+use App\Metier\Json\Contact;
 use App\Partenaire;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,6 +20,65 @@ class RegisterController extends Controller
         $partenaires = $this->triPartenaire($type, $partenaires)->get();
 
         return view('partenaire.liste', compact('partenaires'));
+    }
+
+    public function nouveau()
+    {
+        return view("partenaire.nouveau");
+    }
+
+    public function ajouter(Request $request)
+    {
+        $contacts = new Collection();
+
+        $this->validatePartner($request);
+
+        for($i = 0; $i <= count($request->input("titre_c"))-1; $i++ )
+        {
+            $contact = new Contact();
+            $contact->titre_c = $request->input("titre_c")[$i];
+            $contact->type_c = $request->input("type_c")[$i];
+            $contact->valeur_c = $request->input("valeur_c")[$i];
+            $contacts->add($contact);
+        }
+
+        $raw = $request->except("_token", "valeur_c", "type_c", "titre_c");
+        $raw["contact"] = json_encode($contacts->toArray());
+
+        try{
+            $this->create($raw);
+        }catch (ModelNotFoundException $e){
+            return back()
+                ->withInput()
+                ->withErrors($e->getMessage());
+        }
+
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Nouveau partenaire ajouté avec succès.");
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+    }
+
+    protected function validatePartner(Request $request)
+    {
+        $this->validate($request, [
+            "raisonsociale" => "required",
+            "comptecontribuable" => "present",
+            "titre_c" => "array"
+        ]);
+
+        if(!$request->has("isclient") && !$request->has("isfournisseur"))
+        {
+            redirect()
+                ->back()
+                ->withInput()
+                ->withErrors("Veuillez sélectionner un rôle pour le partenaire : Client ou Fourniseur ou les deux SVP !");
+        }
+    }
+
+    protected function create(array $data)
+    {
+        $partenaire = new Partenaire($data);
+        $partenaire->saveOrFail();
     }
 
 
