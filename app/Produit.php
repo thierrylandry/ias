@@ -10,12 +10,20 @@ class Produit extends Model implements Commercializable
     protected $table = "produit";
     public $timestamps = false;
 
+    public function famille()
+    {
+        return $this->belongsTo(Famille::class);
+    }
+
     /**
      * @return string
      */
     public function detailsForCommande()
     {
-        // TODO: Implement detailsForCommande() method.
+        return sprintf("%s , %s",
+            $this->famille->libelle,
+            $this->libelle
+        );
     }
 
     /**
@@ -23,18 +31,21 @@ class Produit extends Model implements Commercializable
      */
     public function getRealModele()
     {
-        // TODO: Implement getRealModele() method.
+        return self::class;
     }
 
     public function getReference()
     {
-        // TODO: Implement getReference() method.
+        return $this->reference;
     }
 
     public function getPrice()
     {
-        // TODO: Implement getPrice() method.
+        return $this->prixunitaire;
     }
 
-
+    public function getQuantity()
+    {
+        return 1;
+    }
 }

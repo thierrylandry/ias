@@ -14,6 +14,7 @@ use Illuminate\Support\MessageBag;
 class Notifications extends MessageBag
 {
     const NOTIFICATION_KEYS_SESSION = 'notifications';
+    const MISSION_OBJECT = 'missions';
     const NOTIFICATION_KEYS_ERROR = 'errors';
 
     const WARNING = 'bg-orange';

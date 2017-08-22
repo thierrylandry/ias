@@ -8,6 +8,7 @@ class Chauffeur extends Model
 {
     public $timestamps = false;
     protected $table = "chauffeur";
+    protected $primaryKey = "employe_id";
     protected $guarded = [];
 
     public function employe(){

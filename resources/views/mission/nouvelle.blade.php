@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
 @section('link')
-    <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="{{ asset('plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet" />
+<!-- Bootstrap Material Datetime Picker Css -->
+<link href="{{ asset('plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet" />
 
-    <!-- Bootstrap Tagsinput Css -->
-    <link href="{{ asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet" />
+<!-- Bootstrap Tagsinput Css -->
+<link href="{{ asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 
-    <!-- Bootstrap Select Css -->
-    <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
+<!-- Bootstrap Select Css -->
+<link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
 
 @endsection
 
@@ -172,6 +172,22 @@
                             <div class="input-group">
                                 <div class="form-line">
                                     <input type="text" disabled name="totalperdiem" id="totalperdiem" class="form-control" placeholder="" value="{{old('totalperdiem')}}">
+                                </div>
+                                <span class="input-group-addon">F CFA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="observation">Observations</label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <textarea required name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation') }}</textarea>
                                 </div>
                                 <span class="input-group-addon">F CFA</span>
                             </div>

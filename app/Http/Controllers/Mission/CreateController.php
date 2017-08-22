@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Mission;
 
 use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Finance\InvoiceFrom;
 use App\Mission;
 use App\Partenaire;
+use App\Statut;
 use App\Vehicule;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class CreateController extends Controller
 {
@@ -38,20 +43,22 @@ class CreateController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function ajouter(Request $request)
     {
         $this->validate($request, $this->validateMission());
 
         $mission =  $this->create($request);
 
-        $this->makeCommande($mission);
-    }
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Votre mission a été prise en compte. Voulez aller définir le bon de commande");
 
-    public function makeCommande(Mission $mission)
-    {
-        $noitification = new Notifications();
-        $noitification->add(Notifications::SUCCESS,"Votre mission a été prise en compte. Voulez aller définir le bon de commande");
-        //TODO : Faire la route pour le bon de commande issu de la mission et éditer son PDF. Après création du mail, proposer d'envoyer la pro forma par email si le client dispose d'un champ email puis envoie à la sélection en mettant commercial@ivoireautoservices.net en copie
+        $request->session()->put(Notifications::MISSION_OBJECT, $mission);
+
+        return redirect()->route("facturation.proforma.nouvelle", ["from" => InvoiceFrom::mission()])->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**
@@ -60,6 +67,21 @@ class CreateController extends Controller
      */
     private function create(Request $request)
     {
-        return Mission::create($request->except("_token"));
+        $data = $request->except("_token");
+
+        if(! array_key_exists("code",$data) || $data["code"] == null)
+        {
+            $data["code"] = "#";
+        }
+
+        $data["status"] = Statut::MISSION_COMMANDEE;
+
+        $data["debutprogramme"] = Carbon::createFromFormat("d/m/Y",$request->input("debutprogramme"))->toDateString();
+        $data["debuteffectif"] = $data["debutprogramme"];
+
+        $data["finprogramme"] = Carbon::createFromFormat("d/m/Y",$request->input("finprogramme"))->toDateString();
+        $data["fineffective"] = $data["finprogramme"];
+
+        return Mission::create($data);
     }
 }

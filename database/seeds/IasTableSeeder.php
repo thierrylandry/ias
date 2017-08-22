@@ -12,6 +12,16 @@ class IasTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table("application")->insert([
+            [
+                "sendmail" => "Y",
+                "numeroproforma" => 1,
+                "numerobl" => 1,
+                "numerofacture" => 1,
+                "prefix" => "",
+            ],
+        ]);
+
         DB::table("service")->insert([
             [ "code" => "INFO", "libelle" => "Informatique" ],
             [ "code" => "COMPT","libelle" => "Comptabilité" ],

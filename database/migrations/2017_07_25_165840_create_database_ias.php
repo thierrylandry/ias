@@ -13,6 +13,14 @@ class CreateDatabaseIas extends Migration
      */
     public function up()
     {
+        Schema::create("application", function (Blueprint $table){
+            $table->string("sendmail",1)->default("Y");
+            $table->string("mailcopy",1)->default("commercial@ivoireautoservices.net");
+            $table->integer("numeroproforma");
+            $table->integer("numerobl");
+            $table->integer("numerofacture");
+            $table->string("prefix",10)->default("");
+        });
         Schema::create("service", function(Blueprint $table){
             $table->increments("id");
             $table->string("code",5);
@@ -113,6 +121,7 @@ class CreateDatabaseIas extends Migration
             $table->increments('id');
             $table->string('reference')->unique();
             $table->string('libelle');
+            $table->integer("prixunitaire")->default(0);
             $table->unsignedInteger('famille_id');
             $table->foreign('famille_id')->references('id')->on('famille');
         });
@@ -140,7 +149,7 @@ class CreateDatabaseIas extends Migration
             $table->date('debuteffectif');
             $table->date('finprogramme');
             $table->date('fineffective');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             $table->integer('perdiem');
             $table->integer('montantjour')->default(0);
             $table->integer('soldeperdiem')->default(0);
@@ -165,6 +174,8 @@ class CreateDatabaseIas extends Migration
             $table->integer('modele_id');
             $table->integer('quantite');
             $table->integer('quantitelivree')->default(0);
+            $table->unsignedInteger('piececomptable_id');
+            $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
         });
     }
 
@@ -176,6 +187,7 @@ class CreateDatabaseIas extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('application');
         Schema::dropIfExists('lignepiece');
         Schema::dropIfExists('mission');
         Schema::dropIfExists('piececomptable');

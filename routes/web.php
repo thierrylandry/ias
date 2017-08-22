@@ -59,6 +59,12 @@ Route::prefix('administration')->middleware('auth')->group(function (){
 
 Route::get('/pdf.html','HomeController@test');
 
+//Facturation
+
+Route::prefix('factures')->middleware('auth')->group(function (){
+    Route::get("proforma/nouvelle.html","Order\CommandeController@nouvelle")->name("facturation.proforma.nouvelle");
+});
+
 //Partenaires
 Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');

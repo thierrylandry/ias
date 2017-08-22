@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Controllers\Order\Commercializable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Mission extends Model implements Commercializable
@@ -32,7 +33,14 @@ class Mission extends Model implements Commercializable
      */
     public function detailsForCommande()
     {
-        // TODO: Implement detailsForCommande() method.
+        return sprintf("Location de véhicule %s immatriculé %s pour %s jours (du %s au %s). Destination(s) : %s",
+            $this->vehicule->genre->libelle." ".$this->vehicule->marque." ".$this->vehicule->typecommercial,
+                $this->vehicule->immatriculation,
+            (new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme)),
+            (new Carbon($this->debutprogramme))->format("d/m/Y"),
+            (new Carbon($this->finprogramme))->format("d/m/Y"),
+            $this->destination
+        );
     }
 
     /**
@@ -40,16 +48,21 @@ class Mission extends Model implements Commercializable
      */
     public function getRealModele()
     {
-        return typeOf($this);
+        return self::class;
     }
 
     public function getReference()
     {
-        $this->code ? $this->code : "#";
+        return empty($this->code) ? $this->code : "#" ;
     }
 
     public function getPrice()
     {
-        $this->montantjour ? $this->montantjour : 0 ;
+        return $this->montantjour ? $this->montantjour : 0 ;
+    }
+
+    public function getQuantity()
+    {
+        return 1;
     }
 }

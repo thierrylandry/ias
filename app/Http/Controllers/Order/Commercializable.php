@@ -30,4 +30,9 @@ interface Commercializable
      * @return int
      */
     public function getPrice();
+
+    /**
+     * @return int
+     */
+    public function getQuantity();
 }
