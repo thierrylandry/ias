@@ -14,6 +14,7 @@ class CreateDatabaseIas extends Migration
     public function up()
     {
         Schema::create("application", function (Blueprint $table){
+            $table->string("version",1)->default(1);
             $table->string("sendmail",1)->default("Y");
             $table->string("mailcopy",1)->default("commercial@ivoireautoservices.net");
             $table->integer("numeroproforma");
@@ -127,10 +128,10 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("piececomptable",function (Blueprint $table){
             $table->increments('id');
-            $table->string('referencebc');
-            $table->string('referencebl')->nullable();
-            $table->string('referencefacture')->nullable();
-            $table->dateTime('creationbc');
+            $table->string('referenceproforma')->unique();
+            $table->string('referencebl')->unique()->nullable();
+            $table->string('referencefacture')->unique()->nullable();
+            $table->dateTime('creationproforma');
             $table->dateTime('creationbl')->nullable();
             $table->dateTime('creationfacture')->nullable();
             $table->string('etat')->default('BC'); //BC - BL - FACT

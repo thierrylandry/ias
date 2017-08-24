@@ -60,9 +60,15 @@ Route::prefix('administration')->middleware('auth')->group(function (){
 Route::get('/pdf.html','HomeController@test');
 
 //Facturation
-
 Route::prefix('factures')->middleware('auth')->group(function (){
-    Route::get("proforma/nouvelle.html","Order\CommandeController@nouvelle")->name("facturation.proforma.nouvelle");
+    Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
+    Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
+    Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
+});
+
+//PDF
+Route::prefix('impression')->middleware('auth')->group(function (){
+    Route::get("{reference}/pdf.html","Print\PdfController@choice")->name("print.piececomptable");
 });
 
 //Partenaires

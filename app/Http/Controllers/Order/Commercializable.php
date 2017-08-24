@@ -12,6 +12,10 @@ namespace App\Http\Controllers\Order;
 interface Commercializable
 {
     /**
+     * @return int
+     */
+    public function getId();
+    /**
      * @return string
      */
     public function detailsForCommande();

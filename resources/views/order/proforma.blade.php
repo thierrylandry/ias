@@ -36,19 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
-                            <label for="creationbc">Date</label>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" required name="creationbc" id="creationbc" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme',Carbon\Carbon::now()->format('d/m/Y'))}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row clearfix">
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                             <label for="client">Client</label>
                         </div>
@@ -63,15 +51,41 @@
                         </div>
 
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                            <label for="creationbc">Date</label>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="creationbc" id="creationbc" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme',Carbon\Carbon::now()->format('d/m/Y'))}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                             <label for="client">Produits</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     @foreach($commercializables as $commercializable)
-                                        <option value="{{ $commercializable->id }}" data-price="{{ $commercializable->getPrice() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->detailsForCommande() }}</option>
+                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->detailsForCommande() }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                            <label for="price">Prix</label>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input name="price" id="price" type="number" class="form-control">
+                                </div>
+                                <span class="input-group-addon">F CFA</span>
                             </div>
                         </div>
 
@@ -105,7 +119,7 @@
                         <tbody>
                         @foreach($lignes as $ligne)
                         <tr>
-                            <th><a class="delete" href="javascript:void(0);"><i class="material-icons">delete_forever</i> </a></th>
+                            <th data-modele="{{ $ligne->getRealModele() }}" data-id="{{ $ligne->getId() }}"><a class="delete" href="javascript:void(0);"><i class="material-icons">delete_forever</i> </a></th>
                             <td>{{ $ligne->getReference() }}</td>
                             <td>{{ $ligne->detailsForCommande() }}</td>
                             <td><input type="number" class="form-control quantite" value="{{ $ligne->getQuantity() }}"></td>
@@ -122,15 +136,19 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Montant HT</th>
-                                    <th id="montantHT">450 000</th>
+                                    <th id="montantHT">0</th>
                                 </tr>
                                 <tr>
-                                    <td>TVA 18%</td>
-                                    <td id="montantTVA">1 200</td>
+                                    <td>
+                                        <label id="exonerelabel">TVA 18% </label> <br/>
+                                        <input type="checkbox" id="isexonere" class="form-control"/>
+                                        <label for="isexonere" class="">Exonéré</label>
+                                    </td>
+                                    <td id="montantTVA">0</td>
                                 </tr>
                                 <tr>
                                     <th>Montant TTC</th>
-                                    <th id="montantTTC">451 200</th>
+                                    <th id="montantTTC">0</th>
                                 </tr>
                             </table>
                         </div>
@@ -171,7 +189,7 @@
 <!-- SweetAlert Plugin Js -->
 <script src="{{ asset('plugins/sweetalert/sweetalert.min.js') }}"></script>
 
-<script type="text/javascript">
+<script type="text/javascript" >
     $('.datepicker').bootstrapMaterialDatePicker({
         format: 'DD/MM/YYYY',
         clearButton: false,
@@ -183,7 +201,7 @@
         nowText : 'AUJOURD\'HUI'
     });
 </script>
-<script type="application/javascript">
+<script type="application/ecmascript">
 
     $("#validOrder").click(function (e) {
         swal({
@@ -194,19 +212,92 @@
             closeOnConfirm: false,
             showLoaderOnConfirm: true,
         }, function () {
-            setTimeout(function () {
-                swal("Pro forma enregistré!","Numéro de pro forma HK55454","success");
-            }, 2000);
+            saveProForma();
         });
     });
 
+    function saveProForma() {
+        var $lines = $("#piece tbody tr");
+        var dataString = "[";
 
+        if($lines.length !== 0)
+        {
+            $.each($lines, function (key, value) {
+
+                if(dataString !== "[") { dataString += ", "; }
+
+                dataString += getJsonFromTr(value);
+            });
+        }
+        dataString += "]";
+
+        //Ajout des champs de la facture
+        dataString = '{"lignes": ' + dataString + ', '+
+                '"isexonere":' + ($("#isexonere").is(":checked") ? 1 : 0) + ','+
+                '"montantht":' + $("#montantHT").text()+ ','+
+                '"partenaire_id":' +$("#client").val() +
+                '}';
+
+        //console.log(dataString);
+        sendDataPost(JSON.parse(dataString));
+    }
+
+    function sendDataPost(data){
+        $.ajax({
+            type:'post',
+            url: '{{ route("facturation.proforma.nouvelle") }}',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            traditional: true,
+            success: function (data, status, xhr) {
+                console.log(data);
+                if(data.code === 0)
+                {
+                    swal("Echec d'enregistrement !", data.message, "error");
+                }else{
+                    swal("Pro forma enregistré!",data.message,"success");
+                    document.location.href = data.action;
+                }
+
+            },
+            error : function (data, status, xhr) {
+                swal("Echec d'enregistrement !", data, "error");
+            }
+        });
+    }
+    
+    function getJsonFromTr(tr) {
+        var $td = $(tr).children();
+
+        return '{"id":0,'+
+            '"designation": "' + $($td[2]).text() +'",' +
+            '"quantite": ' + $($($td[3]).children()).val()+',' +
+            '"prixunitaire": ' + $($td[4]).text() + ',' +
+            '"modele": "' + $($td[0]).data("modele").replace(/\\/g, "\\\\") + '",' +
+            '"modele_id": ' + $($td[0]).data("id") +
+            '}';
+    }
+    
     /**
      * FONCTIONS POUR LE TABLEAU
      *
      * */
+    $("#produits").change(function (e) {
+        $("#price").val($("#produits option:selected").data("price")) ;
+    });
+
     $("#btnajouter").click(function (e) {
         addLine();
+        calculAmount();
+    });
+
+    $('#isexonere').click(function (e) {
+        if($(e.target).is(":checked"))
+            $("#exonerelabel").text("TVA 18% (Exonéré de TVA)");
+        else
+            $("#exonerelabel").text("TVA 18%");
+
+        //MAJ des montants
         calculAmount();
     });
 
@@ -224,12 +315,12 @@
         $quantity = $('#quantity');
 
         $("#piece tbody").fadeIn().append("<tr>\n" +
-            "<th><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
+            "<th data-id=\""+$product.data('id')+"\" data-modele=\""+ $product.data("modele") +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
             "<td>"+ $product.data("reference") +"</td>\n" +
             "<td>"+ $product.text() +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
-            "<td class='price'>"+ $product.data("price") +"</td>\n" +
-            "<td class='amount'>"+ parseInt($product.data("price")) * parseInt($quantity.val()) +"</td>\n" +
+            "<td class='price'>"+ $("#price").val() +"</td>\n" +
+            "<td class='amount'>"+ parseInt($("#price").val()) * parseInt($quantity.val()) +"</td>\n" +
             "</tr>");
     }
 
@@ -240,6 +331,7 @@
             $parent_tr = $(arg).parent().parent().parent();
             $($parent_tr).fadeOut(500,function () {
                 $($parent_tr).remove();
+                calculAmount();
             });
         }
     }
@@ -253,7 +345,11 @@
 
         $("#montantHT").text(montantHT);
         $("#montantTVA").text(montantHT * 0.18);
-        $("#montantTTC").text(montantHT * 1.18);
+
+        if($("#isexonere").is(":checked"))
+            $("#montantTTC").text(montantHT);
+        else
+            $("#montantTTC").text(montantHT * 1.18);
     }
 
     function editQty(arg)

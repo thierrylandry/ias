@@ -16,6 +16,14 @@ class Produit extends Model implements Commercializable
     }
 
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return string
      */
     public function detailsForCommande()

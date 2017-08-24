@@ -8,17 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class Application extends Model
 {
     public $timestamps = false;
+
     protected $table = "application";
-    protected  $hidden = ['*'];
+    protected $primaryKey = "version";
+    protected $hidden = [];
 
     private static $instance = null;
-
-    private $sendmail;
-    private $numeroproforma;
-    private $numerobl;
-    private $numerofacture;
-    private $prefix;
-    private $mailcopy;
 
     /**
      * @return $this
@@ -70,6 +65,7 @@ class Application extends Model
 
         if($increment){
             self::getApplicationInstance()->numeroproforma++;
+            self::getApplicationInstance()->id = 1;
             self::getApplicationInstance()->save();
         }
         return $numeroProforma;
