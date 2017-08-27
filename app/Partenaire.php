@@ -10,10 +10,13 @@ class Partenaire extends Model
     const CLIENT = 'client';
     const FOURNISSEUR = 'fournisseur';
 
+    public $timestamps = false;
     protected $table = 'partenaire';
     protected $guarded = [];
-    public $timestamps = false;
 
+    protected $casts = [
+        'contact' => 'array',
+    ];
 
     public function contactString()
     {

@@ -32,7 +32,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="referencebc" id="referencebc" class="form-control" value="{{ \App\Application::getNumeroProforma() }}">
+                                    <input type="text" required name="objet" id="objet" class="form-control" value="" maxlength="150" placeholder="Objet de la facture">
                                 </div>
                             </div>
                         </div>
@@ -123,8 +123,8 @@
                             <td>{{ $ligne->getReference() }}</td>
                             <td>{{ $ligne->detailsForCommande() }}</td>
                             <td><input type="number" class="form-control quantite" value="{{ $ligne->getQuantity() }}"></td>
-                            <td class="price">{{ number_format($ligne->getPrice(),0,","," ") }}</td>
-                            <td class="amount">{{ number_format($ligne->getPrice() * $ligne->getQuantity(),0,","," ") }}</td>
+                            <td class="price text-right">{{ number_format($ligne->getPrice(),0,","," ") }}</td>
+                            <td class="amount text-right">{{ number_format($ligne->getPrice() * $ligne->getQuantity(),0,","," ") }}</td>
                         </tr>
                         @endforeach
                         </tbody>

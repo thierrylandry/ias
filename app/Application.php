@@ -65,7 +65,6 @@ class Application extends Model
 
         if($increment){
             self::getApplicationInstance()->numeroproforma++;
-            self::getApplicationInstance()->id = 1;
             self::getApplicationInstance()->save();
         }
         return $numeroProforma;
@@ -75,5 +74,4 @@ class Application extends Model
     {
         return strtoupper(substr(Auth::user()->employe->nom,0,1).substr(Auth::user()->employe->prenoms,0,1));
     }
-
 }

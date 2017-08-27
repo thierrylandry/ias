@@ -19,11 +19,13 @@ body {
     width: 18.5cm; /*21cm*/
     height: 29.7cm;
     margin: 0 auto;
-    color: #555555;
+    color: #000;
     background: #FFFFFF;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-family: SourceSansPro;
+    /*font-family: Arial, sans-serif;*/
+    font-size: 12px;
+    /*font-family: SourceSansPro;*/
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 header {
@@ -51,7 +53,6 @@ header {
     float: right;
     text-align: right;
 }
-
 
 #details {
     margin-bottom: 50px;
@@ -88,7 +89,7 @@ h2.name {
 
 #invoice .date {
     font-size: 1.1em;
-    color: #777777;
+    color: #555;
 }
 
 table {
@@ -98,10 +99,19 @@ table {
     margin-bottom: 20px;
 }
 
+table tr th{
+    border-bottom: 3px solid #0258c3;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 0 0 5px 0;
+}
+
+table tbody tr:last-child{
+
+}
+
 table th,
 table td {
-    padding: 20px;
-    /*background: #EEEEEE;*/
     text-align: center;
     border-bottom: 1px solid #FFFFFF;
 }
@@ -112,7 +122,26 @@ table th {
 }
 
 table td {
+    text-align: left;
+}
+table td.amount {
     text-align: right;
+    padding: 0 10px;
+}
+
+table tbody tr{
+    margin: 0;
+    padding: 0;
+}
+
+table tbody tr td{
+    margin: 0;
+    padding: 5px 0;
+    color: #3d3d3d;
+    border-bottom: 1px solid #a5a5a5;
+}
+table tbody{
+    border-bottom: 1px solid #a5a5a5;
 }
 
 table td h3{
@@ -155,7 +184,7 @@ table tbody tr:last-child td {
 }
 
 table tfoot td {
-    padding: 10px 20px;
+    padding: 10px 10px;
     background: #FFFFFF;
     border-bottom: none;
     font-size: 1.2em;
@@ -168,9 +197,9 @@ table tfoot tr:first-child td {
 }
 
 table tfoot tr:last-child td {
-    color: #57B223;
+    color: #0258c3;
     font-size: 1.4em;
-    border-top: 1px solid #57B223;
+    border-top: 1px solid #0258c3;
 
 }
 
@@ -193,12 +222,57 @@ table tfoot tr td:first-child {
 }
 
 footer {
-    color: #777777;
+    color: #000;
     width: 100%;
     height: 30px;
     position: absolute;
     bottom: 0;
     border-top: 1px solid #AAAAAA;
     padding: 8px 0;
+    font-size: 8pt;
     text-align: center;
+}
+
+p{
+    padding: 0;
+    margin: 0;
+}
+.center{
+    text-align: center;
+}
+
+#baner{
+    margin: 10px 0 10px 0;
+}
+
+hr{
+    border: 0.0001cm solid #AAAAAA;
+}
+
+.row{
+    float: left;
+}
+#baner .titre{
+    width: 6.5cm;
+}
+.quatre-cm{
+    width: 3cm;
+    margin: 0 0.5cm;
+}
+.quatre-cm:first-child{
+    margin-top: 0;
+}
+.h1{
+    font-size: 18pt;
+    font-weight: bold;
+}
+.h3{
+    font-size: 11pt;
+    font-weight: bold;
+}
+.underline{
+    text-decoration: underline;
+}
+.item{
+    color: #555;
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" href="{{asset('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css')}}" media="all" />
     <style>
         .page{
             page-break-after: auto;
@@ -12,33 +12,38 @@
 </head>
 <body>
 <header class="clearfix">
-    <table border="0" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-            <td width="50%" class="desc head">
-                <div id="logo">
-                    <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
-                </div>
-            </td>
-            <td width="50%" class="head">
-                <div id="">
-                    <h2 class="name">BON DE COMMANDE</h2>
-                    <div>455 Foggy Heights, AZ 85004, US</div>
-                    <div>(602) 519-0450</div>
-                    <div><a href="mailto:info@ivoireautoservice.net">info@ivoireautoservice.net</a></div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div id="bord"></div>
+    <div>
+        <div id="logo">
+            <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
+        </div>
+    </div>
 </header>
+
+<div id="baner">
+    <div class="row titre">
+        <span class="h1">@yield("titre")</span>
+    </div>
+    <div class="row quatre-cm"><strong>Compte contribuable :</strong> <br/>CC 0526299 H</div>
+    <div class="row quatre-cm"><strong>registre de commerce :</strong> <br/>CI-ABJ-2008-A-1483</div>
+    <div class="row quatre-cm"><a href="mailto:info@ivoireautoservice.net">info@ivoireautoservice.net</a></div>
+    <br style="clear: both" />
+</div>
+<hr/>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <main class="page">
     @yield('content')
 </main>
+
 <footer>
-    Ivoire Auto Services &copy; {{ date('Y') }}
+    <p>Situté à Abobo Marché face à COCOSERVICE du coté de l'autoroute</p>
+    <p>Tel : +225 07 93 97 12 / 06 85 85 43 / 06 72 68 83 - 13 BP 1715 Abidjan 13</p>
+    <p>N° CC 0526299 H Réel Simplifié d'Imposition Centre des Impôts d'Abobo III N° RC : CI-ABJ-2008-A-1483</p>
+    <p>Compte Bancaire UBA N° 102070000007366 / BIAO N° 035361963575 Email : commercial@ivoireautoservices.net</p>
 </footer>
 </body>
 </html>

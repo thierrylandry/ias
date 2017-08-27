@@ -51,16 +51,16 @@
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">monetization_on</i>
-            <span>Commandes et factures </span>
+            <span>Factures</span>
         </a>
         <ul class="ml-menu">
             <li>
                 <a href="javascript:void(0);">
-                    <span>Commandes</span>
+                    <span>Pro forma</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{ route("facturation.liste") }}">
                     <span>Factures</span>
                 </a>
             </li>

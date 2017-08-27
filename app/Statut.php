@@ -24,4 +24,21 @@ class Statut
     const PIECE_COMPTABLE_PRO_FORMA = 200;
     const PIECE_COMPTABLE_FACTURE_SANS_BL = 201;
     const PIECE_COMPTABLE_FACTURE_AVEC_BL = 202;
+
+    /**
+     * @param int $statut
+     * @return null|string
+     */
+    public static function getStatut($statut)
+    {
+        $string = null;
+
+        switch ($statut){
+            case self::PIECE_COMPTABLE_PRO_FORMA : $string = "Facture pro forma"; break;
+            case self::PIECE_COMPTABLE_FACTURE_AVEC_BL : $string = "Facture"; break;
+            case self::PIECE_COMPTABLE_FACTURE_SANS_BL : $string = "Facture (non livrée)"; break;
+        }
+
+        return $string;
+    }
 }

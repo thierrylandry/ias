@@ -10,6 +10,9 @@ class SenderController extends Controller
 {
     public function choice(Request $request, $reference)
     {
-        dd(PieceComptable::with('lignes')->where("referenceproforma",$reference)->first());
+        $piece = PieceComptable::with('partenaire')->where("referenceproforma",$reference)->first();
+        $partenaire = $piece->partenaire;
+
+        return view("order.senderchoice", compact("partenaire", "piece"));
     }
 }

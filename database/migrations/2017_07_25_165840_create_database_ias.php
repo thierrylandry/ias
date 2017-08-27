@@ -128,6 +128,7 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("piececomptable",function (Blueprint $table){
             $table->increments('id');
+            $table->string("objet",150);
             $table->string('referenceproforma')->unique();
             $table->string('referencebl')->unique()->nullable();
             $table->string('referencefacture')->unique()->nullable();
@@ -139,6 +140,7 @@ class CreateDatabaseIas extends Migration
             $table->float('remise',3,2)->default(1.00);
             $table->float('tva',3,2)->default(0.18);
             $table->boolean('isexonere');
+            $table->string("conditions")->nullable();
             $table->unsignedInteger('partenaire_id');
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
         });

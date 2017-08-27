@@ -1,0 +1,6 @@
+.amount{
+    text-align: right;
+}
+table tbody td.amount:after{
+    content: " FCFA";
+}

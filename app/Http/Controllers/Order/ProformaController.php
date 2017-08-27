@@ -27,9 +27,8 @@ class ProformaController extends Controller
                 $commercializables = collect([$commercializables]);
             }
 
-
             $lignes = $commercializables;
-        }else{ //Facture sanss intention préalable
+        }else{ //Facture sans intention préalable
             $commercializables = $this->getCommercializableList($request);
         }
 
@@ -52,9 +51,12 @@ class ProformaController extends Controller
 
         $this->addLineToPieceComptable($piececomptable,$request->input("lignes"));
 
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Votre proforma n° $piececomptable->referenceproforma a été prise en compte.");
+
         return response()->json([
             "code" => 1,
-            "message" => "Nouvelle pro forma référence <strong>$piececomptable->referenceproforma</strong> enregistrée avec succès !",
+            "message" => "Nouvelle pro forma référence $piececomptable->referenceproforma enregistrée avec succès !",
             "action" => route("facturation.envoie.emailchoice",["reference" => $piececomptable->referenceproforma])
         ],200, [],JSON_UNESCAPED_UNICODE);
     }
