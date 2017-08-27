@@ -35,15 +35,26 @@
                         </div>
                     </div>
 
-
                     <div class="row clearfix">
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 form-control-label">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="telephone">Contact entreprise</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" name="telephone" id="telephone" class="form-control" placeholder="N° du standard" value="{{ old('telephone') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 form-control-label">
                             <div class="demo-switch-title">Est client</div>
                             <div class="switch">
                                 <label><input type="checkbox" name="isclient" value="1" id="isclient" @if(old("isclient")) checked @endif><span class="lever switch-col-light-blue"></span></label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 form-control-label">
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 form-control-label">
                             <div class="demo-switch-title">Est Fournisseur</div>
                             <div class="switch">
                                 <label><input type="checkbox" name="isfournisseur" value="1" id="isfournisseur" @if(old("isfournisseur")) checked @endif><span class="lever switch-col-light-blue"></span></label>

@@ -27,7 +27,7 @@ trait PdfMaker
      */
     public function imprimerPieceComptable($reference, $state)
     {
-        $piece = PieceComptable::with('partenaire','lignes')->where("referenceproforma",$reference)->first();
+        $piece = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referenceproforma",$reference)->first();
 
         if($state == PieceComptable::PRO_FORMA)
         {

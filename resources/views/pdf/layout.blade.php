@@ -23,10 +23,7 @@
     <div class="row titre">
         <span class="h1">@yield("titre")</span>
     </div>
-    <div class="row quatre-cm"><strong>Compte contribuable :</strong> <br/>CC 0526299 H</div>
-    <div class="row quatre-cm"><strong>registre de commerce :</strong> <br/>CI-ABJ-2008-A-1483</div>
-    <div class="row quatre-cm"><a href="mailto:info@ivoireautoservice.net">info@ivoireautoservice.net</a></div>
-    <br style="clear: both" />
+    @yield("titre-complement")
 </div>
 <hr/>
 

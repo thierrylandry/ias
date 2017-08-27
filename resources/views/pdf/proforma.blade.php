@@ -1,5 +1,11 @@
 @extends("pdf.layout")
 @section("titre")  PRO FORMA @endsection
+@section("titre-complement")
+    <div class="row quatre-cm"><strong>Client :</strong> <br/>{{ $piece->partenaire->raisonsociale }}</div>
+    <div class="row quatre-cm"><strong>N° C.C. :</strong> <br/>{{ $piece->partenaire->comptecontribuable }}</div>
+    <div class="row quatre-cm"><strong>Téléphone :</strong> {{ $piece->partenaire->telephone }}</div>
+    <br style="clear: both" />
+@endsection
 
 @section("content")
     <div class="">
@@ -15,33 +21,35 @@
             <p class="item">{{ (new Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</p>
         </div>
 
-        <div class="row quatre-cm">
-            <p><strong>Validité de l'offre</strong></p>
+        <div class="row" style="width: 9cm; margin: 0 0.5cm">
+            <p><strong>Emetteur</strong></p>
             <hr/>
-            <p class="item">30 jours</p>
+            <p class="item">{{ $piece->utilisateur->employe->nom }} {{ $piece->utilisateur->employe->prenoms }}</p>
         </div>
 
+        <!--
         <div class="row" style="width: 6cm; margin: 0 0.5cm">
-            <p><strong>Client</strong></p>
+            <p><strong>Emmetteur</strong></p>
             <hr/>
-            <p class="item">{{ $piece->partenaire->raisonsociale }}</p>
+            <p class="item"></p>
         </div>
+        -->
     </div>
     <br style="clear: both"/>
     <br/>
     <br/>
     <br/>
 
-    <div class="objet"><span><strong>Objet : </strong>Mission à l'intérieur du pays</span></div>
+    <div class="objet"><span><strong>Objet : </strong>{{ $piece->objet }}</span></div>
     <br/>
     <br/>
     <table>
         <thead>
         <tr class="">
             <th width="7%">Référence</th>
-            <th>Description</th>
-            <th width="10%" class="amount">Prix </th>
-            <th width="8%">Quantité</th>
+            <th>Désignation</th>
+            <th width="10%" class="amount">P.U HT</th>
+            <th width="8%" class="quantity">Quantité</th>
             <th width="12%" class="amount">Total</th>
         </tr>
         </thead>
@@ -51,7 +59,7 @@
             <td class="center">{{ "#" }}</td>
             <td>{{ $ligne->designation }}</td>
             <td class="amount">{{ $ligne->prixunitaire }}</td>
-            <td class="amount">{{ $ligne->quantite }}</td>
+            <td class="quantity">{{ $ligne->quantite }}</td>
             <td class="amount">{{ $ligne->prixunitaire * $ligne->quantite }}</td>
         </tr>
         @endforeach
@@ -60,25 +68,35 @@
             <tr>
                 <td colspan="3"></td>
                 <td>Montant HT</td>
-                <td class="amount">{{ number_format(45000,0,','," ") }} FCFA</td>
+                <td class="amount">{{ number_format($piece->montantht,0,','," ") }} FCFA</td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td>TVA 18%</td>
-                <td class="amount">{{ number_format(4500,0,','," ") }} FCFA</td>
+                <td>TVA 18% @if($piece->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
+                <td class="amount">{{ number_format(($piece->montantht * $piece->tva),0,','," ") }} FCFA</td>
             </tr>
             <tr>
                 <td colspan="3"></td>
                 <td class="amount h3">Montant TTC</td>
-                <td class="amount h3">{{ number_format(455000,0,','," ") }} FCFA</td>
+                <td class="amount h3">{{ number_format(($piece->montantht * ($piece->isexonere ? 1 : (1 + $piece->tva) )),0,','," ") }} FCFA</td>
             </tr>
         </tfoot>
     </table>
 
     <div class="">
-        <span class="underline h3"><strong>Conditions & termes</strong></span>
-        <p><br/>Facture arrêtée à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter(455000) }} francs CFA.</p>
-        <p></p>
+        <p class="h3">Arrêté la présente facture pro forma à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter(ceil($piece->montantht * ($piece->isexonere ? 1 : (1 + $piece->tva) ))) }} francs CFA.</p>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <span class="h3">CONDITIONS ET TERMES</span>
+        <hr/>
+        <div class="condition">
+            <p><span class="condition-title">Conditions de paiement : </span>{{ $piece->conditions }}</p>
+            <p><span class="condition-title">Delai de livraison : </span>{{ $piece->delailivraison }}</p>
+            <p><span class="condition-title">Validité de l'offre : </span>{{ $piece->validite }}</p>
+        </div>
     </div>
 
 

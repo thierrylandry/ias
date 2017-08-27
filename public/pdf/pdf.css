@@ -124,8 +124,12 @@ table th {
 table td {
     text-align: left;
 }
-table td.amount {
+table td.amount, table th.amount {
     text-align: right;
+    padding: 0 10px;
+}
+table td.quantity, table td.quantity {
+    text-align: center;
     padding: 0 10px;
 }
 
@@ -275,4 +279,14 @@ hr{
 }
 .item{
     color: #555;
+}
+.condition{
+    font-size: 12pt;
+    font-weight: bold;
+}
+.condition-title{
+    color: #555555;
+    display: inline-block;
+    font-weight: normal;
+    width: 5cm;
 }

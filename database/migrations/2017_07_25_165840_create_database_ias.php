@@ -129,20 +129,25 @@ class CreateDatabaseIas extends Migration
         Schema::create("piececomptable",function (Blueprint $table){
             $table->increments('id');
             $table->string("objet",150);
+            $table->string("referencebc")->nullablerr();
             $table->string('referenceproforma')->unique();
             $table->string('referencebl')->unique()->nullable();
             $table->string('referencefacture')->unique()->nullable();
             $table->dateTime('creationproforma');
             $table->dateTime('creationbl')->nullable();
             $table->dateTime('creationfacture')->nullable();
-            $table->string('etat')->default('BC'); //BC - BL - FACT
+            $table->string("validite");
+            $table->string("delailivraison");
+            $table->string('etat');
             $table->integer('montantht');
             $table->float('remise',3,2)->default(1.00);
             $table->float('tva',3,2)->default(0.18);
             $table->boolean('isexonere');
             $table->string("conditions")->nullable();
             $table->unsignedInteger('partenaire_id');
+            $table->unsignedInteger('utilisateur_id');
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
+            $table->foreign('utilisateur_id')->references('employe_id')->on('utilisateur');
         });
         Schema::create("mission",function (Blueprint $table){
             $table->increments('id');

@@ -57,7 +57,9 @@ Route::prefix('administration')->middleware('auth')->group(function (){
 
 });
 
-Route::get('/pdf.html','HomeController@test');
+Route::get('/pdf.html',function (){
+    echo \App\Metier\Finance\NombreToLettre::getLetter(3357200);
+});
 
 //Facturation
 Route::prefix('factures')->middleware('auth')->group(function (){

@@ -20,6 +20,7 @@ use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 trait Process
@@ -62,9 +63,18 @@ trait Process
             "partenaire_id" => "required|exists:partenaire,id",
             "montantht" => "required|numeric",
             "isexonere" => "required|boolean",
+            "conditions" => "required",
+            "validite" => "required",
+            "objet" => "required",
+            "delailivraison" => "required",
         ]);
     }
 
+    /**
+     * @param PieceComptable $pieceComptable
+     * @param array $data
+     * @return bool
+     */
     private function addLineToPieceComptable(PieceComptable $pieceComptable, array $data)
     {
         foreach ($data as $ligne)
@@ -90,10 +100,20 @@ trait Process
 
         $piececomptable->montantht = $data->get("montantht");
         $piececomptable->isexonere = $data->get("isexonere");
+        $piececomptable->conditions = $data->get("conditions");
+        $piececomptable->validite = $data->get("validite");
+        $piececomptable->objet = $data->get("objet");
+        $piececomptable->delailivraison = $data->get("delailivraison");
+
+        $piececomptable->utilisateur_id = Auth::id();
 
         $piececomptable->partenaire()->associate($partenaire);
 
-        $piececomptable->tva = PieceComptable::TVA;
+        if($piececomptable->isexonere){
+            $piececomptable->tva = 1;
+        }else{
+            $piececomptable->tva = 1 + PieceComptable::TVA;
+        }
 
         if( ($id == null || $id == 0) && $type === PieceComptable::PRO_FORMA)
         {

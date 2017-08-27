@@ -50,6 +50,9 @@ $totalPeriode = 0;
         <div class="card">
             <div class="header">
                 <h2>Liste des pièces comptables</h2>
+                <div class="align-right">
+                    <a href="{{ route("facturation.proforma.nouvelle") }}" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">insert_drive_file</i> Nouvelle pro forma</a>
+                </div>
             </div>
             <div class="body table-responsive">
                 <table class="table table-hover table-bordered">

@@ -21,4 +21,8 @@ class PieceComptable extends Model
     public function lignes(){
         return $this->hasMany(LignePieceComptable::class, "piececomptable_id");
     }
+
+    public function utilisateur(){
+        return $this->belongsTo(Utilisateur::class,'utilisateur_id');
+    }
 }

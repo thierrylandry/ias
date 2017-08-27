@@ -20,17 +20,16 @@ class Partenaire extends Model
 
     public function contactString()
     {
-        $raw = json_decode($this->contact);
         $contactString = "";
 
-        foreach ($raw as $contact)
+        foreach ($this->contact as $contact)
         {
             if($contactString != "")
                 $contactString .= " | ";
 
-            $contactString .= sprintf("%s - %s: %s ", $contact->titre_c,
-                Contact::getContactString($contact->type_c),
-                $contact->valeur_c
+            $contactString .= sprintf("%s - %s: %s ", $contact["titre_c"],
+                Contact::getContactString($contact["type_c"]),
+                $contact["valeur_c"]
             );
         }
 

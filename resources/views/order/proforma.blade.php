@@ -27,9 +27,9 @@
                 <div class="body table-responsive">
                     <div class="row clearfix">
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
-                            <label for="referencebc">N° pro forma</label>
+                            <label for="objet">Objet</label>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" required name="objet" id="objet" class="form-control" value="" maxlength="150" placeholder="Objet de la facture">
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="client" name="client" data-live-search="true" required>
                                     @foreach($partenaires as $partenaire)
-                                        <option value="{{ $partenaire->id }}" data-model='{{$partenaire->contact}}'>{{ $partenaire->raisonsociale }}</option>
+                                        <option value="{{ $partenaire->id }}">{{ $partenaire->raisonsociale }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -157,7 +157,42 @@
                     <hr/>
 
                     <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="delailivraison">Délai de livraison</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="delailivraison" id="delailivraison" class="form-control" value="" maxlength="255" placeholder="Délai de livraison de la commande">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="conditions">Conditions de paiement</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="conditions" id="conditions" class="form-control" value="" maxlength="255" placeholder="Conditions de paiement de la commande">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="validite">Validité de l'offre</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="validite" id="validite" class="form-control" value="" maxlength="255" placeholder="Validite de l'offre">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <hr/>
@@ -235,10 +270,14 @@
         dataString = '{"lignes": ' + dataString + ', '+
                 '"isexonere":' + ($("#isexonere").is(":checked") ? 1 : 0) + ','+
                 '"montantht":' + $("#montantHT").text()+ ','+
+                '"conditions": "' + $("#conditions").val()+ '",'+
+                '"validite": "' + $("#validite").val()+ '",'+
+                '"delailivraison": "' + $("#delailivraison").val()+ '",'+
+                '"objet": "' + $("#objet").val()+ '",'+
                 '"partenaire_id":' +$("#client").val() +
                 '}';
 
-        //console.log(dataString);
+        console.log(dataString);
         sendDataPost(JSON.parse(dataString));
     }
 
@@ -261,7 +300,7 @@
 
             },
             error : function (data, status, xhr) {
-                swal("Echec d'enregistrement !", data, "error");
+                swal("Echec d'enregistrement !", data.message, "error");
             }
         });
     }
@@ -326,14 +365,24 @@
 
     function delLine(arg)
     {
-        if(confirm("Voulez-vous vraiment supprimer cette ligne ?"))
-        {
-            $parent_tr = $(arg).parent().parent().parent();
-            $($parent_tr).fadeOut(500,function () {
-                $($parent_tr).remove();
-                calculAmount();
+        swal({
+                title: "Suppression de ligne",
+                text: "Voulez-vous vraiment supprimer cette ligne ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non",
+                closeOnConfirm: false
+            },
+            function(){
+                swal.close();
+                $parent_tr = $(arg).parent().parent().parent();
+                $($parent_tr).fadeOut(500,function () {
+                    $($parent_tr).remove();
+                    calculAmount();
+                });
             });
-        }
     }
 
     function calculAmount()

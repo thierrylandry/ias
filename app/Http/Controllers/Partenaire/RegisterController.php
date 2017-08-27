@@ -62,6 +62,7 @@ class RegisterController extends Controller
     {
         $this->validate($request, [
             "raisonsociale" => "required",
+            "telephone" => "required",
             "comptecontribuable" => "present",
             "titre_c" => "array"
         ]);
