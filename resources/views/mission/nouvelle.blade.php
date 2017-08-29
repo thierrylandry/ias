@@ -185,11 +185,10 @@
                             <label for="observation">Observations</label>
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                            <div class="input-group">
+                            <div class="form-group">
                                 <div class="form-line">
                                     <textarea required name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation') }}</textarea>
                                 </div>
-                                <span class="input-group-addon">F CFA</span>
                             </div>
                         </div>
                     </div>

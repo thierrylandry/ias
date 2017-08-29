@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Metier\Behavior\Notifications;
+use App\Mission;
 use App\Partenaire;
 use App\PieceComptable;
 use Illuminate\Http\Request;

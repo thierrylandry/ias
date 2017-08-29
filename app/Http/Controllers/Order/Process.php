@@ -43,6 +43,7 @@ trait Process
 
         collect(Mission::with("vehicule")
             ->where("status",Statut::MISSION_COMMANDEE)
+            ->whereNull("piececomptable_id")
             ->get()
         )->each(function ($value, $key) use($commercializables){
             $commercializables->push($value);
@@ -82,6 +83,13 @@ trait Process
             $lignepiece = new LignePieceComptable($ligne);
             $lignepiece->piececomptable()->associate($pieceComptable);
             $lignepiece->saveOrFail();
+
+            if($lignepiece->modele == Mission::class)
+            {
+                $mission = Mission::find($lignepiece->modele_id);
+                $mission->piececomptable_id = $pieceComptable->id;
+                $mission->saveOrFail();
+            }
         }
 
         return true;
@@ -106,14 +114,9 @@ trait Process
         $piececomptable->delailivraison = $data->get("delailivraison");
 
         $piececomptable->utilisateur_id = Auth::id();
+        $piececomptable->tva = PieceComptable::TVA;
 
         $piececomptable->partenaire()->associate($partenaire);
-
-        if($piececomptable->isexonere){
-            $piececomptable->tva = 1;
-        }else{
-            $piececomptable->tva = 1 + PieceComptable::TVA;
-        }
 
         if( ($id == null || $id == 0) && $type === PieceComptable::PRO_FORMA)
         {
@@ -125,5 +128,17 @@ trait Process
         $piececomptable->saveOrFail();
 
         return $piececomptable;
+    }
+
+    /**
+     * @param $reference
+     * @return \Illuminate\Database\Eloquent\Model|null|PieceComptable
+     */
+    private function getPieceComptableForReference($reference)
+    {
+        return PieceComptable::with('partenaire','lignes','utilisateur')
+            ->where("referenceproforma",$reference)
+            ->orWhere("referencefacture",$reference)
+            ->firstOrFail();
     }
 }

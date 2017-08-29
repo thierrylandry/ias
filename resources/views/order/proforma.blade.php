@@ -70,6 +70,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
+                                    <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
                                         <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->detailsForCommande() }}</option>
                                     @endforeach
@@ -277,7 +278,7 @@
                 '"partenaire_id":' +$("#client").val() +
                 '}';
 
-        console.log(dataString);
+        //console.log(dataString);
         sendDataPost(JSON.parse(dataString));
     }
 
@@ -326,8 +327,19 @@
     });
 
     $("#btnajouter").click(function (e) {
+        $q = $("#quantity");
+        $p = $("#price");
+
+        if($q.val() === "" || $q.val() <= 0 || $p.val() === "" || $p.val() <= 0 )
+        {
+            swal("Erreur","Veuillez saisir la quantité et le prix de l'article SVP","warning");
+            return null;
+        }
+
         addLine();
         calculAmount();
+
+        $q.val(0);
     });
 
     $('#isexonere').click(function (e) {

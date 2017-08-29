@@ -32,7 +32,7 @@ trait PdfMaker
         if($state == PieceComptable::PRO_FORMA)
         {
             $invoices = PDF::loadView('pdf.proforma',compact("piece"))->setPaper('a4','portrait');
-            return $invoices->stream("Facture Proforma $reference.pdf");
+            return $invoices->stream("Facture Proforma $reference {$piece->partenaire->raisonsociale}.pdf");
         }
 
         return back()->withErrors("Aucune pièce comptable à imprimer");

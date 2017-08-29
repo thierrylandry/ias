@@ -69,13 +69,16 @@ $totalPeriode = 0;
                     <tbody>
                     @foreach($pieces as $piece)
                     <tr>
-                        <td><a href="#{{ $piece->referenceproforma }}">{{ $piece->referenceproforma }}</a></td>
+                        <td><a href="{{ route("facturation.details", ["reference" => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
                         <td>{{ (new \Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</td>
                         <td>{{ $piece->objet }}</td>
                         <td>{{ $piece->partenaire->raisonsociale }}</td>
                         <td>{{ \App\Statut::getStatut($piece->etat) }}</td>
                         <td class="amount">{{ number_format($piece->montantht * ($piece->isexonere ? 1 : $piece->tva+1), 0,",", " ") }}</td>
                     </tr>
+                        @php
+                            $totalPeriode += $piece->montantht * ($piece->isexonere ? 1 : $piece->tva+1);
+                        @endphp
                     @endforeach
                     </tbody>
                     <tfoot>
@@ -83,7 +86,7 @@ $totalPeriode = 0;
                         <td>Nombre</td>
                         <td colspan="2"></td>
                         <td colspan="2" class="text-right">Chiffre d'affaire</td>
-                        <td class="amount">14554545401122</td>
+                        <td class="amount">{{ number_format($totalPeriode, 0,",", " ") }} FCFA</td>
                     </tr>
                     </tfoot>
                 </table>

@@ -13,6 +13,8 @@ class Application extends Model
     protected $primaryKey = "version";
     protected $hidden = [];
 
+    //$length = 8;
+
     private static $instance = null;
 
     /**
@@ -46,7 +48,7 @@ class Application extends Model
      */
     public static function getNumeroBL($increment = false)
     {
-        $numeroBL = self::getApplicationInstance()->numerobl;
+        $numeroBL = sprintf("%08d", self::getApplicationInstance()->numerobl);
 
         if($increment){
             self::getApplicationInstance()->numerobl++;
@@ -61,7 +63,7 @@ class Application extends Model
      */
     public static function getNumeroProforma($increment = false)
     {
-        $numeroProforma = self::getApplicationInstance()->numeroproforma;
+        $numeroProforma =  sprintf("%d08d", self::getApplicationInstance()->numeroproforma);
 
         if($increment){
             self::getApplicationInstance()->numeroproforma++;
