@@ -16,7 +16,7 @@ class CreateDatabaseIas extends Migration
         Schema::create("application", function (Blueprint $table){
             $table->string("version",1)->default(1);
             $table->string("sendmail",1)->default("Y");
-            $table->string("mailcopy",1)->default("commercial@ivoireautoservices.net");
+            $table->string("mailcopy",50)->default("commercial@ivoireautoservices.net");
             $table->integer("numeroproforma");
             $table->integer("numerobl");
             $table->integer("numerofacture");
