@@ -103,7 +103,6 @@ $totalPeriode = 0;
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
 <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
-
 <script type="text/javascript">
     $('.datepicker').bootstrapMaterialDatePicker({
         format: 'DD/MM/YYYY',
@@ -116,5 +115,4 @@ $totalPeriode = 0;
         nowText : 'AUJOURD\'HUI'
     });
 </script>
-
 @endsection

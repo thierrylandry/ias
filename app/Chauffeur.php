@@ -12,6 +12,6 @@ class Chauffeur extends Model
     protected $guarded = [];
 
     public function employe(){
-        return $this->belongsTo(Employe::class);
+        return $this->belongsTo(Employe::class,"employe_id");
     }
 }

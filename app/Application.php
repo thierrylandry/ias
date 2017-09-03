@@ -63,13 +63,28 @@ class Application extends Model
      */
     public static function getNumeroProforma($increment = false)
     {
-        $numeroProforma =  sprintf("%d08d", self::getApplicationInstance()->numeroproforma);
+        $numeroProforma =  sprintf("%08d", self::getApplicationInstance()->numeroproforma);
 
         if($increment){
             self::getApplicationInstance()->numeroproforma++;
             self::getApplicationInstance()->save();
         }
         return $numeroProforma;
+    }
+
+    /**
+     * @param bool $increment
+     * @return integer
+     */
+    public static function getNumeroMission($increment = false)
+    {
+        $numeroMission =  sprintf("%08d", self::getApplicationInstance()->numeromission);
+
+        if($increment){
+            self::getApplicationInstance()->numeromission++;
+            self::getApplicationInstance()->save();
+        }
+        return $numeroMission;
     }
 
     public static function getInitial()

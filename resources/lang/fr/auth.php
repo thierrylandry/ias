@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Vos informations de connexion ne corresponde à aucun des enregistrements.',
+    'failed' => 'Vos informations de connexion ne sont pas correctes.',
     'throttle' => 'Vous avez effectué trop de tentatives. Veuillez réessayre dans :seconds secondes SVP.',
 
 ];

@@ -124,8 +124,8 @@
                             <td>{{ $ligne->getReference() }}</td>
                             <td>{{ $ligne->detailsForCommande() }}</td>
                             <td><input type="number" class="form-control quantite" value="{{ $ligne->getQuantity() }}"></td>
-                            <td class="price text-right">{{ number_format($ligne->getPrice(),0,","," ") }}</td>
-                            <td class="amount text-right">{{ number_format($ligne->getPrice() * $ligne->getQuantity(),0,","," ") }}</td>
+                            <td class="price text-right">{{ $ligne->getPrice() }}</td>
+                            <td class="amount text-right">{{ $ligne->getPrice() * $ligne->getQuantity() }}</td>
                         </tr>
                         @endforeach
                         </tbody>

@@ -1,10 +1,76 @@
 @extends("layouts.main")
-
+@section("link")
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="{{ asset('plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet" />
+@endsection
 @section("content")
 <div class="container-fluid">
     <!-- Basic Table -->
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="body">
+                    <form action="" method="get">
+                        <div class="row clearfix">
+                            <div class="col-md-2 col-sm-6">
+                                <b>Début</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input name="debut" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ $debut }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <b>Fin</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input name="fin" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ $fin }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <b>Chauffeurs</b>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <select class="form-control selectpicker" id="chauffeur" name="chauffeur" data-live-search="true" required>
+                                            @foreach($chauffeurs as $chauffeur)
+                                                <option value="{{ $chauffeur->employe_id }}">{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-sm-6">
+                                <b>Etat</b>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <select class="form-control selectpicker" id="etat" name="etat" required>
+                                            @foreach($status as $k => $v)
+                                                <option value="{{ $k }}">{{ $v }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <br/>
+                                <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="card">
                 <div class="header">
                     <div class="col-md-4">
@@ -26,33 +92,79 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr class="bg-green">
-                            <th width="7.5%"></th>
-                            <th>RAISON SOCIALE</th>
-                            <th>COMPTE CONTRIBUABLE</th>
-                            <th>CONTACT</th>
+                            <th width=""></th>
+                            <th width="7%">Début programmé (effectif)</th>
+                            <th width="7%">Fin programée (effective)</th>
+                            <th width="4%">Jours effectifs</th>
+                            <th width="12%">Client</th>
+                            <th width="13%">Destination</th>
+                            <th width="8%">Etat</th>
+                            <th width="12%">Chauffeur</th>
+                            <th width="6%">Véhicule</th>
+                            <th width="10%">Montant total</th>
+                            <th width="10%">Ref facture</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
                         @foreach($missions as $mission)
                             <tr>
-                                <th scope="row">
+                                <td scope="row">
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">
-                                            <a class="btn bg-blue-grey waves-effect" href="{{ '#' }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
-                                            <a class="btn bg-green waves-effect" href="#" title="Modifier le véhicule"><i class="material-icons">edit</i></a>
-                                            <a class="btn bg-orange waves-effect" href="#" title="Consulter le rapport du véhicule"><i class="material-icons">insert_drive_file</i></a>
+                                            @if($mission->etat == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
+                                                <a class="btn bg-green waves-effect" href="#" title="Modifier la mission"><i class="material-icons">edit</i></a>
+                                            @endif
+                                            <a class="btn bg-orange waves-effect" href="{{ route("mission.details", ["reference" => $mission->code]) }}" title="Fiche de mission"><i class="material-icons">insert_drive_file</i></a>
+                                            @if($mission->etat == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
+                                                <a class="btn bg-red waves-effect" href="#" title="Supprimer la mission"><i class="material-icons">delete</i></a>
+                                            @endif
                                         </div>
                                     </div>
-                                </th>
-                                <th valign="center">{{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }}</th>
-                                <td>{{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }}</td>
+                                </td>
+                                <td valign="center">
+                                    {{ (new Carbon\Carbon($mission->debutprogramme))->format("d/m/Y") }}
+                                    ({{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }})
+                                </td>
+                                <td>
+                                    {{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }}
+                                    ({{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }})
+                                </td>
+                                <td>{{ (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)) }}</td>
+                                <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
+                                <td>{{ $mission->destination }}</td>
+                                <td>{{ \App\Statut::getStatut($mission->status) }}</td>
+                                <td>{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</td>
+                                <td>{{ $mission->vehicule->immatriculation }}</td>
+                                <td class="amount">{{ number_format($mission->montantjour * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)),0,","," ") }}</td>
+                                <td><a href="{{ route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) }}" >{{ $mission->pieceComptable->getReference() }}</a></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $missions->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section("script")
+    <!-- Moment Plugin Js -->
+    <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
+    <script type="text/javascript">
+        $('.datepicker').bootstrapMaterialDatePicker({
+            format: 'DD/MM/YYYY',
+            clearButton: false,
+            nowButton: true,
+            weekStart: 1,
+            time: false,
+            lang: 'fr',
+            cancelText : 'ANNULER',
+            nowText : 'AUJOURD\'HUI'
+        });
+    </script>
 @endsection

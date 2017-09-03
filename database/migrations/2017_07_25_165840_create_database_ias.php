@@ -17,9 +17,10 @@ class CreateDatabaseIas extends Migration
             $table->string("version",3)->default(1);
             $table->string("sendmail",1)->default("Y");
             $table->string("mailcopy")->default("commercial@ivoireautoservices.net");
-            $table->integer("numeroproforma");
-            $table->integer("numerobl");
-            $table->integer("numerofacture");
+            $table->integer("numeroproforma")->default(1);
+            $table->integer("numerobl")->default(1);
+            $table->integer("numerofacture")->default(1);
+            $table->integer("numeromission")->default(1);
             $table->string("prefix",10)->default("");
         });
         Schema::create("service", function(Blueprint $table){

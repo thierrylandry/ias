@@ -42,6 +42,7 @@ Route::prefix('missions')->middleware('auth')->group(function (){
     Route::get('nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
     Route::post('nouvelle.html','Mission\CreateController@ajouter');
     Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
+    Route::get('{reference}/detail.html','Mission\MissionController@details')->name('mission.details');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){

@@ -121,11 +121,67 @@ class IasTableSeeder extends Seeder
                 'telephone' => '+22589966602',
                 'isclient' => true,
                 'contact' => '[{"titre_c":"Will Koffi","type_c":"MOB","valeur_c":"5464545"},{"titre_c":"Will Koffi","type_c":"EMA","valeur_c":"w.koffi@pont-hkb.com"}]',
+            ],
+            [
+                'raisonsociale' => 'MOHAM',
+                'comptecontribuable' => '87026-66556055-K',
+                'telephone' => '+2259562014',
+                'isclient' => true,
+                'contact' => '[{"titre_c":"Simon Kouakou","type_c":"MOB","valeur_c":"50466545"},{"titre_c":"Simon Kouakou","type_c":"EMA","valeur_c":"glamolondon@gmail.com"}]',
+            ],
+            [
+                'raisonsociale' => 'MARCY',
+                'comptecontribuable' => '65890-12120201-P',
+                'telephone' => '+22589966602',
+                'isclient' => true,
+                'contact' => '[{"titre_c":"Touré Amadou","type_c":"MOB","valeur_c":"78996302"},{"titre_c":"Touré Amadou","type_c":"EMA","valeur_c":"glamolondon@live.fr"}]',
             ]
         ]);
 
         DB::table('famille')->insert([
             ['libelle' => 'Non définie']
+        ]);
+
+        DB::table('vehicule')->insert([
+            [
+                'cartegrise' => '32146046545600',
+                'immatriculation' => '2564FH01',
+                'marque' => 'Ford',
+                'visite' => '2017-12-05',
+                'assurance' => '2017-11-23',
+                'typecommercial' => 'Ranger',
+                'couleur' => 'blanche',
+                'energie' => 'Gaz-oil',
+                'nbreplace' => 4,
+                'puissancefiscale' => 10,
+                'genre_id' => 2
+            ],
+            [
+                'cartegrise' => '989980121213',
+                'immatriculation' => '9601GP01',
+                'marque' => 'Nissan',
+                'visite' => '2017-06-13',
+                'assurance' => '2017-10-25',
+                'typecommercial' => 'Navara',
+                'couleur' => 'blanche',
+                'energie' => 'Gaz-oil',
+                'nbreplace' => 4,
+                'puissancefiscale' => 7,
+                'genre_id' => 4
+            ],
+            [
+                'cartegrise' => '32146046545600',
+                'immatriculation' => '154FE01',
+                'marque' => 'Nissan',
+                'visite' => '2018-01-07',
+                'assurance' => '2017-01-23',
+                'typecommercial' => 'Urvan',
+                'couleur' => 'blanche',
+                'energie' => 'Gaz-oil',
+                'nbreplace' => 23,
+                'puissancefiscale' => 15,
+                'genre_id' => 3
+            ],
         ]);
 
         DB::table('produit')->insert([
