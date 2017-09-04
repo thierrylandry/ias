@@ -17,7 +17,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>Nouvelle mission</h2>
+                <h2>Modification mission #{{ $mission->code }}</h2>
             </div>
             <div class="body">
                 <form class="form-horizontal" method="post">
@@ -29,7 +29,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="code" id="code" class="form-control" placeholder="Code de la mission" value="{{ old('code') }}">
+                                    <input type="text" name="code" id="code" class="form-control" placeholder="Code de la mission" value="{{ old('code',$mission->code) }}">
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="client" name="client" data-live-search="true" required>
                                     @foreach($partenaires as $partenaire)
-                                    <option value="{{ $partenaire->id }}">{{ $partenaire->raisonsociale }}</option>
+                                    <option value="{{ $partenaire->id }}" @if($partenaire->id == old("client",$mission->client)) selected @endif>{{ $partenaire->raisonsociale }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,7 +55,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" required name="montantjour" id="montantjour" class="form-control" placeholder="Montant par jour" value="{{ old('montantjour') }}">
+                                    <input type="number" required name="montantjour" id="montantjour" class="form-control" placeholder="Montant par jour" value="{{ old('montantjour',$mission->montantjour) }}">
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="input-group">
                                 <div class="form-line">
-                                    <input type="text" disabled name="montantht" id="montantht" class="form-control" placeholder="Montant HT" value="{{ old('montantht') }}">
+                                    <input type="text" disabled name="montantht" id="montantht" class="form-control" placeholder="Montant HT" value="0">
                                 </div>
                                 <span class="input-group-addon">F CFA</span>
                             </div>
@@ -81,7 +81,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="debutprogramme" id="debutprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme')}}">
+                                    <input type="text" required name="debuteffectif" id="debuteffectif" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debuteffectif',(new \Carbon\Carbon($mission->debuteffectif))->format("d/m/Y"))}}">
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="finprogramme" id="finprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('finprogramme') }}">
+                                    <input type="text" required name="fineffective" id="fineffective" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('fineffective',(new \Carbon\Carbon($mission->fineffective))->format("d/m/Y")) }}">
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="destination" id="destination" class="form-control" data-role="tagsinput"/>
+                                    <input type="text" required name="destination" id="destination" class="form-control" data-role="tagsinput" value="{{old("destination",$mission->destination)}}"/>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                             <div class="form-group">
                                 <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" required>
                                     @foreach($chauffeurs as $chauffeur)
-                                        <option value="{{ $chauffeur->employe_id }}" @if(old('vehicule_id') == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
+                                        <option value="{{ $chauffeur->employe_id }}" @if(old('chauffeur_id',$mission->chauffeur_id) == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -146,7 +146,7 @@
                             <div class="form-group">
                                 <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" required>
                                     @foreach($vehicules as $vehicule)
-                                        <option value="{{ $vehicule->id }}" @if(old('vehicule_id') == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
+                                        <option value="{{ $vehicule->id }}" @if(old('vehicule_id',$mission->vehicule_id) == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -160,7 +160,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="input-group">
                                 <div class="form-line">
-                                    <input type="number" required name="perdiem" id="perdiem" class="form-control" placeholder="Per diem" value="{{ old('perdiem') }}">
+                                    <input type="number" required name="perdiem" id="perdiem" class="form-control" placeholder="Per diem" value="{{ old('perdiem',$mission->perdiem) }}">
                                 </div>
                                 <span class="input-group-addon">F CFA</span>
                             </div>
@@ -187,7 +187,7 @@
                         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <textarea required name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation') }}</textarea>
+                                    <textarea required name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation',$mission->observation) }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +197,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
+                            <button type="submit" class="btn bg-green m-t-15 waves-effect">Modifier</button>
                             <button type="reset" class="btn btn-default m-t-15 waves-effect">Annuler</button>
                         </div>
                     </div>
@@ -243,8 +243,8 @@
 
 <script type="application/javascript">
 
-    var txtdebut = document.getElementById('debutprogramme');
-    var txtfin = document.getElementById('finprogramme');
+    var txtdebut = document.getElementById('debuteffectif');
+    var txtfin = document.getElementById('fineffective');
     var txtperdiem = document.getElementById('perdiem');
     var txtmontant = document.getElementById('montantjour');
 

@@ -11,11 +11,8 @@ use App\Partenaire;
 use App\Statut;
 use App\Vehicule;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Schema;
 
 class CreateController extends Controller
 {
@@ -25,23 +22,13 @@ class CreateController extends Controller
     {
         $vehicules = $this->listeVehiculeSelection($request);
 
-        $chaufffeurs = Chauffeur::with('employe')->get();
+        $chauffeurs = Chauffeur::with('employe')->get();
 
         $partenaires = Partenaire::where("isclient",true)
             ->orderBy("raisonsociale")
             ->get();
 
-        return view('mission.nouvelle',compact('vehicules','chaufffeurs', "partenaires"));
-    }
-
-    private function listeVehiculeSelection(Request $request)
-    {
-        if($request->has('vehicule'))
-        {
-            return Vehicule::where('immatriculation',$request->input('vehicule'))->get();
-        }else{
-            return Vehicule::all();
-        }
+        return view('mission.nouvelle',compact('vehicules','chauffeurs', "partenaires"));
     }
 
     /**

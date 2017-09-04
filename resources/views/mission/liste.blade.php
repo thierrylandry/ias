@@ -49,7 +49,6 @@
                                 </div>
                             </div>
 
-
                             <div class="col-md-2 col-sm-6">
                                 <b>Etat</b>
                                 <div class="input-group">
@@ -93,8 +92,8 @@
                         <thead>
                         <tr class="bg-green">
                             <th width=""></th>
-                            <th width="7%">Début programmé (effectif)</th>
-                            <th width="7%">Fin programée (effective)</th>
+                            <th width="7%">Début effectif (programmé)</th>
+                            <th width="7%">Fin effective (programée)</th>
                             <th width="4%">Jours effectifs</th>
                             <th width="12%">Client</th>
                             <th width="13%">Destination</th>
@@ -111,23 +110,23 @@
                                 <td scope="row">
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">
-                                            @if($mission->etat == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
-                                                <a class="btn bg-green waves-effect" href="#" title="Modifier la mission"><i class="material-icons">edit</i></a>
+                                            @if($mission->status == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
+                                                <a class="btn bg-green waves-effect" href="{{ route("mission.modifier", ["reference" => $mission->code]) }}" title="Modifier la mission"><i class="material-icons">edit</i></a>
                                             @endif
                                             <a class="btn bg-orange waves-effect" href="{{ route("mission.details", ["reference" => $mission->code]) }}" title="Fiche de mission"><i class="material-icons">insert_drive_file</i></a>
-                                            @if($mission->etat == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
+                                            @if($mission->status == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
                                                 <a class="btn bg-red waves-effect" href="#" title="Supprimer la mission"><i class="material-icons">delete</i></a>
                                             @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td valign="center">
-                                    {{ (new Carbon\Carbon($mission->debutprogramme))->format("d/m/Y") }}
-                                    ({{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }})
+                                    {{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }}
+                                    ({{ (new Carbon\Carbon($mission->debutprogramme))->format("d/m/Y") }})
                                 </td>
                                 <td>
-                                    {{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }}
-                                    ({{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }})
+                                    {{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }}
+                                    ({{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }})
                                 </td>
                                 <td>{{ (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)) }}</td>
                                 <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
@@ -136,7 +135,7 @@
                                 <td>{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</td>
                                 <td>{{ $mission->vehicule->immatriculation }}</td>
                                 <td class="amount">{{ number_format($mission->montantjour * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)),0,","," ") }}</td>
-                                <td><a href="{{ route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) }}" >{{ $mission->pieceComptable->getReference() }}</a></td>
+                                <td><a href="{{ $mission->pieceComptable ? route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) : "javascript:void(0);" }}" >{{ $mission->pieceComptable ? $mission->pieceComptable->getReference() : ""}}</a></td>
                             </tr>
                         @endforeach
                         </tbody>

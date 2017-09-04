@@ -1,6 +1,6 @@
 .amount{
     text-align: right;
 }
-table tbody td.amount:after{
+table tbody td.amount:after, .devise:after{
     content: " FCFA";
 }
