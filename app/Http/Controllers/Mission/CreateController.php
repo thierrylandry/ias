@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mission;
 
+use App\Application;
 use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
 use App\Metier\Finance\InvoiceFrom;
@@ -71,7 +72,7 @@ class CreateController extends Controller
 
         if(! array_key_exists("code",$data) || $data["code"] == null)
         {
-            $data["code"] = "#";
+            $data["code"] = Application::getNumeroMission(true);
         }
 
         $data["status"] = Statut::MISSION_COMMANDEE;

@@ -71,7 +71,6 @@
                     </button>
                     <div id="contacts">
 
-
                     </div>
 
                     <hr/>
@@ -87,10 +86,9 @@
     </div>
 </div>
 
-
 <div id="contacttemplate" class="row clearfix" style="display: none">
     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-        <label for="titre_c[]">Titre contact</label>
+        <label for="titre_c[]">Nom</label>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
         <div class="form-group">

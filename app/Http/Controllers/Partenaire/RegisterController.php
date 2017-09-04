@@ -43,7 +43,7 @@ class RegisterController extends Controller
         }
 
         $raw = $request->except("_token", "valeur_c", "type_c", "titre_c");
-        $raw["contact"] = json_encode($contacts->toArray());
+        $raw["contact"] = $contacts->toArray();
 
         try{
             $this->create($raw);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Mission;
 
+use App\Chauffeur;
 use App\Mission;
+use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,9 +25,22 @@ class MissionController extends Controller
     {
         $this->getPeriode($request);
 
-        $missions = $this->missionBuilder($request)->get();
+        $debut = $this->debut_periode->format("d/m/Y");
+        $fin = $this->fin_periode->format("d/m/Y");
 
-        return view("mission.liste",compact("missions"));
+        $missions = $this->missionBuilder($request)->paginate(30);
+
+        $chauffeurs = Chauffeur::with("employe")->get();
+        $status = collect([
+           Statut::MISSION_COMMANDEE => Statut::getStatut(Statut::MISSION_COMMANDEE),
+           Statut::MISSION_EN_COURS => Statut::getStatut(Statut::MISSION_EN_COURS),
+           Statut::MISSION_TERMINEE => Statut::getStatut(Statut::MISSION_TERMINEE),
+           Statut::MISSION_ANNULEE => Statut::getStatut(Statut::MISSION_ANNULEE),
+        ]);
+
+        //dd($missions);
+
+        return view("mission.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
     }
 
     private function getPeriode(Request $request)
@@ -44,9 +59,15 @@ class MissionController extends Controller
     }
 
 
+
     private function missionBuilder(Request $request)
     {
-        return Mission::with(["chauffeur", "vehicule", "client"])
+        return Mission::with(["chauffeur.employe", "vehicule", "clientPartenaire", "pieceComptable"])
             ->whereBetween("debuteffectif",[$this->debut_periode->toDateString(), $this->fin_periode->toDateString()]);
+    }
+
+    public function details()
+    {
+        return view("mission.details");
     }
 }

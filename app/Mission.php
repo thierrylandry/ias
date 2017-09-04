@@ -13,19 +13,23 @@ class Mission extends Model implements Commercializable
     public $timestamps = false;
 
     public function chauffeur(){
-        return $this->belongsTo(Chauffeur::class);
+        return $this->belongsTo(Chauffeur::class,"chauffeur_id");
     }
 
     public function vehicule(){
         return $this->belongsTo(Vehicule::class);
     }
 
-    public function client(){
+    public function clientPartenaire(){
         return $this->belongsTo(Partenaire::class,"client");
     }
 
-    public function soustraitant(){
+    public function soustraitantPartenaire(){
         return $this->belongsTo(Partenaire::class,"soustraitant");
+    }
+
+    public function pieceComptable(){
+        return $this->belongsTo(PieceComptable::class,"piececomptable_id");
     }
 
     /**

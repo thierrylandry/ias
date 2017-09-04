@@ -14,12 +14,13 @@ class CreateDatabaseIas extends Migration
     public function up()
     {
         Schema::create("application", function (Blueprint $table){
-            $table->string("version",1)->default(1);
+            $table->string("version",3)->default(1);
             $table->string("sendmail",1)->default("Y");
-            $table->string("mailcopy",50)->default("commercial@ivoireautoservices.net");
-            $table->integer("numeroproforma");
-            $table->integer("numerobl");
-            $table->integer("numerofacture");
+            $table->string("mailcopy")->default("commercial@ivoireautoservices.net");
+            $table->integer("numeroproforma")->default(1);
+            $table->integer("numerobl")->default(1);
+            $table->integer("numerofacture")->default(1);
+            $table->integer("numeromission")->default(1);
             $table->string("prefix",10)->default("");
         });
         Schema::create("service", function(Blueprint $table){
@@ -99,6 +100,7 @@ class CreateDatabaseIas extends Migration
             $table->increments('id');
             $table->string('raisonsociale');
             $table->string('comptecontribuable')->nullable();
+            $table->string('telephone')->nullable();
             $table->boolean('isclient')->default(true);
             $table->boolean('isfournisseur')->default(false);
             $table->text('contact')->nullable();
@@ -129,7 +131,7 @@ class CreateDatabaseIas extends Migration
         Schema::create("piececomptable",function (Blueprint $table){
             $table->increments('id');
             $table->string("objet",150);
-            $table->string("referencebc")->nullablerr();
+            $table->string("referencebc")->nullable();
             $table->string('referenceproforma')->unique();
             $table->string('referencebl')->unique()->nullable();
             $table->string('referencefacture')->unique()->nullable();

@@ -9,6 +9,7 @@ class PieceComptable extends Model
     const PRO_FORMA = 1;
     const FACTURE = 2;
     const BON_LIVRAISON = 3;
+
     const TVA = 0.18;
 
     public $timestamps = false;
@@ -24,5 +25,10 @@ class PieceComptable extends Model
 
     public function utilisateur(){
         return $this->belongsTo(Utilisateur::class,'utilisateur_id');
+    }
+
+    public function getReference()
+    {
+        return $this->referencefacture ? $this->referencefacture : $this->referenceproforma;
     }
 }

@@ -42,6 +42,7 @@ Route::prefix('missions')->middleware('auth')->group(function (){
     Route::get('nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
     Route::post('nouvelle.html','Mission\CreateController@ajouter');
     Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
+    Route::get('{reference}/detail.html','Mission\MissionController@details')->name('mission.details');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
@@ -67,6 +68,7 @@ Route::prefix('factures')->middleware('auth')->group(function (){
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
     Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
     Route::get("liste.html","Order\FactureController@liste")->name("facturation.liste");
+    Route::get("{reference}/details.html","Order\FactureController@details")->name("facturation.details");
 });
 
 //PDF
@@ -79,4 +81,9 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');
     Route::get('nouveau.html','Partenaire\RegisterController@nouveau')->name('partenaire.nouveau');
     Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
+});
+
+//Email
+Route::prefix('email')->middleware('auth')->group(function (){
+    Route::post('proforma/{reference}/send.html','Mail\OrderController@envoyerProforma')->name("email.proforma");
 });

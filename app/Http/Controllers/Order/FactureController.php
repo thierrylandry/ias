@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class FactureController extends Controller
 {
+    use Process;
+
     public function liste(Request $request)
     {
         $pieces = $this->getPiecesComptable($request);
@@ -41,5 +43,12 @@ class FactureController extends Controller
             $fin = Carbon::createFromFormat("d/m/Y", $request->input("fin"));
 
         return collect(compact("debut", "fin"));
+    }
+
+
+    public function details($reference)
+    {
+        $piece = $this->getPieceComptableForReference($reference);
+        return view("order.facture", compact("piece"));
     }
 }
