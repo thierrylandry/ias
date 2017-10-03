@@ -66,11 +66,18 @@ Route::get('/pdf.html',function (){
 
 //Facturation
 Route::prefix('factures')->middleware('auth')->group(function (){
+    Route::get("liste.html","Order\FactureController@liste")->name("facturation.liste");
+    Route::get("proforma/liste.html","Order\FactureController@listeProforma")->name("facturation.liste.proforma");
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
     Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
-    Route::get("liste.html","Order\FactureController@liste")->name("facturation.liste");
     Route::get("{reference}/details.html","Order\FactureController@details")->name("facturation.details");
+});
+
+//Versement
+Route::prefix("versement")->middleware("auth")->group(function (){
+    Route::get("mission/{code}/nouveau.html","Money\VersementController@nouveauVersement")->name("versement.mission.ajouter");
+    Route::post("mission/{code}/nouveau.html","Money\VersementController@ajouter");
 });
 
 //PDF

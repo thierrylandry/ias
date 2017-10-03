@@ -123,6 +123,20 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="row clearfix">
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <blockquote class="blockquote-reverse">
+                                <p class="font-underline">Options de paiement</p>
+                                <footer>Facture arrêté à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter($piece->montantht * ($piece->isexonere ? 1 : (1 + $piece->tva) )) }} francs CFA</footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-md-8 col-sm-7 col-xs-12">
+                            <p class="m-t-5"><span>Conditions de  paiement </span><span class="font-bold">{{ $piece->conditions }}</span></p>
+                            <p class="m-t-5"><span>Validité de l'offre </span><span class="font-bold">{{ $piece->validite }}</span></p>
+                            <p class="m-t-5"><span>Délai de validité</span><span class="font-bold">{{ $piece->delailivraison }}</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

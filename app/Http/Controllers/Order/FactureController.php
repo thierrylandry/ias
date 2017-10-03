@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use App\PieceComptable;
+use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,20 +12,40 @@ class FactureController extends Controller
 {
     use Process;
 
-    public function liste(Request $request)
+    public function listeProforma(Request $request)
     {
-        $pieces = $this->getPiecesComptable($request);
+        return $this->liste($request, PieceComptable::PRO_FORMA);
+    }
+
+    public function liste(Request $request, $proforma = null)
+    {
+        $pieces = $this->getPiecesComptable($request, $proforma);
         return view("order.liste", compact("pieces"));
     }
 
-    private function getPiecesComptable(Request $request)
+    /**
+     * @param Request $request
+     * @param null | int $type
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    private function getPiecesComptable(Request $request, $type = null)
     {
         $periode = $this->getPeriode($request);
 
-        return PieceComptable::with("partenaire","lignes")
-            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateString()])
-            ->orderBy("creationproforma","desc")
-            ->paginate(30);
+        $raw = PieceComptable::with("partenaire","lignes")
+            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateString()]);
+
+        if($type){
+            switch ($type){
+                case PieceComptable::PRO_FORMA : $raw->where("etat", "=", Statut::PIECE_COMPTABLE_PRO_FORMA); break;
+
+                default : null;
+            };
+        }
+
+        $raw->orderBy("creationproforma","desc");
+
+        return $raw->paginate(30);
     }
 
     /**

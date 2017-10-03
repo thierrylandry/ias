@@ -161,6 +161,7 @@ class CreateDatabaseIas extends Migration
             $table->date('fineffective');
             $table->string('observation')->nullable();
             $table->integer('perdiem');
+            $table->integer('perdiemverse')->default(0);
             $table->integer('montantjour')->default(0);
             $table->integer('soldeperdiem')->default(0);
             $table->boolean('soustraite')->default(false);
@@ -175,6 +176,17 @@ class CreateDatabaseIas extends Migration
             $table->foreign('client')->references('id')->on('partenaire');
             $table->foreign('soustraitant')->references('id')->on('partenaire');
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
+        });
+        Schema::create("versement", function (Blueprint $table){
+            $table->unsignedInteger("mission_id");
+            $table->unsignedInteger("employe_id");
+            $table->dateTime("dateversement");
+            $table->unsignedInteger("moyenreglement_id");
+            $table->integer("montant");
+            $table->foreign('mission_id')->references('id')->on('mission');
+            $table->foreign('employe_id')->references('employe_id')->on('chauffeur');
+            $table->foreign('moyenreglement_id')->references('id')->on('moyenreglement');
+            $table->primary(["mission_id", "employe_id", "dateversement"]);
         });
         Schema::create("lignepiece",function (Blueprint $table){
             $table->bigIncrements('id');

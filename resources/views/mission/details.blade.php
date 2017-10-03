@@ -16,6 +16,9 @@
                                 @if($mission->pieceComptable)
                                 <li><a href="{{ route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) }}">Consulter la facture</a></li>
                                 @endif
+                                @if($mission->status != \App\Statut::MISSION_TERMINEE_SOLDEE)
+                                    <li><a class="btn bg-teal waves-effect" href="{{ route("versement.mission.ajouter", ["code"=>$mission->code]) }}" title="Effectuer un versement"><i class="material-icons">monetization_on</i></a></li>
+                                @endif
                             </ul>
                         </li>
                     </ul>

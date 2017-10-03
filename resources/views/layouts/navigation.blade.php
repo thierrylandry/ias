@@ -55,7 +55,7 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{ route("facturation.liste.proforma") }}">
                     <span>Pro forma</span>
                 </a>
             </li>

@@ -142,6 +142,14 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Non définie']
         ]);
 
+        DB::table('moyenreglement')->insert([
+            ['libelle' => 'Espèce'],
+            ['libelle' => 'Chèque'],
+            ['libelle' => 'Orange Money'],
+            ['libelle' => 'MTN Mobil Money'],
+            ['libelle' => 'Moov Money (Flooz)'],
+        ]);
+
         DB::table('vehicule')->insert([
             [
                 'cartegrise' => '32146046545600',

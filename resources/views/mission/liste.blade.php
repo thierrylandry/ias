@@ -117,6 +117,9 @@
                                             @if($mission->status == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
                                                 <a class="btn bg-red waves-effect" href="#" title="Supprimer la mission"><i class="material-icons">delete</i></a>
                                             @endif
+                                            @if($mission->status != \App\Statut::MISSION_TERMINEE_SOLDEE)
+                                                <a class="btn bg-teal waves-effect" href="{{ route("versement.mission.ajouter", ["code"=>$mission->code]) }}" title="Effectuer un versement"><i class="material-icons">monetization_on</i></a>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>

@@ -1,9 +1,9 @@
 @extends("pdf.layout")
 @section("titre")  PRO FORMA @endsection
 @section("titre-complement")
-    <div class="row quatre-cm"><strong>Client :</strong> <br/>{{ $piece->partenaire->raisonsociale }}</div>
-    <div class="row quatre-cm"><strong>N° C.C. :</strong> <br/>{{ $piece->partenaire->comptecontribuable }}</div>
-    <div class="row quatre-cm"><strong>Téléphone :</strong> {{ $piece->partenaire->telephone }}</div>
+    <div class="row quatre-cm">Client :<br/><strong>{{ $piece->partenaire->raisonsociale }}</strong> </div>
+    <div class="row quatre-cm">N° C.C. :<br/><strong>{{ $piece->partenaire->comptecontribuable }}</strong> </div>
+    <div class="row quatre-cm"><>Téléphone :<br/> <strong>{{ $piece->partenaire->telephone }}</strong> </div>
     <br style="clear: both" />
 @endsection
 
@@ -21,7 +21,7 @@
             <p class="item">{{ (new Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</p>
         </div>
 
-        <div class="row" style="width: 9cm; margin: 0 0.5cm">
+        <div class="row" style="width: 4cm; margin: 0 0.5cm">
             <p><strong>Emetteur</strong></p>
             <hr/>
             <p class="item">{{ $piece->utilisateur->employe->nom }} {{ $piece->utilisateur->employe->prenoms }}</p>
@@ -57,7 +57,7 @@
         @foreach($piece->lignes as $ligne)
         <tr>
             <td class="center">{{ $loop->index + 1 }}</td>
-            <td>{{ $ligne->designation }}</td>
+            <td>{{ ucfirst($ligne->designation) }}</td>
             <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
             <td class="quantity">{{ number_format($ligne->quantite,0,',',' ') }}</td>
             <td class="amount">{{ number_format($ligne->prixunitaire * $ligne->quantite,0,',',' ') }}</td>
@@ -67,13 +67,13 @@
         <tfoot>
             <tr>
                 <td colspan="2"></td>
-                <td colspan="2" class="amount">Montant HT</td>
-                <td class="amount">{{ number_format($piece->montantht,0,','," ") }} FCFA</td>
+                <td colspan="2" class="amount h3">Montant HT</td>
+                <td class="amount h3">{{ number_format($piece->montantht,0,','," ") }} FCFA</td>
             </tr>
             <tr>
                 <td colspan="2"></td>
-                <td colspan="2" class="amount">TVA 18% @if($piece->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-                <td class="amount">{{ number_format(($piece->montantht * $piece->tva),0,','," ") }} FCFA</td>
+                <td colspan="2" class="amount h3">TVA 18% @if($piece->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
+                <td class="amount h3">{{ number_format(($piece->montantht * $piece->tva),0,','," ") }} FCFA</td>
             </tr>
             <tr>
                 <td colspan="2"></td>
