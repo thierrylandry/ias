@@ -39,8 +39,8 @@
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">
                                             <a class="btn bg-blue-grey waves-effect" href="{{ '#' }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
-                                            <a class="btn bg-green waves-effect" href="#" title="Modifier le véhicule"><i class="material-icons">edit</i></a>
-                                            <a class="btn bg-orange waves-effect" href="#" title="Consulter le rapport du véhicule"><i class="material-icons">insert_drive_file</i></a>
+                                            <a class="btn bg-green waves-effect" href="#" title="Modifier"><i class="material-icons">edit</i></a>
+                                            <a class="btn bg-orange waves-effect" href="#" title="Consulter l'état"><i class="material-icons">insert_drive_file</i></a>
                                         </div>
                                     </div>
                                 </th>

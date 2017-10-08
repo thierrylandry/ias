@@ -183,6 +183,7 @@ class CreateDatabaseIas extends Migration
             $table->dateTime("dateversement");
             $table->unsignedInteger("moyenreglement_id");
             $table->integer("montant");
+            $table->string("commentaires",150)->nullable();
             $table->foreign('mission_id')->references('id')->on('mission');
             $table->foreign('employe_id')->references('employe_id')->on('chauffeur');
             $table->foreign('moyenreglement_id')->references('id')->on('moyenreglement');

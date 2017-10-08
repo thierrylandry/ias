@@ -59,6 +59,17 @@
                         </div>
                     </div>
 
+                    <div class="row clearfix">
+                        <div class="col-md-offset-2 col-md-8">
+                            <b>Observations</b>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <textarea class="form-control" name="commentaires" id="commentaires" placeholder="Observations"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <hr/>
 
                     <div class="row clearfix">
@@ -84,6 +95,7 @@
                             <th>Date de versement</th>
                             <th>Moyen de règlement</th>
                             <th class="amount">Montant (F CFA)</th>
+                            <th width="50%">Commentaires</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -96,6 +108,7 @@
                             @php
                             $total += $oldVersement->montant;
                             @endphp
+                            <td>{{ $oldVersement->commentaires }}</td>
                         </tr>
                         @endforeach
                         @else
@@ -108,6 +121,7 @@
                         <tr class="bg-teal">
                             <th colspan="2" class="align-right">Total payé</th>
                             <th class="amount devise">{{ number_format($total, 0, ",", " ") }}</th>
+                            <th class="amount devise">Reste à payer  : {{ number_format($mission->perdiem * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)) - $total, 0, ",", " ") }}</th>
                         </tr>
                         </tfoot>
                     </table>

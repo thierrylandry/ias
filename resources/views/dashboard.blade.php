@@ -77,7 +77,7 @@
                             La visite de ce véhicule est périmée
                         </a>
                     </div>
-                    <a class="btn bg-blue-grey waves-effect">Voir plus</a>
+                    <a class="btn bg-blue-grey waves-effect" href="{{ route('vehicule.liste') }}">Acceder aux véhicules</a>
                 </div>
             </div>
         </div>

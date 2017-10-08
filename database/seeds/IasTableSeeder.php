@@ -33,10 +33,10 @@ class IasTableSeeder extends Seeder
         DB::table("employe")->insert([
             [
                 "matricule" => "E001",
-                "nom" => "Touré",
-                "prenoms" => "Brice",
-                "datenaissance" => "1970-05-12",
-                "pieceidentite" => "yerv5646iog",
+                "nom" => "Koffi",
+                "prenoms" => "Bérenger",
+                "datenaissance" => "1990-05-12",
+                "pieceidentite" => "C 0045 54548",
                 "dateembauche" => "2000-01-01",
                 "basesalaire" => 500000,
                 "service_id" => 1,
@@ -71,6 +71,16 @@ class IasTableSeeder extends Seeder
                 "basesalaire" => 200000,
                 "service_id" => 3,
             ],
+            [
+                "matricule" => "E005",
+                "nom" => "Touré",
+                "prenoms" => "Brice",
+                "datenaissance" => "1970-05-12",
+                "pieceidentite" => "yerv5646iog",
+                "dateembauche" => "2000-01-01",
+                "basesalaire" => 500000,
+                "service_id" => 1,
+            ],
         ]);
 
         DB::table("utilisateur")->insert([
@@ -97,6 +107,13 @@ class IasTableSeeder extends Seeder
             [
                 'employe_id' => '4',
                 'permis' => 'PM987 018780 545',
+                'expiration_c' => '2019-05-26',
+                'expiration_d' => '2019-05-26',
+                'expiration_e' => '2019-05-26',
+            ],
+            [
+                'employe_id' => '5',
+                'permis' => 'PM987 87802521 545',
                 'expiration_c' => '2019-05-26',
                 'expiration_d' => '2019-05-26',
                 'expiration_e' => '2019-05-26',

@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Application;
 use App\Pdf\PdfMaker;
+use App\PieceComptable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -14,20 +15,18 @@ class FactureProforma extends Mailable
 {
     use Queueable, SerializesModels, PdfMaker;
 
-    private $reference;
+    private $piece;
     private $typePiece;
-    private $objet;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($reference, $typePiece, $objet)
+    public function __construct(PieceComptable $piece, $typePiece)
     {
-        $this->reference = $reference;
+        $this->piece = $piece;
         $this->typePiece = $typePiece;
-        $this->objet = $objet;
     }
 
     /**
@@ -37,13 +36,19 @@ class FactureProforma extends Mailable
      */
     public function build()
     {
-        $from = sprintf("%s<%s, %s>", Auth::user()->employe->nom, Auth::user()->employe->prenoms, Auth::user()->login);
+        $from = [
+            "address" => Auth::user()->login,
+            "name" => sprintf("%s, %s", Auth::user()->employe->nom, Auth::user()->employe->prenoms)
+            ];
 
+        $piece = $this->piece;
+
+        //dd(view("mail.proforma", compact("piece"))->render());
         return $this->from($from)
-            ->view('mail.proforma')
-            ->subject($this->objet)
-            ->attachData($this->imprimerPieceComptable($this->reference, $this->typePiece),
-                "Facture proforma ".$this->reference, [
+            ->view('mail.proforma', compact("piece"))
+            ->subject($this->piece->objet)
+            ->attachData($this->imprimerPieceComptable($this->piece->referenceproforma, $this->typePiece),
+                "Facture proforma ".$this->piece->referenceproforma, [
                 "mime" => "application/pdf"
             ]);
     }

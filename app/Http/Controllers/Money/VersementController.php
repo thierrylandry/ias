@@ -37,7 +37,8 @@ class VersementController extends Controller
             "mission_id" => "required|numeric|exists:mission,id",
             "dateversement" => "required|date_format:d/m/Y H:i",
             "moyenreglement_id" => "required|exists:moyenreglement,id",
-            "montant" => "required|numeric|min:100"
+            "montant" => "required|numeric|min:100",
+            "commentaires" => "present"
         ]);
 
         $versement = new Versement($request->except("_token"));
