@@ -43,7 +43,11 @@
                             <tbody>
                             @foreach($chauffeurs as $chauffeur)
                             <tr>
-                                <td></td>
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group">
+                                        <a class="btn bg-blue waves-effect" href="{{ route("admin.chauffeur.situation",["matricule"=>$chauffeur->employe->matricule]) }}" title="Consulter l'état"><i class="material-icons">assignment</i></a>
+                                    </div>
+                                </td>
                                 <td>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</td>
                                 <td>{{ $chauffeur->permis }}</td>
                                 <td>{{ (new \Carbon\Carbon($chauffeur->expiration_c))->format('d/m/Y') }}</td>

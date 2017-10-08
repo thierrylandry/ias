@@ -32,6 +32,10 @@ class Mission extends Model implements Commercializable
         return $this->belongsTo(PieceComptable::class,"piececomptable_id");
     }
 
+    public function versements(){
+        return $this->hasMany(Versement::class, "mission_id", "id");
+    }
+
     /**
      * @return int
      */

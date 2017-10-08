@@ -5,15 +5,29 @@ namespace App\Http\Controllers\Admin;
 use App\Chauffeur;
 use App\Employe;
 use App\Metier\Behavior\Notifications;
+use App\Mission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
 class ChauffeurController extends Controller
 {
+    public function situation($matricule)
+    {
+        $chauffeur = Chauffeur::where("")->first();
+        $missions = Mission::with("chauffeur","versements.moyenreglement","clientPartenaire","vehicule")
+            ->join("employe","chauffeur_id", "=", "employe.id")
+            ->where("matricule",$matricule)
+            ->select("mission.*")
+            ->get();
+
+        return view("admin.chauffeur.point", compact("missions"));
+    }
+
     public function liste()
     {
         $chauffeurs = Chauffeur::with('employe')->get();

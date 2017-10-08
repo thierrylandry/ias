@@ -52,6 +52,7 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('chauffeurs.html','Admin\ChauffeurController@liste')->name('admin.chauffeur.liste');
     Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
     Route::post('chauffeurs/ajouter.html','Admin\ChauffeurController@register');
+    Route::get('chauffeurs/{matricule}/situation.html','Admin\ChauffeurController@situation')->name("admin.chauffeur.situation");
 
     //Employé
     Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');

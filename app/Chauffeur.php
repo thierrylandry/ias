@@ -14,4 +14,6 @@ class Chauffeur extends Model
     public function employe(){
         return $this->belongsTo(Employe::class,"employe_id");
     }
+
+    //public function mission
 }
