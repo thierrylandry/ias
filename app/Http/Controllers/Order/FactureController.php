@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Metier\Behavior\Notifications;
 use App\PieceComptable;
 use App\Statut;
 use Carbon\Carbon;
@@ -69,7 +70,28 @@ class FactureController extends Controller
 
     public function details($reference)
     {
-        $piece = $this->getPieceComptableForReference($reference);
+        $piece = $this->getPieceComptableFromReference($reference);
         return view("order.facture", compact("piece"));
+    }
+
+    public function makeNormal(Request $request)
+    {
+        $this->validate($request, $this->valideRulesNormalPiece());
+
+        $piece = $this->getPieceComptableFromReference($request->input("referenceproforma"));
+
+        $this->switchToNormal($piece, $request->input("referencefacture"));
+
+        $notif = new Notifications();
+        $notif->add(Notifications::SUCCESS,sprintf("Transformation de la pro forma %s en facture N° %s réussie", $piece->referenceproforma, $piece->referencefacture));
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+    }
+
+    private function valideRulesNormalPiece()
+    {
+        return [
+            "referenceproforma" => "required|exists:piececomptable,referenceproforma",
+            "referencefacture" => "required|numeric",
+        ];
     }
 }

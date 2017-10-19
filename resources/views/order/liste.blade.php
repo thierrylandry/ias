@@ -69,7 +69,7 @@ $totalPeriode = 0;
                     <tbody>
                     @foreach($pieces as $piece)
                     <tr>
-                        <td><a href="{{ route("facturation.details", ["reference" => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
+                        <td><a href="{{ route("facturation.details", ["reference" => urlencode($piece->referenceproforma) ]) }}">{{\App\Application::getprefixOrder()}}{{ $piece->referenceproforma }}</a></td>
                         <td>{{ (new \Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</td>
                         <td>{{ $piece->objet }}</td>
                         <td>{{ $piece->partenaire->raisonsociale }}</td>

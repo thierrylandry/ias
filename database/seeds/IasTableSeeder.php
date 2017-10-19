@@ -30,6 +30,12 @@ class IasTableSeeder extends Seeder
             [ "code" => "LOGIS","libelle" => "Logistique" ],
         ]);
 
+        DB::table("typeintervention")->insert([
+            [ "libelle" => "Vidange" ],
+            [ "libelle" => "Révision" ],
+            [ "libelle" => "Panne" ],
+        ]);
+
         DB::table("employe")->insert([
             [
                 "matricule" => "E001",
@@ -170,6 +176,8 @@ class IasTableSeeder extends Seeder
         DB::table('vehicule')->insert([
             [
                 'cartegrise' => '32146046545600',
+                'coutachat' => 3500000,
+                "dateachat" => "2012-07-30",
                 'immatriculation' => '2564FH01',
                 'marque' => 'Ford',
                 'visite' => '2017-12-05',
@@ -183,6 +191,8 @@ class IasTableSeeder extends Seeder
             ],
             [
                 'cartegrise' => '989980121213',
+                'coutachat' => 4510000,
+                "dateachat" => "2013-12-04",
                 'immatriculation' => '9601GP01',
                 'marque' => 'Nissan',
                 'visite' => '2017-06-13',
@@ -196,6 +206,8 @@ class IasTableSeeder extends Seeder
             ],
             [
                 'cartegrise' => '32146046545600',
+                'coutachat' => 4000000,
+                "dateachat" => "2011-05-26",
                 'immatriculation' => '154FE01',
                 'marque' => 'Nissan',
                 'visite' => '2018-01-07',

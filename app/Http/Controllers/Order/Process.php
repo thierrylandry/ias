@@ -120,7 +120,7 @@ trait Process
 
         if( ($id == null || $id == 0) && $type === PieceComptable::PRO_FORMA)
         {
-            $piececomptable->referenceproforma = Application::getInitial().Application::getNumeroProforma(true);
+            $piececomptable->referenceproforma = Application::getNumeroProforma(true);
             $piececomptable->creationproforma = Carbon::now()->toDateTimeString();
             $piececomptable->etat = Statut::PIECE_COMPTABLE_PRO_FORMA;
         }
@@ -134,11 +134,19 @@ trait Process
      * @param $reference
      * @return \Illuminate\Database\Eloquent\Model|null|PieceComptable
      */
-    private function getPieceComptableForReference($reference)
+    private function getPieceComptableFromReference($reference)
     {
         return PieceComptable::with('partenaire','lignes','utilisateur')
             ->where("referenceproforma",$reference)
             ->orWhere("referencefacture",$reference)
             ->firstOrFail();
+    }
+
+    private function switchToNormal(PieceComptable &$pieceComptable, $numeroPreImprime)
+    {
+        $pieceComptable->referencefacture = $numeroPreImprime;
+        $pieceComptable->creationfacture = Carbon::now()->toDateTimeString();
+        $pieceComptable->etat = Statut::PIECE_COMPTABLE_FACTURE_SANS_BL;
+        $pieceComptable->save();
     }
 }

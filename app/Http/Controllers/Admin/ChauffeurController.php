@@ -18,14 +18,22 @@ class ChauffeurController extends Controller
 {
     public function situation($matricule)
     {
-        $chauffeur = Chauffeur::where("")->first();
+        $chauffeur = Chauffeur::where("matricule",$matricule)
+            ->join("employe","employe_id","employe.id")
+            ->first();
+
+        if($chauffeur == null)
+        {
+            return back()->withErrors("Chauffeur non trouvé.");
+        }
+
         $missions = Mission::with("chauffeur","versements.moyenreglement","clientPartenaire","vehicule")
             ->join("employe","chauffeur_id", "=", "employe.id")
             ->where("matricule",$matricule)
             ->select("mission.*")
             ->get();
 
-        return view("admin.chauffeur.point", compact("missions"));
+        return view("admin.chauffeur.point", compact("missions","chauffeur"));
     }
 
     public function liste()

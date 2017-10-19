@@ -41,6 +41,7 @@
                                 <div class="input-group">
                                     <div class="form-line">
                                         <select class="form-control selectpicker" id="chauffeur" name="chauffeur" data-live-search="true" required>
+                                            <option value="#">Tous les chauffeurs</option>
                                             @foreach($chauffeurs as $chauffeur)
                                                 <option value="{{ $chauffeur->employe_id }}">{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                             @endforeach
@@ -54,6 +55,7 @@
                                 <div class="input-group">
                                     <div class="form-line">
                                         <select class="form-control selectpicker" id="etat" name="etat" required>
+                                            <option value="#">Tous les états</option>
                                             @foreach($status as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
                                             @endforeach
@@ -151,22 +153,22 @@
 </div>
 @endsection
 @section("script")
-    <!-- Moment Plugin Js -->
-    <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+<!-- Moment Plugin Js -->
+<script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
-    <!-- Bootstrap Material Datetime Picker Plugin Js -->
-    <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
-    <script type="text/javascript">
-        $('.datepicker').bootstrapMaterialDatePicker({
-            format: 'DD/MM/YYYY',
-            clearButton: false,
-            nowButton: true,
-            weekStart: 1,
-            time: false,
-            lang: 'fr',
-            cancelText : 'ANNULER',
-            nowText : 'AUJOURD\'HUI'
-        });
-    </script>
+<!-- Bootstrap Material Datetime Picker Plugin Js -->
+<script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
+<script type="text/javascript">
+    $('.datepicker').bootstrapMaterialDatePicker({
+        format: 'DD/MM/YYYY',
+        clearButton: false,
+        nowButton: true,
+        weekStart: 1,
+        time: false,
+        lang: 'fr',
+        cancelText : 'ANNULER',
+        nowText : 'AUJOURD\'HUI'
+    });
+</script>
 @endsection

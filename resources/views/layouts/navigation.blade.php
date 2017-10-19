@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("vehicule.reparation") }}">
+                <a href="{{ route("reparation.liste") }}">
                     <span>Réparations</span>
                 </a>
             </li>

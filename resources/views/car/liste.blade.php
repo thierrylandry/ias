@@ -46,7 +46,8 @@
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a class="btn bg-blue-grey waves-effect" href="{{ route("mission.nouvelle",[ 'vehicule' => $vehicule->immatriculation ]) }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
                                         <a class="btn bg-green waves-effect" href="#" title="Modifier le véhicule"><i class="material-icons">edit</i></a>
-                                        <a class="btn bg-orange waves-effect" href="#" title="Consulter le rapport du véhicule"><i class="material-icons">insert_drive_file</i></a>
+                                        <a class="btn bg-orange waves-effect" href="{{ route("vehicule.details", ["immatriculation" => $vehicule->immatriculation]) }}" title="Consulter le rapport du véhicule"><i class="material-icons">insert_drive_file</i></a>
+                                        <a class="btn bg-light-blue waves-effect" href="{{ route("reparation.nouvelle", ["vehicule" => $vehicule->immatriculation ]) }}" title="Démarrer une intervention"><i class="material-icons">settings</i></a>
                                     </div>
                                 </div>
                             </th>

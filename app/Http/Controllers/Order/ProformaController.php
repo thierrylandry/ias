@@ -20,7 +20,7 @@ class ProformaController extends Controller
         $commercializables = null;
 
         //Si une mission est passée en session
-        if($request->session()->has(Notifications::MISSION_OBJECT))
+        if( $request->query("from") == Notifications::MISSION_OBJECT )
         {
             $commercializables = $request->session()->get(Notifications::MISSION_OBJECT);
 
@@ -58,7 +58,7 @@ class ProformaController extends Controller
         return response()->json([
             "code" => 1,
             "message" => "Nouvelle pro forma référence $piececomptable->referenceproforma enregistrée avec succès !",
-            "action" => route("facturation.envoie.emailchoice",["reference" => $piececomptable->referenceproforma])
+            "action" => route("facturation.envoie.emailchoice",["reference" => urlencode($piececomptable->referenceproforma)])
         ],200, [],JSON_UNESCAPED_UNICODE);
     }
 }

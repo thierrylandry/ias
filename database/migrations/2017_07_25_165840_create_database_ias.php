@@ -68,6 +68,8 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("vehicule",function (Blueprint $table){
             $table->increments("id");
+            $table->increments("coutachat")->nullable();
+            $table->date("dateachat")->nullable();
             $table->string("cartegrise");
             $table->string("immatriculation");
             $table->string('marque')->nullable();

@@ -12,7 +12,7 @@
         <div class="row quatre-cm">
             <p><strong>N° Pro forma</strong></p>
             <hr/>
-            <p class="item">#{{ $piece->referenceproforma }}</p>
+            <p class="item">#{{ \App\Application::getprefixOrder() }}{{ $piece->referenceproforma }}</p>
         </div>
 
         <div class="row quatre-cm">

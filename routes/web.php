@@ -32,9 +32,12 @@ Route::get('/', 'HomeController@index');
 //Véhicules
 Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::get('liste.html','Car\RegisterController@index')->name('vehicule.liste');
-    Route::get('reparations.html','Car\ReperationController@index')->name('vehicule.reparation');
     Route::get('nouveau.html','Car\RegisterController@showNewFormView')->name('vehicule.nouveau');
     Route::post('nouveau.html','Car\RegisterController@ajouter');
+    Route::get('reparations.html','Car\ReparationController@index')->name('reparation.liste');
+    Route::get('interventions/nouvelle.html','Car\ReparationController@nouvelle')->name("reparation.nouvelle");
+    Route::post('interventions/nouvelle.html','Car\ReparationController@ajouter');
+    Route::get("{immatriculation}/details.html","Car\FicheController@details")->name("vehicule.details");
 });
 
 //Missions
@@ -58,7 +61,6 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');
     Route::get('employes/ajouter.html','Admin\EmployeController@ajouter')->name('admin.employe.ajouter');
     Route::post('employes/ajouter.html','Admin\EmployeController@register');
-
 });
 
 Route::get('/pdf.html',function (){
@@ -71,6 +73,7 @@ Route::prefix('factures')->middleware('auth')->group(function (){
     Route::get("proforma/liste.html","Order\FactureController@listeProforma")->name("facturation.liste.proforma");
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
+    Route::post("normale/make","Order\FactureController@makeNormal")->name("facturation.switch.normal");
     Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
     Route::get("{reference}/details.html","Order\FactureController@details")->name("facturation.details");
 });
@@ -91,6 +94,7 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');
     Route::get('nouveau.html','Partenaire\RegisterController@nouveau')->name('partenaire.nouveau');
     Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
+    Route::get("{id}/details.html","Partenaire\DetailsController@fiche")->name("partenaire.client");
 });
 
 //Email
