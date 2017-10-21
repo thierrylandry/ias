@@ -99,7 +99,7 @@
                 <a href="{{ route('admin.employe.liste') }}">Employes</a>
             </li>
             <li>
-                <a href="#">Utilisateurs</a>
+                <a href="{{ route("admin.utilisateur.liste") }}">Utilisateurs</a>
             </li>
             <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>

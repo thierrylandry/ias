@@ -85,13 +85,13 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
-                                <tr class="bg-light-green">
-                                    <th width="7%">Référence</th>
-                                    <th width="55%">Désignation</th>
-                                    <th width="12%" class="amount">P.U HT</th>
-                                    <th class="quantity text-center">Quantité</th>
-                                    <th width="15%" class="amount">Total</th>
-                                </tr>
+                                    <tr class="bg-light-green">
+                                        <th width="7%">Référence</th>
+                                        <th width="55%">Désignation</th>
+                                        <th width="12%" class="amount">P.U HT</th>
+                                        <th class="quantity text-center">Quantité</th>
+                                        <th width="15%" class="amount">Total</th>
+                                    </tr>
                                 </thead>
                                 <tbody class="">
                                 @foreach($piece->lignes as $ligne)

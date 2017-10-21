@@ -61,6 +61,12 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');
     Route::get('employes/ajouter.html','Admin\EmployeController@ajouter')->name('admin.employe.ajouter');
     Route::post('employes/ajouter.html','Admin\EmployeController@register');
+    Route::get('employe/{matricule}/fiche.html','Admin\EmployeController@fiche')->name('admin.employe.fiche');
+    //Utilisateurs
+    Route::get('utilisateurs.html', 'Admin\UtilisateurController@index')->name('admin.utilisateur.liste');
+    Route::get('utilisateur/ajouter.html', 'Admin\UtilisateurController@ajouter')->name('admin.utilisateur.ajouter');
+    Route::post('utilisateur/ajouter.html', 'Admin\UtilisateurController@register');
+
 });
 
 Route::get('/pdf.html',function (){

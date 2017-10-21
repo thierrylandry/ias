@@ -53,6 +53,7 @@
 
                     {{ csrf_field() }}
 
+                    <!--
                     <div class="row clearfix">
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                             <label>Message</label>
@@ -65,6 +66,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
 
                     <hr/>
                     <div class="row clearfix">

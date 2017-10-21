@@ -14,7 +14,16 @@ return [
     "admin" => [
         "chauffeur" => [
             "ajout" => "Nouveau chauffeur ajouter aveec succès."
+        ],
+        "employe" => [
+            "ajout" => "Nouvel employé créé."
+        ],
+        "utilisateur" => [
+            "ajout" => "Nouvel utilisateur créé."
         ]
-    ]
+    ],
+    "statut" => [
+        "110" => "Actif"
+        ]
 
 ];
