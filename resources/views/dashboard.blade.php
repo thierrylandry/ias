@@ -64,20 +64,19 @@
                     <h2 class="card-title">
                         Véhicules & Missions<small> </small>
                     </h2>
-                    <img src="{{ config('app.url') }}images/ias/car.png" style="height: 170px"/>
+                    <a class="btn bg-blue-grey waves-effect" href="{{ route('vehicule.liste') }}"><img src="{{ asset('images/ias/car.png') }}" style="height: 170px"/></a>
                 </div>
-                <div class="body">
-                    <div class="list-group">
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">45</span>
-                            Véhicule qui requiert votre attention
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">2545 HE 01</span>
-                            La visite de ce véhicule est périmée
-                        </a>
+                <div class="body" id="vehicule_state">
+                    <div class="preloader pl-size-l">
+                        <div class="spinner-layer pl-orange">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
                     </div>
-                    <a class="btn bg-blue-grey waves-effect" href="{{ route('vehicule.liste') }}">Acceder aux véhicules</a>
                 </div>
             </div>
         </div>
@@ -87,20 +86,19 @@
                     <h2 class="card-title">
                         Clients et fournisseurs <small> </small>
                     </h2>
-                    <img src="{{ config('app.url') }}images/ias/partenaire.png" style="width: 170px" />
+                    <a class="btn bg-blue-grey waves-effect"><img src="{{ asset('images/ias/partenaire.png') }}" style="width: 170px" /></a>
                 </div>
-                <div class="body">
-                    <div class="list-group">
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">45</span>
-                            Véhicule qui requiert votre attention
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">2545 HE 01</span>
-                            La visite de ce véhicule est périmée
-                        </a>
+                <div class="body" id="partnaire_state">
+                    <div class="preloader pl-size-l">
+                        <div class="spinner-layer pl-light-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
                     </div>
-                    <a class="btn bg-blue-grey waves-effect">Voir plus</a>
                 </div>
             </div>
         </div>
@@ -110,20 +108,19 @@
                     <h2 class="card-title">
                         Chauffeurs & personnel <small> </small>
                     </h2>
-                    <img src="{{ config('app.url') }}images/ias/personnel.jpg" style="width: 170px" />
+                    <a class="btn bg-blue-grey waves-effect"><img src="{{ asset('images/ias/personnel.jpg') }}" style="width: 170px" /></a>
                 </div>
-                <div class="body">
-                    <div class="list-group">
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">45</span>
-                            Véhicule qui requiert votre attention
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item">
-                            <span class="badge bg-orange">2545 HE 01</span>
-                            La visite de ce véhicule est périmée
-                        </a>
+                <div class="body" id="employe_state">
+                    <div class="preloader pl-size-l">
+                        <div class="spinner-layer pl-teal">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
                     </div>
-                    <a class="btn bg-blue-grey waves-effect">Voir plus</a>
                 </div>
             </div>
         </div>
@@ -136,5 +133,23 @@
     <div class="row clearfix">
 
     </div>
+
+    <div class="fadeOut">
+        <div class="list-group">
+            <a href="javascript:void(0);" class="list-group-item">
+                <span class="badge bg-orange">45</span>
+                Véhicule qui requiert votre attention
+            </a>
+            <a href="javascript:void(0);" class="list-group-item">
+                <span class="badge bg-orange">2545 HE 01</span>
+                La visite de ce véhicule est périmée
+            </a>
+        </div>
+    </div>
 </div>
+@endsection
+@section("script")
+<script type="text/javascript">
+    //$(document).
+</script>
 @endsection

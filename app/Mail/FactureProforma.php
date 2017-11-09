@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FactureProforma extends Mailable
 {
-    use Queueable, SerializesModels, PdfMaker;
+    use Queueable, SerializesModels;
 
     private $piece;
     private $typePiece;

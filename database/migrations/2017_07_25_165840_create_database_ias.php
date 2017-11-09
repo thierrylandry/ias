@@ -33,6 +33,7 @@ class CreateDatabaseIas extends Migration
             $table->string("matricule",5);
             $table->string("nom",30);
             $table->string("prenoms",60)->nullable();
+            $table->string("photo",70)->default('user_default.png');
             $table->string('contact')->nullable();
             $table->date("datenaissance");
             $table->date("dateembauche");

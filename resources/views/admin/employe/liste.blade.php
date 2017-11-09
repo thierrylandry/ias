@@ -41,7 +41,13 @@
                             <tbody>
                             @foreach($employes as $employe)
                             <tr>
-                                <td></td>
+                                <td>
+                                    <div class="btn-toolbar" role="toolbar">
+                                        <div class="btn-group btn-group-xs" role="group">
+                                            <a class="btn bg-blue-grey waves-effect" href="{{ route("admin.employe.fiche", ["matricule" => $employe->matricule]) }}" title="Fiche d'employé"><i class="material-icons">person_outline</i></a>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ $employe->matricule }}</td>
                                 <td>{{ $employe->nom }} {{ $employe->prenoms }}</td>
                                 <td>{{ (new \Carbon\Carbon($employe->datenaissance))->format('d/m/Y') }}</td>

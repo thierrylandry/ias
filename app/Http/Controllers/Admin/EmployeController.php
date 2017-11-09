@@ -6,9 +6,11 @@ use App\Employe;
 use App\Metier\Behavior\Notifications;
 use App\Service;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeController extends Controller
 {
@@ -62,6 +64,12 @@ class EmployeController extends Controller
 
     public function fiche($matricule)
     {
-        return view("admin.employe.fiche");
+        Storage::disk('public')->put('abc.txt','jdshdsj jksdhdjdkdjshd');
+        try{
+            $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
+            return view("admin.employe.fiche",compact("employe"));
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors("Employé non trouvé");
+        }
     }
 }
