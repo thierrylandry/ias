@@ -71,7 +71,7 @@
                                 <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
-                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->detailsForCommande() }}</option>
+                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{{ $commercializable->detailsForCommande() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {{ $commercializable->detailsForCommande() }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -309,6 +309,7 @@
         var $td = $(tr).children();
 
         return '{"id":0,'+
+            '"reference": "' + $($td[1]).text() +'",' +
             '"designation": "' + $($td[2]).text() +'",' +
             '"quantite": ' + $($($td[3]).children()).val()+',' +
             '"prixunitaire": ' + $($td[4]).text() + ',' +
@@ -367,7 +368,7 @@
         $("#piece tbody").fadeIn().append("<tr>\n" +
             "<th data-id=\""+$product.data('id')+"\" data-modele=\""+ $product.data("modele") +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
             "<td>"+ $product.data("reference") +"</td>\n" +
-            "<td>"+ $product.text() +"</td>\n" +
+            "<td>"+ $product.data("libelle") +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
             "<td class='price'>"+ $("#price").val() +"</td>\n" +
             "<td class='amount'>"+ parseInt($("#price").val()) * parseInt($quantity.val()) +"</td>\n" +

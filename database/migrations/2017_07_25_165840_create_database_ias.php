@@ -69,7 +69,7 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("vehicule",function (Blueprint $table){
             $table->increments("id");
-            $table->increments("coutachat")->nullable();
+            $table->integer("coutachat")->nullable();
             $table->date("dateachat")->nullable();
             $table->string("cartegrise");
             $table->string("immatriculation");
@@ -194,6 +194,7 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("lignepiece",function (Blueprint $table){
             $table->bigIncrements('id');
+            $table->string('reference',150)->default("#");
             $table->string('designation');
             $table->integer('prixunitaire');
             $table->string('modele');

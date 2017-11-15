@@ -38,15 +38,16 @@ class IasTableSeeder extends Seeder
 
         DB::table("employe")->insert([
             [
-                "matricule" => "E001",
-                "nom" => "Koffi",
-                "prenoms" => "Bérenger",
-                "datenaissance" => "1990-05-12",
-                "pieceidentite" => "C 0045 54548",
-                "dateembauche" => "2000-01-01",
-                "basesalaire" => 500000,
+                "matricule" => "E000",
+                "nom" => "Administrateur",
+                "prenoms" => "",
+                "datenaissance" => \Carbon\Carbon::now()->toDateString(),
+                "pieceidentite" => "C XXX XXXX XXXX",
+                "dateembauche" => \Carbon\Carbon::now()->toDateString(),
+                "basesalaire" => 0,
                 "service_id" => 1,
             ],
+            /*
             [
                 "matricule" => "E002",
                 "nom" => "Kouassi",
@@ -87,21 +88,17 @@ class IasTableSeeder extends Seeder
                 "basesalaire" => 500000,
                 "service_id" => 1,
             ],
+            */
         ]);
 
         DB::table("utilisateur")->insert([
             [
-                "login" => "glamolondon@gmail.com" ,
+                "login" => "admin@ivoireautoservices.net" ,
                 "password" => bcrypt("azerty"),
                 "employe_id" => 1
             ],
-            [
-                "login" => "thierrylandryk@gmail.com" ,
-                "password" => bcrypt("azerty"),
-                "employe_id" => 2
-            ]
         ]);
-
+        /*
         DB::table('chauffeur')->insert([
             [
                 'employe_id' => '3',
@@ -124,7 +121,7 @@ class IasTableSeeder extends Seeder
                 'expiration_d' => '2019-05-26',
                 'expiration_e' => '2019-05-26',
             ],
-        ]);
+        ]); */
 
         DB::table('genre')->insert([
             ['libelle' => 'Berline'],
@@ -137,6 +134,7 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Véhicule utilitaire'],
         ]);
 
+        /*
         DB::table('partenaire')->insert([
             [
                 'raisonsociale' => 'Glamo Group',
@@ -159,7 +157,7 @@ class IasTableSeeder extends Seeder
                 'isclient' => true,
                 'contact' => '[{"titre_c":"Touré Amadou","type_c":"MOB","valeur_c":"78996302"},{"titre_c":"Touré Amadou","type_c":"EMA","valeur_c":"glamolondon@live.fr"}]',
             ]
-        ]);
+        ]); */
 
         DB::table('famille')->insert([
             ['libelle' => 'Non définie']
@@ -173,6 +171,7 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Moov Money (Flooz)'],
         ]);
 
+        /*
         DB::table('vehicule')->insert([
             [
                 'cartegrise' => '32146046545600',
@@ -219,8 +218,9 @@ class IasTableSeeder extends Seeder
                 'puissancefiscale' => 15,
                 'genre_id' => 3
             ],
-        ]);
+        ]); */
 
+        /*
         DB::table('produit')->insert([
             [
                 "reference" => "000004",
@@ -355,6 +355,8 @@ class IasTableSeeder extends Seeder
                 "famille_id" => 1
             ],
         ]);
+
+        */
     }
 }
 /*

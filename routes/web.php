@@ -75,7 +75,8 @@ Route::get('/pdf.html',function (){
 
 //Facturation
 Route::prefix('factures')->middleware('auth')->group(function (){
-    Route::get("liste.html","Order\FactureController@liste")->name("facturation.liste");
+    Route::get("liste.html","Order\FactureController@liste")->name("facturation.liste.all");
+    Route::get("normale/liste.html","Order\FactureController@listeFacture")->name("facturation.liste.facture");
     Route::get("proforma/liste.html","Order\FactureController@listeProforma")->name("facturation.liste.proforma");
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");

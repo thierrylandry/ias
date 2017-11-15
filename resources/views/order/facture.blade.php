@@ -24,10 +24,10 @@
                         @endif
 
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Générer le bon de livraison</a>
+                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
+                            <a href="{{ $piece->printing() }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
                         </div>
                     </div>
 
@@ -96,7 +96,7 @@
                                 <tbody class="">
                                 @foreach($piece->lignes as $ligne)
                                     <tr>
-                                        <td class="text-center">{{ $loop->index + 1 }}</td>
+                                        <td class="text-center">{{ $ligne->reference ? $ligne->reference : "#"  }}</td>
                                         <td class="">{{ $ligne->designation }}</td>
                                         <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
                                         <td class="quantity text-center">{{ number_format($ligne->quantite,0,',',' ') }}</td>

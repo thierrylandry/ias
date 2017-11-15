@@ -18,7 +18,7 @@ class OrderController extends Controller
 
     public function envoyerProforma($reference, Request $request)
     {
-        $piece = $this->getPieceComptableForReference($reference);
+        $piece = $this->getPieceComptableFromReference($reference);
 
         $collection = new Collection();
 

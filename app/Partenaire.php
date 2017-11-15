@@ -22,15 +22,18 @@ class Partenaire extends Model
     {
         $contactString = "";
 
-        foreach ($this->contact as $contact)
+        if(!empty($this->contact))
         {
-            if($contactString != "")
-                $contactString .= " | ";
+            foreach ($this->contact as $contact)
+            {
+                if($contactString != "")
+                    $contactString .= " | ";
 
-            $contactString .= sprintf("%s - %s: %s ", $contact["titre_c"],
-                Contact::getContactString($contact["type_c"]),
-                $contact["valeur_c"]
-            );
+                $contactString .= sprintf("%s - %s: %s ", $contact["titre_c"],
+                    Contact::getContactString($contact["type_c"]),
+                    $contact["valeur_c"]
+                );
+            }
         }
 
         return $contactString;

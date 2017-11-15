@@ -17,15 +17,18 @@
                     </small>
                 </h2>
                 <!--
+                @if($partenaire->contact)
                 @foreach($partenaire->contact as $contact)
                     @if($contact["type_c"] == "MOB" || $contact["type_c"] == "PRO" )
                         <small><i class="material-icons">phone</i> <span>{{ $contact["valeur_c"] }}</span></small>
                     @endif
                 @endforeach
+                @endif
                 -->
                 <hr/>
 
                 <form method="post" action="{{ route("email.proforma", ["reference" => $piece->referenceproforma]) }}" >
+                    @if($partenaire->contact)
                     @foreach($partenaire->contact as $contact)
                         @if($contact["type_c"] == "EMA" )
                         <div class="form-group">
@@ -35,7 +38,20 @@
                         <br/>
                         @endif
                     @endforeach
-
+                    @else
+                    <div class="row clearfix">
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="objet">Email</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="email" name="email[]" class="form-control" placeholder="Veuillez saisir une adresse email SVP">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <hr/>
 
                     <div class="row clearfix">

@@ -18,9 +18,14 @@ class FactureController extends Controller
         return $this->liste($request, PieceComptable::PRO_FORMA);
     }
 
-    public function liste(Request $request, $proforma = null)
+    public function listeFacture(Request $request)
     {
-        $pieces = $this->getPiecesComptable($request, $proforma);
+        return $this->liste($request, PieceComptable::FACTURE);
+    }
+
+    public function liste(Request $request, $type = null)
+    {
+        $pieces = $this->getPiecesComptable($request, null);
         return view("order.liste", compact("pieces"));
     }
 
@@ -34,11 +39,19 @@ class FactureController extends Controller
         $periode = $this->getPeriode($request);
 
         $raw = PieceComptable::with("partenaire","lignes")
-            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateString()]);
+            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateTimeString()]);
+
+        if(!empty($request->query('reference'))){
+            $raw->orWhere("referencebc", "like", "'%{$request->query('reference')}%'");
+            $raw->orWhere("referenceproforma", "like", "'%{$request->query('reference')}%'");
+            $raw->orWhere("referencebl", "like", "'%{$request->query('reference')}%'");
+            $raw->orWhere("referencefacture", "like", "'%{$request->query('reference')}%'");
+        }
 
         if($type){
             switch ($type){
                 case PieceComptable::PRO_FORMA : $raw->where("etat", "=", Statut::PIECE_COMPTABLE_PRO_FORMA); break;
+                case PieceComptable::FACTURE : $raw->whereIn("etat", [Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL, Statut::PIECE_COMPTABLE_FACTURE_SANS_BL]); break;
 
                 default : null;
             };

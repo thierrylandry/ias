@@ -17,7 +17,7 @@ class RegisterController extends Controller
     {
         $partenaires = Partenaire::orderBy('raisonsociale','asc');
 
-        $partenaires = $this->triPartenaire($type, $partenaires)->get();
+        $partenaires = $this->triPartenaire($type, $partenaires)->paginate(30);
 
         return view('partenaire.liste', compact('partenaires'));
     }

@@ -38,6 +38,18 @@ $totalPeriode = 0;
                             </div>
                         </div>
 
+                        <div class="col-md-2 col-sm-6">
+                            <b>Fin</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input name="reference" type="text" class="form-control" placeholder="N° de facture" value="{{ old("reference", request()->query('reference')) }}">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-1">
                             <br/>
                             <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>

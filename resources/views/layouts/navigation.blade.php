@@ -60,8 +60,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("facturation.liste") }}">
+                <a href="{{ route("facturation.liste.facture") }}">
                     <span>Factures</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route("facturation.liste.all") }}">
+                    <span>Toutes les factures</span>
                 </a>
             </li>
         </ul>
