@@ -88,7 +88,7 @@
 
         <div class="card">
             <div class="body">
-                <div class="table-responsive">
+                <div class="table-responsive table-hover ">
                     <table class="table">
                         <thead>
                         <tr class="bg-teal">

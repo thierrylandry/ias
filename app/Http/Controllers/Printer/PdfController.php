@@ -9,6 +9,4 @@ use App\Http\Controllers\Controller;
 class PdfController extends Controller
 {
     use PdfMaker;
-
-
 }

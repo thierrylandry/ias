@@ -253,7 +253,7 @@
         var duree;
         debut = moment(txtdebut.value, 'DD/MM/YYYY', true);
         fin = moment(txtfin.value, 'DD/MM/YYYY', true);
-        duree = moment.duration(fin.diff(debut)).asDays();
+        duree = moment.duration(fin.diff(debut)).asDays()+1;
 
         if( isNaN(duree) ){ duree = 0; }
 

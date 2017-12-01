@@ -18,7 +18,7 @@ class EmployeController extends Controller
     {
         $employes = Employe::orderBy('nom')->orderBy('prenoms')
             ->with('service')
-            ->get();
+            ->paginate(15);
 
         return view('admin.employe.liste',compact('employes'));
     }
@@ -64,12 +64,46 @@ class EmployeController extends Controller
 
     public function fiche($matricule)
     {
-        Storage::disk('public')->put('abc.txt','jdshdsj jksdhdjdkdjshd');
         try{
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
             return view("admin.employe.fiche",compact("employe"));
         }catch (ModelNotFoundException $e){
             return back()->withErrors("Employé non trouvé");
         }
+    }
+
+    public function modifier($matricule)
+    {
+        try{
+            $services = Service::orderBy('libelle')->get();
+            $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
+            return view("admin.employe.modifier", compact("employe", "services"));
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors("Employé non trouvé");
+        }
+    }
+
+    public function update(Request $request, $matricule)
+    {
+        try {
+            $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
+            $update = $request->except("_token");
+
+            $update["datenaissance"] = Carbon::createFromFormat("d/m/Y", $request->input("datenaissance"))->toDateString();
+            $update["dateembauche"] = Carbon::createFromFormat("d/m/Y", $request->input("dateembauche"))->toDateString();
+
+            if($request->input("datesortie") != null){
+                $update["datesortie"] = Carbon::createFromFormat("d/m/Y", $request->input("datesortie"))->toDateString();
+            }
+
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors("Employé non trouvé");
+        }
+
+        $employe->update($update);
+
+        $notif = new Notifications();
+        $notif->add(Notifications::SUCCESS,Lang::get("message.admin.employe.modifier", ['nom' => sprintf("%s %s",$employe->nom, $employe->prenoms)]));
+        return redirect()->route("admin.employe.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }
 }

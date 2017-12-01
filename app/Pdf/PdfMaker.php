@@ -38,6 +38,10 @@ trait PdfMaker
                 return $this->imprimerFacture($reference);
                 break;
 
+            case PieceComptable::BON_LIVRAISON :
+                return $this->imprimerBonLivraison($reference);
+                break;
+
             default :
                 return back()->withErrors("Aucune pièce comptable à imprimer");
         }
@@ -57,9 +61,10 @@ trait PdfMaker
         return $invoices->stream("Facture Proforma $reference {$pieceComptable->partenaire->raisonsociale}.pdf");
     }
 
-    private function makePDF(PieceComptable $pieceComptable, $nom)
+    private function imprimerBonLivraison($reference)
     {
-        $invoices = PDF::loadView('pdf.proforma',compact("pieceComptable"))->setPaper('a4','portrait');
-        return $invoices->stream($nom);
+        $pieceComptable = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referencebl",$reference)->first();
+        $invoices = PDF::loadView('pdf.bonlivraison',compact("pieceComptable"))->setPaper('a4','portrait');
+        return $invoices->stream("Bon de livraison {$pieceComptable->partenaire->raisonsociale}.pdf");
     }
 }

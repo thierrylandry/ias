@@ -101,4 +101,15 @@ class RegisterController extends Controller
         }
         return $builder;
     }
+
+    public function modifier($id)
+    {
+        $partenaire = Partenaire::find($id);
+        return view("partenaire.modifier", compact("partenaire"));
+    }
+
+    public function update(Request $request)
+    {
+
+    }
 }

@@ -128,7 +128,7 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Camionnette'],
             ['libelle' => 'Cyclomoteur'],
             ['libelle' => 'Auto-bus'],
-            ['libelle' => 'Moto'],
+            //['libelle' => 'Moto'],
             ['libelle' => 'Tracteur routier'],
             ['libelle' => 'Véhicule particulier'],
             ['libelle' => 'Véhicule utilitaire'],

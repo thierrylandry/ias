@@ -70,9 +70,10 @@ $totalPeriode = 0;
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr class="bg-teal">
-                        <th width="10%">Référence</th>
+                        <th width="10%">Ref. Pro forma</th>
+                        <th width="10%">Ref. Facture</th>
                         <th width="8%">Date</th>
-                        <th width="40%">Objet</th>
+                        <th width="30%">Objet</th>
                         <th>Client</th>
                         <th width="10%">Statut</th>
                         <th width="12%" class="amount">Montant</th>
@@ -82,6 +83,7 @@ $totalPeriode = 0;
                     @foreach($pieces as $piece)
                     <tr>
                         <td><a href="{{ route("facturation.details", ["reference" => urlencode($piece->referenceproforma) ]) }}">{{\App\Application::getprefixOrder()}}{{ $piece->referenceproforma }}</a></td>
+                        <td>{{ $piece->referencefacture }}</td>
                         <td>{{ (new \Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</td>
                         <td>{{ $piece->objet }}</td>
                         <td>{{ $piece->partenaire->raisonsociale }}</td>
@@ -96,8 +98,8 @@ $totalPeriode = 0;
                     <tfoot>
                     <tr class="bg-teal">
                         <td>Nombre</td>
-                        <td colspan="2"></td>
-                        <td colspan="2" class="text-right">Chiffre d'affaire</td>
+                        <td colspan="3"></td>
+                        <td colspan="2" class="text-right">Total</td>
                         <td class="amount">{{ number_format($totalPeriode, 0,",", " ") }} FCFA</td>
                     </tr>
                     </tfoot>

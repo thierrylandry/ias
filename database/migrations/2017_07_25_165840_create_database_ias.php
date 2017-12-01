@@ -30,7 +30,7 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("employe", function(Blueprint $table){
             $table->increments("id");
-            $table->string("matricule",5);
+            $table->string("matricule",25);
             $table->string("nom",30);
             $table->string("prenoms",60)->nullable();
             $table->string("photo",70)->default('user_default.png');

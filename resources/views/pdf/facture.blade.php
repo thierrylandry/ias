@@ -1,5 +1,5 @@
 @extends("pdf.layout-off")
-@section("titre") FACTURE @endsection
+@section("titre")  @endsection
 @section("titre-complement")
     <div class="row quatre-cm">Client :<br/><strong>{{ $pieceComptable->partenaire->raisonsociale }}</strong> </div>
     <div class="row quatre-cm">N° C.C. :<br/><strong>{{ $pieceComptable->partenaire->comptecontribuable }}</strong> </div>
@@ -13,11 +13,13 @@
 
         </div>
 
+        <!--
         <div class="row quatre-cm">
             <p><strong>N° Pro forma</strong></p>
             <hr/>
             <p class="item">{{ \App\Application::getprefixOrder() }}{{ $pieceComptable->referenceproforma }}</p>
         </div>
+        -->
 
         <div class="row quatre-cm">
             <p><strong>Date</strong></p>

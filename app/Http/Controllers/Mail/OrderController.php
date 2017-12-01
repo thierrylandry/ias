@@ -28,6 +28,8 @@ class OrderController extends Controller
         }
         //return view("mail.proforma", compact("piece"));
 
+        //dd($collection);
+
         try{
             Mail::to($collection)
                 ->cc(Application::getMailCopie())
@@ -38,6 +40,6 @@ class OrderController extends Controller
 
         $notification = new Notifications();
         $notification->add(Notifications::SUCCESS,"Votre proforma n° $piece->referenceproforma a été envoyée.");
-        return redirect()->route("facturation.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+        return redirect()->route("facturation.liste.all")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 }

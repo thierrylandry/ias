@@ -142,8 +142,9 @@ trait Process
             ->firstOrFail();
     }
 
-    private function switchToNormal(PieceComptable &$pieceComptable, $numeroPreImprime)
+    private function switchToNormal(PieceComptable &$pieceComptable, $numeroPreImprime, $referenceBonCommande = null)
     {
+        $pieceComptable->referencebc = $referenceBonCommande;
         $pieceComptable->referencefacture = $numeroPreImprime;
         $pieceComptable->creationfacture = Carbon::now()->toDateTimeString();
         $pieceComptable->etat = Statut::PIECE_COMPTABLE_FACTURE_SANS_BL;

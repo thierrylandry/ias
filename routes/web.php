@@ -28,6 +28,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/accueil.html', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
+Route::get('/checking', 'HomeController@checkState')->name('rappel');
 
 //Véhicules
 Route::prefix('vehicules')->middleware('auth')->group(function (){
@@ -61,12 +62,13 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');
     Route::get('employes/ajouter.html','Admin\EmployeController@ajouter')->name('admin.employe.ajouter');
     Route::post('employes/ajouter.html','Admin\EmployeController@register');
+    Route::get('employes/{matricule}/modifier.html','Admin\EmployeController@modifier')->name('admin.employe.modifier');
+    Route::post('employes/{matricule}/modifier.html','Admin\EmployeController@update');
     Route::get('employe/{matricule}/fiche.html','Admin\EmployeController@fiche')->name('admin.employe.fiche');
     //Utilisateurs
     Route::get('utilisateurs.html', 'Admin\UtilisateurController@index')->name('admin.utilisateur.liste');
     Route::get('utilisateur/ajouter.html', 'Admin\UtilisateurController@ajouter')->name('admin.utilisateur.ajouter');
     Route::post('utilisateur/ajouter.html', 'Admin\UtilisateurController@register');
-
 });
 
 Route::get('/pdf.html',function (){
@@ -81,6 +83,7 @@ Route::prefix('factures')->middleware('auth')->group(function (){
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
     Route::post("normale/make","Order\FactureController@makeNormal")->name("facturation.switch.normal");
+    Route::get("{id}/livraison/make","Order\BonLivraisonController@makeBonLivraison")->name("facturation.switch.livraison");
     Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
     Route::get("{reference}/details.html","Order\FactureController@details")->name("facturation.details");
 });
@@ -101,6 +104,8 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get('{type}/liste.html','Partenaire\RegisterController@liste')->name('partenaire.liste');
     Route::get('nouveau.html','Partenaire\RegisterController@nouveau')->name('partenaire.nouveau');
     Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
+    Route::get('{id}/modifier.html','Partenaire\RegisterController@modifier')->name('partenaire.modifier');
+    Route::post('{id}/modifier.html','Partenaire\RegisterController@update');
     Route::get("{id}/details.html","Partenaire\DetailsController@fiche")->name("partenaire.client");
 });
 

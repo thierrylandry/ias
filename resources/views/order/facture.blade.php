@@ -13,18 +13,19 @@
                 </div>
                 <div class="body">
                     <div class="row clearfix">
-
                         @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
+                        <!--
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                             <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">refresh</i> Créer à partir de cette Pro forma</a>
                         </div>
+                        -->
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                             <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">loop</i> Transformer en facture</button>
                         </div>
                         @endif
 
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
+                            <a href="{{ route("facturation.switch.livraison", ['id' => $piece->id]) }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                             <a href="{{ $piece->printing() }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
@@ -149,25 +150,38 @@
         <form class="form-line" action="{{ route("facturation.switch.normal") }}" method="post">
             <div class="modal-content">
                 <div class="modal-header bg-light-green">
-                    <h4 class="modal-title" id="defaultModalLabel">Passage po forma en facture</h4>
+                    <h4 class="modal-title" id="defaultModalLabel">Passage de Pro forma à la facture</h4>
                 </div>
                 <div class="modal-body row">
                     {{ csrf_field() }}
                     <input type="hidden" name="referenceproforma" value="{{ $piece->referenceproforma }}">
                     <div class="col-md-4">
-                        <label class="form-label">N° facture pré-imprimé</label>
+                        <label class="form-label">N° bon de commande</label>
                     </div>
                     <div class="col-md-8">
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" class="form-control date" placeholder="N° facture pré-imprimé" name="referencefacture" id="referencefacture">
+                                <input type="text" class="form-control date" placeholder="Référence du bon de commande" name="referencebc" id="referencebc">
                             </div>
                             <span class="input-group-addon">
-                                <i class="material-icons">send</i>
+                                <i class="material-icons">receipt</i>
                             </span>
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-4">
+                            <label class="form-label">N° facture pré-imprimé</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" required class="form-control date" placeholder="N° facture pré-imprimé" name="referencefacture" id="referencefacture">
+                                </div>
+                                <span class="input-group-addon">
+                                    <i class="material-icons">send</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 <hr/>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-link waves-effect">Valider</button>

@@ -81,7 +81,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="debutprogramme" id="debutprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme')}}">
+                                    <input type="text" required name="debutprogramme" id="debutprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme',\Carbon\Carbon::now()->format("d/m/Y"))}}">
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="finprogramme" id="finprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('finprogramme') }}">
+                                    <input type="text" required name="finprogramme" id="finprogramme" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('finprogramme',\Carbon\Carbon::now()->format("d/m/Y")) }}">
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" required>
+                                <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" data-live-search="true" required>
                                     @foreach($chauffeurs as $chauffeur)
                                         <option value="{{ $chauffeur->employe_id }}" @if(old('vehicule_id') == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach
@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" required>
+                                <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" data-live-search="true" required>
                                     @foreach($vehicules as $vehicule)
                                         <option value="{{ $vehicule->id }}" @if(old('vehicule_id') == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
                                     @endforeach
@@ -253,7 +253,7 @@
         var duree;
         debut = moment(txtdebut.value, 'DD/MM/YYYY', true);
         fin = moment(txtfin.value, 'DD/MM/YYYY', true);
-        duree = moment.duration(fin.diff(debut)).asDays();
+        duree = moment.duration(fin.diff(debut)).asDays()+1;
 
         if( isNaN(duree) ){ duree = 0; }
 

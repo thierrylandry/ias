@@ -25,7 +25,7 @@ class FactureController extends Controller
 
     public function liste(Request $request, $type = null)
     {
-        $pieces = $this->getPiecesComptable($request, null);
+        $pieces = $this->getPiecesComptable($request, $type);
         return view("order.liste", compact("pieces"));
     }
 
@@ -42,10 +42,8 @@ class FactureController extends Controller
             ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateTimeString()]);
 
         if(!empty($request->query('reference'))){
-            $raw->orWhere("referencebc", "like", "'%{$request->query('reference')}%'");
-            $raw->orWhere("referenceproforma", "like", "'%{$request->query('reference')}%'");
-            $raw->orWhere("referencebl", "like", "'%{$request->query('reference')}%'");
-            $raw->orWhere("referencefacture", "like", "'%{$request->query('reference')}%'");
+            $raw->whereRaw("( referencebc like '%{$request->query('reference')}%' OR referenceproforma like '%{$request->query('reference')}%' 
+            OR referencebl like '%{$request->query('reference')}%' OR referencefacture like '%{$request->query('reference')}%' ) ");
         }
 
         if($type){
@@ -89,11 +87,13 @@ class FactureController extends Controller
 
     public function makeNormal(Request $request)
     {
-        $this->validate($request, $this->valideRulesNormalPiece());
+        $this->validate($request, $this->valideRulesNormalPiece(), [
+            "referencefacture.required" => "La référence de la facture pré-imprimée est requise."
+        ]);
 
         $piece = $this->getPieceComptableFromReference($request->input("referenceproforma"));
 
-        $this->switchToNormal($piece, $request->input("referencefacture"));
+        $this->switchToNormal($piece, $request->input("referencefacture"), $request->input("referencebc"));
 
         $notif = new Notifications();
         $notif->add(Notifications::SUCCESS,sprintf("Transformation de la pro forma %s en facture N° %s réussie", $piece->referenceproforma, $piece->referencefacture));
@@ -105,6 +105,7 @@ class FactureController extends Controller
         return [
             "referenceproforma" => "required|exists:piececomptable,referenceproforma",
             "referencefacture" => "required|numeric",
+            "referencebc" => "present",
         ];
     }
 }

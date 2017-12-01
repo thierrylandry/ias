@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FactureProforma extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, PdfMaker;
 
     private $piece;
     private $typePiece;
@@ -36,10 +36,7 @@ class FactureProforma extends Mailable
      */
     public function build()
     {
-        $from = [
-            "address" => Auth::user()->login,
-            "name" => sprintf("%s, %s", Auth::user()->employe->nom, Auth::user()->employe->prenoms)
-            ];
+        $from = sprintf("%s, %s", Auth::user()->employe->nom, Auth::user()->employe->prenoms);
 
         $piece = $this->piece;
 
@@ -48,7 +45,7 @@ class FactureProforma extends Mailable
             ->view('mail.proforma', compact("piece"))
             ->subject($this->piece->objet)
             ->attachData($this->imprimerPieceComptable($this->piece->referenceproforma, $this->typePiece),
-                "Facture proforma ".$this->piece->referenceproforma, [
+                "Facture proforma ".$this->piece->referenceproforma.".pdf", [
                 "mime" => "application/pdf"
             ]);
     }

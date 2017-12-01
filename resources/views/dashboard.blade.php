@@ -149,7 +149,26 @@
 </div>
 @endsection
 @section("script")
+<!-- SweetAlert Plugin Js -->
+<script src="{{ asset('plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
-    //$(document).
+    var URL_CHECKER = '{{ route("rappel") }}';
+    $(document).ready(function () {
+        $.ajax({
+            url: URL_CHECKER,
+            dataType: "json",
+            method : "get",
+            error : function (xhr, statut) {
+                swal({
+                    icon : "error",
+                    title : "Statut des vérifications",
+                    text:"Impossible de vérifier le status des missions, visites et assurance des véhicules."
+                });
+            },
+            complete : function (xhr, statut) {
+                console.log(xhr.responseJSON);
+            }
+        });
+    });
 </script>
 @endsection

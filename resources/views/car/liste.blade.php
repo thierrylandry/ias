@@ -24,7 +24,7 @@
                     <br class="clearfix"/>
                 </div>
                 <div class="body table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover ">
                         <thead>
                         <tr class="bg-green">
                             <th width="7.5%"></th>

@@ -23,7 +23,7 @@
                     <br class="clearfix"/>
                 </div>
                 <div class="body table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover ">
                         <thead>
                         <tr class="bg-green">
                             <th width="7.5%"></th>
@@ -39,7 +39,7 @@
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">
                                             <a class="btn bg-blue-grey waves-effect" href="{{ '#' }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
-                                            <a class="btn bg-green waves-effect" href="#" title="Modifier"><i class="material-icons">edit</i></a>
+                                            <a class="btn bg-green waves-effect" href="{{ route("partenaire.modifier", ["id" => $partenaire->id]) }}" title="Modifier"><i class="material-icons">edit</i></a>
                                             <a class="btn bg-orange waves-effect" href="#" title="Consulter l'état"><i class="material-icons">insert_drive_file</i></a>
                                         </div>
                                     </div>
