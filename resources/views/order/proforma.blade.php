@@ -437,8 +437,15 @@
 
     function refreshFromNewProduct(produit) {
         console.log(produit);
-        var option = '<option value="'+produit.id+'" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+' }}</option>';
+        var option = '<option value="'+produit.id+'" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+'</option>';
         console.log(option);
+
+        $("#produits").selectpicker('deselectAll');
+        $("#produits").append(option);
+
+        $("#produits").selectpicker('refresh');
+
+        //window.location.reload(false);
     }
 </script>
 @endsection

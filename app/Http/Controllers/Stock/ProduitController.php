@@ -23,13 +23,15 @@ class ProduitController extends Controller
         $produit = $this->createProduct($request->input());
 
         if($request->query("from") == "proforma"){ //On provient du popup de la fenêtre de nouvelle pro forma
-            $request->session()->flash("produit", json_encode([
+            $json = json_encode([
                 "id" => $produit->id,
                 "modele" => $produit->getRealModele(),
                 "price" => $produit->getPrice(),
                 "libelle" => $produit->detailsForCommande(),
                 "reference" => $produit->getReference(),
-            ],JSON_UNESCAPED_UNICODE));
+            ],JSON_UNESCAPED_UNICODE);
+
+            $request->session()->flash("produit", str_replace("\\\\","\/",$json));
         }else{
             //
         }
@@ -52,7 +54,7 @@ class ProduitController extends Controller
         ]);
 
         if($this->checkReferenceExist($request->input("reference"))){
-            return back()->withErrors("La référence du produit existe déjà.")
+            return redirect()->back()->withErrors("La référence du produit existe déjà.")
                 ->withInput();
         }
         return null;
