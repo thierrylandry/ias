@@ -72,6 +72,12 @@
         </ul>
     </li>
     <li>
+        <a href="#" class="">
+            <i class="material-icons">redeem</i>
+            <span>Produits</span>
+        </a>
+    </li>
+    <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">pie_chart</i>
             <span>Etats</span>

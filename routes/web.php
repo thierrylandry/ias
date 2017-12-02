@@ -109,6 +109,12 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get("{id}/details.html","Partenaire\DetailsController@fiche")->name("partenaire.client");
 });
 
+//Stock
+Route::prefix('stock')->middleware('auth')->group(function (){
+    Route::get("produit/nouveau.html","Stock\ProduitController@ajouter")->name('stock.produit.ajouter');
+    Route::post("produit/nouveau.html","Stock\ProduitController@addProduct");
+});
+
 //Email
 Route::prefix('email')->middleware('auth')->group(function (){
     Route::post('proforma/{reference}/send.html','Mail\OrderController@envoyerProforma')->name("email.proforma");

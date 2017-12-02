@@ -75,6 +75,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <button id="addProduct" title="Ajouter un produit" class="btn bg-teal btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i> </button>
                         </div>
 
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
@@ -99,7 +100,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <button type="button" id="btnajouter" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
                     </div>
 
@@ -213,7 +213,7 @@
 @section("script")
 <!-- Moment Plugin Js -->
 <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
 <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
@@ -421,6 +421,24 @@
         $($($td).siblings(".amount")).text( parseInt($($price).text()) * qty );
 
         calculAmount();
+    }
+
+    $("#addProduct").click(function () {
+       addNewProduit();
+    });
+
+    function addNewProduit() {
+        var hauteur = 600;
+        var largeur = 500;
+        var top=(screen.height-hauteur)/2;
+        var left=(screen.width-largeur)/2;
+        var addproductWindow = window.open('{{ route("stock.produit.ajouter")."?from=proforma" }}',"","menubar=no, status=no, scrollbars=auto, menubar=no, width="+largeur+", height="+hauteur+", top="+top+", left="+left);
+    }
+
+    function refreshFromNewProduct(produit) {
+        console.log(produit);
+        var option = '<option value="'+produit.id+'" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+' }}</option>';
+        console.log(option);
     }
 </script>
 @endsection
