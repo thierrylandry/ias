@@ -19,15 +19,39 @@
                         {{ csrf_field() }}
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="dateachat">Date d'achat</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="dateachat" id="dateachat" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('dateachat')}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="coutachat">Coût d'achat</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="number" name="coutachat" id="coutachat" class="form-control" placeholder="Coût d'achat du véhicule" value="{{ old('coutachat') }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="genre_id">Genre</label>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                                 <div class="form-group">
-                                        <select type="text" name="genre_id" id="genre_id" class="form-control input-field">
-                                        @foreach($genres as $genre)
-                                            <option value="{{ $genre->id }}" @if(old('genre_id') == $genre->id) selected @endif> {{ $genre->libelle }}</option>
-                                        @endforeach
-                                        </select>
+                                    <select type="text" name="genre_id" id="genre_id" class="form-control input-field">
+                                    @foreach($genres as $genre)
+                                        <option value="{{ $genre->id }}" @if(old('genre_id') == $genre->id) selected @endif> {{ $genre->libelle }}</option>
+                                    @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

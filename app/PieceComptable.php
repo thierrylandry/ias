@@ -31,4 +31,18 @@ class PieceComptable extends Model
     {
         return $this->referencefacture ? $this->referencefacture : $this->referenceproforma;
     }
+
+    public function printing()
+    {
+        switch ($this->etat){
+            case  Statut::PIECE_COMPTABLE_PRO_FORMA :
+                return route("print.piececomptable",["reference"=> $this->referenceproforma, "state" => PieceComptable::PRO_FORMA]);
+                break;
+            case  Statut::PIECE_COMPTABLE_FACTURE_SANS_BL || Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL :
+                return route("print.piececomptable",["reference"=> $this->referencefacture, "state" => PieceComptable::FACTURE]);
+                break;
+
+            default : return null; break;
+        }
+    }
 }

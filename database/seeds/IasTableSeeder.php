@@ -30,17 +30,24 @@ class IasTableSeeder extends Seeder
             [ "code" => "LOGIS","libelle" => "Logistique" ],
         ]);
 
+        DB::table("typeintervention")->insert([
+            [ "libelle" => "Vidange" ],
+            [ "libelle" => "Révision" ],
+            [ "libelle" => "Panne" ],
+        ]);
+
         DB::table("employe")->insert([
             [
-                "matricule" => "E001",
-                "nom" => "Koffi",
-                "prenoms" => "Bérenger",
-                "datenaissance" => "1990-05-12",
-                "pieceidentite" => "C 0045 54548",
-                "dateembauche" => "2000-01-01",
-                "basesalaire" => 500000,
+                "matricule" => "E000",
+                "nom" => "Administrateur",
+                "prenoms" => "",
+                "datenaissance" => \Carbon\Carbon::now()->toDateString(),
+                "pieceidentite" => "C XXX XXXX XXXX",
+                "dateembauche" => \Carbon\Carbon::now()->toDateString(),
+                "basesalaire" => 0,
                 "service_id" => 1,
             ],
+            /*
             [
                 "matricule" => "E002",
                 "nom" => "Kouassi",
@@ -81,21 +88,17 @@ class IasTableSeeder extends Seeder
                 "basesalaire" => 500000,
                 "service_id" => 1,
             ],
+            */
         ]);
 
         DB::table("utilisateur")->insert([
             [
-                "login" => "glamolondon@gmail.com" ,
+                "login" => "admin@ivoireautoservices.net" ,
                 "password" => bcrypt("azerty"),
                 "employe_id" => 1
             ],
-            [
-                "login" => "thierrylandryk@gmail.com" ,
-                "password" => bcrypt("azerty"),
-                "employe_id" => 2
-            ]
         ]);
-
+        /*
         DB::table('chauffeur')->insert([
             [
                 'employe_id' => '3',
@@ -118,19 +121,20 @@ class IasTableSeeder extends Seeder
                 'expiration_d' => '2019-05-26',
                 'expiration_e' => '2019-05-26',
             ],
-        ]);
+        ]); */
 
         DB::table('genre')->insert([
             ['libelle' => 'Berline'],
             ['libelle' => 'Camionnette'],
             ['libelle' => 'Cyclomoteur'],
             ['libelle' => 'Auto-bus'],
-            ['libelle' => 'Moto'],
+            //['libelle' => 'Moto'],
             ['libelle' => 'Tracteur routier'],
             ['libelle' => 'Véhicule particulier'],
             ['libelle' => 'Véhicule utilitaire'],
         ]);
 
+        /*
         DB::table('partenaire')->insert([
             [
                 'raisonsociale' => 'Glamo Group',
@@ -153,7 +157,7 @@ class IasTableSeeder extends Seeder
                 'isclient' => true,
                 'contact' => '[{"titre_c":"Touré Amadou","type_c":"MOB","valeur_c":"78996302"},{"titre_c":"Touré Amadou","type_c":"EMA","valeur_c":"glamolondon@live.fr"}]',
             ]
-        ]);
+        ]); */
 
         DB::table('famille')->insert([
             ['libelle' => 'Non définie']
@@ -167,9 +171,12 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Moov Money (Flooz)'],
         ]);
 
+        /*
         DB::table('vehicule')->insert([
             [
                 'cartegrise' => '32146046545600',
+                'coutachat' => 3500000,
+                "dateachat" => "2012-07-30",
                 'immatriculation' => '2564FH01',
                 'marque' => 'Ford',
                 'visite' => '2017-12-05',
@@ -183,6 +190,8 @@ class IasTableSeeder extends Seeder
             ],
             [
                 'cartegrise' => '989980121213',
+                'coutachat' => 4510000,
+                "dateachat" => "2013-12-04",
                 'immatriculation' => '9601GP01',
                 'marque' => 'Nissan',
                 'visite' => '2017-06-13',
@@ -196,6 +205,8 @@ class IasTableSeeder extends Seeder
             ],
             [
                 'cartegrise' => '32146046545600',
+                'coutachat' => 4000000,
+                "dateachat" => "2011-05-26",
                 'immatriculation' => '154FE01',
                 'marque' => 'Nissan',
                 'visite' => '2018-01-07',
@@ -207,8 +218,9 @@ class IasTableSeeder extends Seeder
                 'puissancefiscale' => 15,
                 'genre_id' => 3
             ],
-        ]);
+        ]); */
 
+        /*
         DB::table('produit')->insert([
             [
                 "reference" => "000004",
@@ -343,6 +355,8 @@ class IasTableSeeder extends Seeder
                 "famille_id" => 1
             ],
         ]);
+
+        */
     }
 }
 /*

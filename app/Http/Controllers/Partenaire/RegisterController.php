@@ -17,7 +17,7 @@ class RegisterController extends Controller
     {
         $partenaires = Partenaire::orderBy('raisonsociale','asc');
 
-        $partenaires = $this->triPartenaire($type, $partenaires)->get();
+        $partenaires = $this->triPartenaire($type, $partenaires)->paginate(30);
 
         return view('partenaire.liste', compact('partenaires'));
     }
@@ -100,5 +100,16 @@ class RegisterController extends Controller
             $builder->where('isclient', true);
         }
         return $builder;
+    }
+
+    public function modifier($id)
+    {
+        $partenaire = Partenaire::find($id);
+        return view("partenaire.modifier", compact("partenaire"));
+    }
+
+    public function update(Request $request)
+    {
+
     }
 }

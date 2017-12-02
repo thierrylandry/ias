@@ -15,24 +15,18 @@
 
   <!-- Bootstrap Core Css -->
   <link href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
-
   <!-- Waves Effect Css -->
   <link href="{{ asset('plugins/node-waves/waves.css') }}" rel="stylesheet" />
-
   <!-- Animation Css -->
   <link href="{{ asset('plugins/animate-css/animate.css') }}" rel="stylesheet" />
-
   <!-- Morris Chart Css-->
   <link href="{{ asset('plugins/morrisjs/morris.css') }}" rel="stylesheet" />
-
   <!-- Custom Css -->
-  <link href="{{ config('app.url') }}css/style.css" rel="stylesheet">
-
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
   <!-- Our Css -->
   <link href="{{ asset('css/private.css') }}" rel="stylesheet">
-
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-  <link href="{{ config('app.url') }}css/themes/all-themes.css" rel="stylesheet" />
+  <link href="{{ asset('css/themes/all-themes.css') }}" rel="stylesheet" />
 
   @yield('link')
 </head>
@@ -78,7 +72,7 @@
     <!-- User Info -->
     <div class="user-info">
       <div class="image">
-        <img src="{{ asset('images/user.png') }}" width="48" height="48" alt="User" />
+        <img src="{{ asset(\Illuminate\Support\Facades\Storage::url(\Illuminate\Support\Facades\Auth::user()->employe->photo)) }}" width="48" height="48" alt="User" />
       </div>
       <div class="info-container">
         <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ \Illuminate\Support\Facades\Auth::user()->employe->prenoms }} {{ \Illuminate\Support\Facades\Auth::user()->employe->nom }}</div>

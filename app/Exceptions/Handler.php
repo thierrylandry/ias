@@ -47,8 +47,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof NotFoundHttpException)
         {
-            return response()->view("errors.404t");
-            dd("ici");
+            return response()->view("errors.404");
         }
 
 

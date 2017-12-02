@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Metier\Behavior\Notifications;
 use App\PieceComptable;
 use App\Statut;
 use Carbon\Carbon;
@@ -17,9 +18,14 @@ class FactureController extends Controller
         return $this->liste($request, PieceComptable::PRO_FORMA);
     }
 
-    public function liste(Request $request, $proforma = null)
+    public function listeFacture(Request $request)
     {
-        $pieces = $this->getPiecesComptable($request, $proforma);
+        return $this->liste($request, PieceComptable::FACTURE);
+    }
+
+    public function liste(Request $request, $type = null)
+    {
+        $pieces = $this->getPiecesComptable($request, $type);
         return view("order.liste", compact("pieces"));
     }
 
@@ -33,11 +39,17 @@ class FactureController extends Controller
         $periode = $this->getPeriode($request);
 
         $raw = PieceComptable::with("partenaire","lignes")
-            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateString()]);
+            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateTimeString()]);
+
+        if(!empty($request->query('reference'))){
+            $raw->whereRaw("( referencebc like '%{$request->query('reference')}%' OR referenceproforma like '%{$request->query('reference')}%' 
+            OR referencebl like '%{$request->query('reference')}%' OR referencefacture like '%{$request->query('reference')}%' ) ");
+        }
 
         if($type){
             switch ($type){
                 case PieceComptable::PRO_FORMA : $raw->where("etat", "=", Statut::PIECE_COMPTABLE_PRO_FORMA); break;
+                case PieceComptable::FACTURE : $raw->whereIn("etat", [Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL, Statut::PIECE_COMPTABLE_FACTURE_SANS_BL]); break;
 
                 default : null;
             };
@@ -69,7 +81,31 @@ class FactureController extends Controller
 
     public function details($reference)
     {
-        $piece = $this->getPieceComptableForReference($reference);
+        $piece = $this->getPieceComptableFromReference($reference);
         return view("order.facture", compact("piece"));
+    }
+
+    public function makeNormal(Request $request)
+    {
+        $this->validate($request, $this->valideRulesNormalPiece(), [
+            "referencefacture.required" => "La référence de la facture pré-imprimée est requise."
+        ]);
+
+        $piece = $this->getPieceComptableFromReference($request->input("referenceproforma"));
+
+        $this->switchToNormal($piece, $request->input("referencefacture"), $request->input("referencebc"));
+
+        $notif = new Notifications();
+        $notif->add(Notifications::SUCCESS,sprintf("Transformation de la pro forma %s en facture N° %s réussie", $piece->referenceproforma, $piece->referencefacture));
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+    }
+
+    private function valideRulesNormalPiece()
+    {
+        return [
+            "referenceproforma" => "required|exists:piececomptable,referenceproforma",
+            "referencefacture" => "required|numeric",
+            "referencebc" => "present",
+        ];
     }
 }

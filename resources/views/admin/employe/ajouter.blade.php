@@ -79,12 +79,12 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="pieceidentite">Pièce d'identité</label>
+                            <label for="contact">Contact</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="pieceidentite" id="pieceidentite" class="form-control" placeholder="N° pièce d'identité" value="{{old('pieceidentite')}}">
+                                    <input type="text" name="contact" id="contact" class="form-control" placeholder="Téléphone" value="{{old('contact')}}">
                                 </div>
                             </div>
                         </div>
@@ -102,12 +102,12 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="dateembauche">Date d'embauche</label>
+                            <label for="pieceidentite">Pièce d'identité</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="dateembauche" id="dateembauche" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateembauche') }}">
+                                    <input type="text" name="pieceidentite" id="pieceidentite" class="form-control" placeholder="N° pièce d'identité" value="{{old('pieceidentite')}}">
                                 </div>
                             </div>
                         </div>
@@ -122,6 +122,16 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" name="datesortie" id="datesortie" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('datesortie') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="dateembauche">Date d'embauche</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" name="dateembauche" id="dateembauche" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateembauche') }}">
                                 </div>
                             </div>
                         </div>

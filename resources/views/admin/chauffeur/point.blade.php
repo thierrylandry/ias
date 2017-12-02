@@ -1,5 +1,9 @@
 @extends("layouts.main")
-
+@php
+$totalPaye = 0;
+$totalApayer = 0;
+$totalJours = 0;
+@endphp
 @section("content")
 <div class="container-fluid">
     <!-- Basic Table -->
@@ -8,16 +12,14 @@
             <div class="card">
                 <div class="header">
                     <div class="col-md-4">
-                        <h2>
-                            Situation chauffeur :
-                        </h2>
+                        <h2>Situation chauffeur : {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</h2>
                     </div>
                     <div class="col-md-4">
 
                     </div>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
-                            <a href="{{ route('partenaire.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un partenaire</a>
+                            <!-- <a href="{{ route('partenaire.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un partenaire</a> -->
                         </div>
                     </div>
                     <br class="clearfix"/>
@@ -32,14 +34,13 @@
                             <td rowspan="2">Véhicule</td>
                             <td rowspan="2">Durée en jours</td>
                             <td rowspan="2">Total perdiem</td>
-                            <td colspan="3">Versement</td>
+                            <td colspan="2">Versement</td>
                             <td rowspan="2">Reste à payer</td>
                         </tr>
-                        <tr>
+                        <tr class="bg-green">
                             <td>Début</td>
                             <td>Fin</td>
                             <td>Date</td>
-                            <td>Moyen</td>
                             <td>Montant</td>
                         </tr>
                         </thead>
@@ -52,23 +53,56 @@
                             <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
                             <td>{{ $mission->destination }}</td>
                             <td>{{ $mission->vehicule->immatriculation }}</td>
-                            <td>{{ (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective)) }}</td>
-                            <td>{{ (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem }}</td>
+                            <td class="text-center">{{ (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective)) }}</td>
+                            <td class="amount">{{ number_format((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem,0,","," ") }}</td>
 
-                            @foreach($mission->versements as $versement)
-                            <td>{{ (new \Carbon\Carbon($versement->dateversement))->format("d/m/Y à H:i") }}</td>
                             <td>
-                                {{ $versement->moyenreglement->libelle }}
+                                <ul>
+                                @foreach($mission->versements as $versement)
+                                    <li>{{ (new \Carbon\Carbon($versement->dateversement))->format("d/m/Y à H:i") }}</li>
+                                @endforeach
+                                </ul>
                             </td>
                             <td>
-                                <a title="{{ $versement->commentaires }}" href="javascript:void(0);">{{ $versement->montant }}</a>
+                                <ul>
+                                @foreach($mission->versements as $versement)
+                                    <li>
+                                        <a title="{{ $versement->commentaires }}" href="javascript:void(0);">
+                                            {{ number_format($versement->montant,0,","," ") }} ({{ $versement->moyenreglement->libelle }})
+                                        </a>
+                                    </li>
+                                @endforeach
+                                </ul>
                             </td>
-                            @endforeach
-                            <td></td>
+                            <td class="amount">
+                                {{ number_format(
+                                ((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem) -
+                                $mission->versements->sum(function ($versement){
+                                    return $versement->montant;
+                                }),0,","," ")
+                                }}
+                            </td>
+                            @php
+                                $totalPaye += $mission->versements->sum(function ($versement){
+                                    return $versement->montant;
+                                });
+                                $totalApayer += ((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem);
+                                $totalJours += (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective)) ;
+                            @endphp
                         </tr>
                         @endforeach
                         @endif
                         </tbody>
+                        <tfoot>
+                        <tr class="bg-teal">
+                            <td colspan="5">TOTAL</td>
+                            <td class="text-center">{{ $totalJours }}</td>
+                            <td class="amount devise">{{ number_format($totalApayer,0,","," ") }}</td>
+                            <td></td>
+                            <td class="amount devise">{{ number_format($totalPaye,0,","," ") }}</td>
+                            <td class="amount devise">{{ number_format($totalApayer - $totalPaye,0,","," ") }}</td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

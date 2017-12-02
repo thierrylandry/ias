@@ -1,5 +1,5 @@
-@extends("pdf.layout")
-@section("titre") PRO FORMA @endsection
+@extends("pdf.layout-off")
+@section("titre")  @endsection
 @section("titre-complement")
     <div class="row quatre-cm">Client :<br/><strong>{{ $pieceComptable->partenaire->raisonsociale }}</strong> </div>
     <div class="row quatre-cm">N° C.C. :<br/><strong>{{ $pieceComptable->partenaire->comptecontribuable }}</strong> </div>
@@ -13,11 +13,13 @@
 
         </div>
 
+        <!--
         <div class="row quatre-cm">
             <p><strong>N° Pro forma</strong></p>
             <hr/>
             <p class="item">{{ \App\Application::getprefixOrder() }}{{ $pieceComptable->referenceproforma }}</p>
         </div>
+        -->
 
         <div class="row quatre-cm">
             <p><strong>Date</strong></p>
@@ -59,31 +61,31 @@
         </thead>
         <tbody>
         @foreach($pieceComptable->lignes as $ligne)
-        <tr>
-            <td class="center">{{ $ligne->reference ? $ligne->reference : "#" }}</td>
-            <td>{{ ucfirst($ligne->designation) }}</td>
-            <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
-            <td class="quantity">{{ number_format($ligne->quantite,0,',',' ') }}</td>
-            <td class="amount">{{ number_format($ligne->prixunitaire * $ligne->quantite,0,',',' ') }}</td>
-        </tr>
+            <tr>
+                <td class="center">{{ $ligne->reference ? $ligne->reference : "#" }}</td>
+                <td>{{ ucfirst($ligne->designation) }}</td>
+                <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
+                <td class="quantity">{{ number_format($ligne->quantite,0,',',' ') }}</td>
+                <td class="amount">{{ number_format($ligne->prixunitaire * $ligne->quantite,0,',',' ') }}</td>
+            </tr>
         @endforeach
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="2"></td>
-                <td colspan="2" class="amount h3">Montant HT</td>
-                <td class="amount h3">{{ number_format($pieceComptable->montantht,0,','," ") }} FCFA</td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td colspan="2" class="amount h3">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-                <td class="amount h3">{{ number_format(($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} FCFA</td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td colspan="2" class="amount h3">Montant TTC</td>
-                <td class="amount h3">{{ number_format(($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} FCFA</td>
-            </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2" class="amount h3">Montant HT</td>
+            <td class="amount h3">{{ number_format($pieceComptable->montantht,0,','," ") }} FCFA</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2" class="amount h3">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
+            <td class="amount h3">{{ number_format(($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} FCFA</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2" class="amount h3">Montant TTC</td>
+            <td class="amount h3">{{ number_format(($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} FCFA</td>
+        </tr>
         </tfoot>
     </table>
 
@@ -93,14 +95,5 @@
         <br/>
         <br/>
         <br/>
-        <br/>
-
-        <span class="h3">CONDITIONS</span>
-        <hr/>
-        <div class="condition">
-            <p><span class="condition-title">Conditions de paiement : </span>{{ $pieceComptable->conditions }}</p>
-            <p><span class="condition-title">Delai de livraison : </span>{{ $pieceComptable->delailivraison }}</p>
-            <p><span class="condition-title">Validité de l'offre : </span>{{ $pieceComptable->validite }}</p>
-        </div>
     </div>
 @endsection

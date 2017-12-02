@@ -30,9 +30,10 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("employe", function(Blueprint $table){
             $table->increments("id");
-            $table->string("matricule",5);
+            $table->string("matricule",25);
             $table->string("nom",30);
             $table->string("prenoms",60)->nullable();
+            $table->string("photo",70)->default('user_default.png');
             $table->string('contact')->nullable();
             $table->date("datenaissance");
             $table->date("dateembauche");
@@ -68,6 +69,8 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("vehicule",function (Blueprint $table){
             $table->increments("id");
+            $table->integer("coutachat")->nullable();
+            $table->date("dateachat")->nullable();
             $table->string("cartegrise");
             $table->string("immatriculation");
             $table->string('marque')->nullable();
@@ -191,6 +194,7 @@ class CreateDatabaseIas extends Migration
         });
         Schema::create("lignepiece",function (Blueprint $table){
             $table->bigIncrements('id');
+            $table->string('reference',150)->default("#");
             $table->string('designation');
             $table->integer('prixunitaire');
             $table->string('modele');

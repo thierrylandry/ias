@@ -55,7 +55,7 @@ class CreateController extends Controller
      */
     private function create(Request $request)
     {
-        $data = $request->except("_token");
+        $data = $request->except("_token","vehicule");
 
         if(! array_key_exists("code",$data) || $data["code"] == null)
         {

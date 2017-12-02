@@ -35,6 +35,7 @@ trait VehiculeManager
 
         $vehicule->visite = Carbon::createFromFormat('d/m/Y',$vehicule->visite)->toDateString();
         $vehicule->assurance = Carbon::createFromFormat('d/m/Y',$vehicule->assurance)->toDateString();
+        $vehicule->dateachat = Carbon::createFromFormat('d/m/Y',$vehicule->dateachat)->toDateString();
 
         $vehicule->save();
     }
@@ -54,6 +55,8 @@ trait VehiculeManager
             'energie' => 'required',
             'nbreplace' => 'required|numeric',
             'puissancefiscale' => 'present',
+            'dateachat' => "required|date_format:d/m/Y",
+            'coutachat' => "required|numeric"
         ];
 
         if($withID){

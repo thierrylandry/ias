@@ -13,20 +13,22 @@
                 </div>
                 <div class="body">
                     <div class="row clearfix">
+                        @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
+                        <!--
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                             <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">refresh</i> Créer à partir de cette Pro forma</a>
                         </div>
+                        -->
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <form action="" method="post">
-                                <input type="hidden" name="referenceproforma" value="{{ $piece->referenceproforma }}">
-                                <button class="btn btn-flat waves-effect bg-teal"><i class="material-icons">loop</i> Transformer en facture</button>
-                            </form>
+                            <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">loop</i> Transformer en facture</button>
+                        </div>
+                        @endif
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <a href="{{ route("facturation.switch.livraison", ['id' => $piece->id]) }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Générer le bon de livraison</a>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
+                            <a href="{{ $piece->printing() }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
                         </div>
                     </div>
 
@@ -51,7 +53,7 @@
 
                         <div class="row clearfix">
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                                <p class="font-15">Référence Pro forma : {{ $piece->referenceproforma }}</p>
+                                <p class="font-15">Référence Pro forma : {{ \App\Application::getprefixOrder() }}{{ $piece->referenceproforma }}</p>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                                 @if($piece->referencefacture)
@@ -69,7 +71,7 @@
 
                         <div class="row clearfix">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                <p class="h4">Client : <a href="#ficheclient">{{ $piece->partenaire->raisonsociale }}</a></p>
+                                <p class="h4">Client : <a href="{{ route("partenaire.client", [ "id" => $piece->partenaire->id ]) }}">{{ $piece->partenaire->raisonsociale }}</a></p>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                 <p class="h4">Contact : <a href="callto:{{ $piece->partenaire->telephone }}">{{ $piece->partenaire->telephone }}</a></p>
@@ -84,18 +86,18 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
-                                <tr class="bg-light-green">
-                                    <th width="7%">Référence</th>
-                                    <th width="55%">Désignation</th>
-                                    <th width="12%" class="amount">P.U HT</th>
-                                    <th class="quantity text-center">Quantité</th>
-                                    <th width="15%" class="amount">Total</th>
-                                </tr>
+                                    <tr class="bg-light-green">
+                                        <th width="7%">Référence</th>
+                                        <th width="55%">Désignation</th>
+                                        <th width="12%" class="amount">P.U HT</th>
+                                        <th class="quantity text-center">Quantité</th>
+                                        <th width="15%" class="amount">Total</th>
+                                    </tr>
                                 </thead>
                                 <tbody class="">
                                 @foreach($piece->lignes as $ligne)
                                     <tr>
-                                        <td class="text-center">{{ $loop->index + 1 }}</td>
+                                        <td class="text-center">{{ $ligne->reference ? $ligne->reference : "#"  }}</td>
                                         <td class="">{{ $ligne->designation }}</td>
                                         <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
                                         <td class="quantity text-center">{{ number_format($ligne->quantite,0,',',' ') }}</td>
@@ -134,7 +136,7 @@
                         <div class="col-md-8 col-sm-7 col-xs-12">
                             <p class="m-t-5"><span>Conditions de  paiement </span><span class="font-bold">{{ $piece->conditions }}</span></p>
                             <p class="m-t-5"><span>Validité de l'offre </span><span class="font-bold">{{ $piece->validite }}</span></p>
-                            <p class="m-t-5"><span>Délai de validité</span><span class="font-bold">{{ $piece->delailivraison }}</span></p>
+                            <p class="m-t-5"><span>Délai de validité </span><span class="font-bold">{{ $piece->delailivraison }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -142,7 +144,61 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form class="form-line" action="{{ route("facturation.switch.normal") }}" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-light-green">
+                    <h4 class="modal-title" id="defaultModalLabel">Passage de Pro forma à la facture</h4>
+                </div>
+                <div class="modal-body row">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="referenceproforma" value="{{ $piece->referenceproforma }}">
+                    <div class="col-md-4">
+                        <label class="form-label">N° bon de commande</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control date" placeholder="Référence du bon de commande" name="referencebc" id="referencebc">
+                            </div>
+                            <span class="input-group-addon">
+                                <i class="material-icons">receipt</i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <label class="form-label">N° facture pré-imprimé</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" required class="form-control date" placeholder="N° facture pré-imprimé" name="referencefacture" id="referencefacture">
+                                </div>
+                                <span class="input-group-addon">
+                                    <i class="material-icons">send</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                <hr/>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-link waves-effect">Valider</button>
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section("script")
+<script type="application/javascript">
+$(function () {
+    $('.js-modal-buttons .btn').on('click', function () {
+        $('#defaultModal').modal('show');
+    });
+});
+</script>
 @endsection

@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("vehicule.reparation") }}">
+                <a href="{{ route("reparation.liste") }}">
                     <span>Réparations</span>
                 </a>
             </li>
@@ -60,8 +60,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("facturation.liste") }}">
+                <a href="{{ route("facturation.liste.facture") }}">
                     <span>Factures</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route("facturation.liste.all") }}">
+                    <span>Toutes les factures</span>
                 </a>
             </li>
         </ul>
@@ -99,7 +104,7 @@
                 <a href="{{ route('admin.employe.liste') }}">Employes</a>
             </li>
             <li>
-                <a href="#">Utilisateurs</a>
+                <a href="{{ route("admin.utilisateur.liste") }}">Utilisateurs</a>
             </li>
             <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>

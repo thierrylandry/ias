@@ -38,6 +38,18 @@ $totalPeriode = 0;
                             </div>
                         </div>
 
+                        <div class="col-md-2 col-sm-6">
+                            <b>Fin</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input name="reference" type="text" class="form-control" placeholder="N° de facture" value="{{ old("reference", request()->query('reference')) }}">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-1">
                             <br/>
                             <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
@@ -58,9 +70,10 @@ $totalPeriode = 0;
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr class="bg-teal">
-                        <th width="10%">Référence</th>
+                        <th width="10%">Ref. Pro forma</th>
+                        <th width="10%">Ref. Facture</th>
                         <th width="8%">Date</th>
-                        <th width="40%">Objet</th>
+                        <th width="30%">Objet</th>
                         <th>Client</th>
                         <th width="10%">Statut</th>
                         <th width="12%" class="amount">Montant</th>
@@ -69,7 +82,8 @@ $totalPeriode = 0;
                     <tbody>
                     @foreach($pieces as $piece)
                     <tr>
-                        <td><a href="{{ route("facturation.details", ["reference" => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
+                        <td><a href="{{ route("facturation.details", ["reference" => urlencode($piece->referenceproforma) ]) }}">{{\App\Application::getprefixOrder()}}{{ $piece->referenceproforma }}</a></td>
+                        <td>{{ $piece->referencefacture }}</td>
                         <td>{{ (new \Carbon\Carbon($piece->creationproforma))->format("d/m/Y") }}</td>
                         <td>{{ $piece->objet }}</td>
                         <td>{{ $piece->partenaire->raisonsociale }}</td>
@@ -84,8 +98,8 @@ $totalPeriode = 0;
                     <tfoot>
                     <tr class="bg-teal">
                         <td>Nombre</td>
-                        <td colspan="2"></td>
-                        <td colspan="2" class="text-right">Chiffre d'affaire</td>
+                        <td colspan="3"></td>
+                        <td colspan="2" class="text-right">Total</td>
                         <td class="amount">{{ number_format($totalPeriode, 0,",", " ") }} FCFA</td>
                     </tr>
                     </tfoot>

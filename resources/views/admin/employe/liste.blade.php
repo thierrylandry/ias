@@ -26,7 +26,7 @@
                         <br class="clearfix"/>
                     </div>
                     <div class="body table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-hover ">
                             <thead>
                             <tr class="bg-green">
                                 <th width="7.5%"></th>
@@ -40,8 +40,15 @@
                             </thead>
                             <tbody>
                             @foreach($employes as $employe)
-                            <tr>
-                                <td></td>
+                            <tr @if($employe->datesortie != null) class="bg-deep-orange" @endif>
+                                <td>
+                                    <div class="btn-toolbar" role="toolbar">
+                                        <div class="btn-group btn-group-xs" role="group">
+                                            <a class="btn bg-blue-grey waves-effect" href="{{ route("admin.employe.fiche", ["matricule" => $employe->matricule]) }}" title="Fiche d'employé"><i class="material-icons">person_outline</i></a>
+                                            <a class="btn bg-orange waves-effect" href="{{ route("admin.employe.modifier", ["matricule" => $employe->matricule]) }}" title="Modifier"><i class="material-icons">mode_edit</i></a>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ $employe->matricule }}</td>
                                 <td>{{ $employe->nom }} {{ $employe->prenoms }}</td>
                                 <td>{{ (new \Carbon\Carbon($employe->datenaissance))->format('d/m/Y') }}</td>
@@ -52,6 +59,8 @@
                             @endforeach
                             </tbody>
                         </table>
+
+                        {{ $employes->links() }}
                     </div>
                 </div>
             </div>

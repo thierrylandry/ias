@@ -24,17 +24,47 @@ trait PdfMaker
     /**
      * @param $reference
      * @param $state
+     * @return $this
      */
     public function imprimerPieceComptable($reference, $state)
     {
-        $piece = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referenceproforma",$reference)->first();
-
-        if($state == PieceComptable::PRO_FORMA)
+        switch($state)
         {
-            $invoices = PDF::loadView('pdf.proforma',compact("piece"))->setPaper('a4','portrait');
-            return $invoices->stream("Facture Proforma $reference {$piece->partenaire->raisonsociale}.pdf");
-        }
+            case PieceComptable::PRO_FORMA :
+                return $this->imprimerProForma($reference);
+                break;
 
-        return back()->withErrors("Aucune pièce comptable à imprimer");
+            case PieceComptable::FACTURE :
+                return $this->imprimerFacture($reference);
+                break;
+
+            case PieceComptable::BON_LIVRAISON :
+                return $this->imprimerBonLivraison($reference);
+                break;
+
+            default :
+                return back()->withErrors("Aucune pièce comptable à imprimer");
+        }
+    }
+
+    private function imprimerFacture($reference)
+    {
+        $pieceComptable = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referencefacture",$reference)->first();
+        $invoices = PDF::loadView('pdf.facture',compact("pieceComptable"))->setPaper('a4','portrait');
+        return $invoices->stream("Facture $reference {$pieceComptable->partenaire->raisonsociale}.pdf");
+    }
+
+    private function imprimerProForma($reference)
+    {
+        $pieceComptable = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referenceproforma",$reference)->first();
+        $invoices = PDF::loadView('pdf.proforma',compact("pieceComptable"))->setPaper('a4','portrait');
+        return $invoices->stream("Facture Proforma $reference {$pieceComptable->partenaire->raisonsociale}.pdf");
+    }
+
+    private function imprimerBonLivraison($reference)
+    {
+        $pieceComptable = PieceComptable::with('partenaire','lignes','utilisateur.employe')->where("referencebl",$reference)->first();
+        $invoices = PDF::loadView('pdf.bonlivraison',compact("pieceComptable"))->setPaper('a4','portrait');
+        return $invoices->stream("Bon de livraison {$pieceComptable->partenaire->raisonsociale}.pdf");
     }
 }

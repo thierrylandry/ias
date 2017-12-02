@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Http\Controllers\Order\Commercializable;
+use App\Interfaces\IAmortissement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Mission extends Model implements Commercializable
+class Mission extends Model implements Commercializable, IAmortissement
 {
     protected $table = 'mission';
     protected $guarded = [];
@@ -80,5 +81,26 @@ class Mission extends Model implements Commercializable
     public function getQuantity()
     {
         return 1;
+    }
+
+    public function getDate()
+    {
+        return new Carbon($this->debuteffectif);
+    }
+
+    public function getDetails()
+    {
+        return sprintf("Mission %s Destinantion(s): %s", $this->code, $this->destination);
+    }
+
+    public function getDebit()
+    {
+        $nbreJours = (new Carbon($this->debuteffectif))->diffInDays(new Carbon($this->fineffective));
+        return ($this->montantjour * $nbreJours) - ($this->perdiem * $nbreJours);
+    }
+
+    public function getCredit()
+    {
+        return 0;
     }
 }
