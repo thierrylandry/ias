@@ -64,10 +64,12 @@ class ProduitController extends Controller
 
     public function liste(Request $request)
     {
+        $keyword = null;
+
         $produits = Produit::with("famille")
             ->orderBy("libelle")
-            ->paginate();
+            ->paginate(25);
 
-        return view("produit.liste", compact("produits"));
+        return view("produit.liste", compact("produits","keyword"));
     }
 }

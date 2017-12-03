@@ -11,10 +11,28 @@
                             Liste des produits
                         </h2>
                     </div>
-                    <div class="col-md-4">
-
+                    <div class="col-md-5">
+                        <form method="get">
+                            <div class="row clearfix">
+                                <div class="col-md-7 col-sm-7">
+                                    <b>Référence ou nom de produit</b>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <input name="keyword" type="text" class="form-control datepicker" placeholder="Reference ou produit" value="{{ $keyword }}">
+                                        </div>
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">search</i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <br/>
+                                    <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-md-3 col-xs-12">
                         <div class="align-right">
                             <a href="{{ route('stock.produit.ajouter') }}" class="btn bg-blue waves-effect">Ajouter un produit</a>
                         </div>
@@ -50,7 +68,11 @@
                         @endforeach
                         </tbody>
                     </table>
-                    {{ $produits->links() }}
+                    @if(request()->query("keyword"))
+                        {{ $produits->appends(["keyword" => request()->query("keyword")])->links() }}
+                    @else
+                        {{ $produits->links() }}
+                    @endif
                 </div>
             </div>
         </div>
