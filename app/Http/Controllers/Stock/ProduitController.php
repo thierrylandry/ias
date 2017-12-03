@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Stock;
 use App\Famille;
 use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
+use App\Produit;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -31,7 +32,7 @@ class ProduitController extends Controller
                 "reference" => $produit->getReference(),
             ],JSON_UNESCAPED_UNICODE);
 
-            $request->session()->flash("produit", str_replace("\\\\","\/",$json));
+            $request->session()->flash("produit", str_replace("\\\\","\\",$json));
         }else{
             //
         }
@@ -45,7 +46,8 @@ class ProduitController extends Controller
      * @param Request $request
      * @return $this|null
      */
-    protected function valideRequest(Request $request){
+    protected function valideRequest(Request $request)
+    {
         $this->validate($request,[
             "reference" => "required",
             "libelle" => "required",
@@ -58,5 +60,14 @@ class ProduitController extends Controller
                 ->withInput();
         }
         return null;
+    }
+
+    public function liste(Request $request)
+    {
+        $produits = Produit::with("famille")
+            ->orderBy("libelle")
+            ->paginate();
+
+        return view("produit.liste", compact("produits"));
     }
 }

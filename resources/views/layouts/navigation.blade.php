@@ -72,7 +72,7 @@
         </ul>
     </li>
     <li>
-        <a href="#" class="">
+        <a href="{{ route("stock.produit.liste") }}" class="">
             <i class="material-icons">redeem</i>
             <span>Produits</span>
         </a>

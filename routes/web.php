@@ -113,6 +113,7 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
 Route::prefix('stock')->middleware('auth')->group(function (){
     Route::get("produit/nouveau.html","Stock\ProduitController@ajouter")->name('stock.produit.ajouter');
     Route::post("produit/nouveau.html","Stock\ProduitController@addProduct");
+    Route::get("produits/liste.html","Stock\ProduitController@liste")->name('stock.produit.liste');
 });
 
 //Email

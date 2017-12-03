@@ -74,8 +74,8 @@
                                         <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{{ $commercializable->detailsForCommande() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {{ $commercializable->detailsForCommande() }}</option>
                                     @endforeach
                                 </select>
+                                <button id="addProduct" title="Ajouter un produit" class="btn bg-teal btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i> </button>
                             </div>
-                            <button id="addProduct" title="Ajouter un produit" class="btn bg-teal btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i> </button>
                         </div>
 
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
@@ -339,7 +339,7 @@
         addLine();
         calculAmount();
 
-        $q.val(0);
+        $q.val(1);
     });
 
     $('#isexonere').click(function (e) {
@@ -444,6 +444,8 @@
         $("#produits").append(option);
 
         $("#produits").selectpicker('refresh');
+        $("#produits").selectpicker('val',produit.id);
+        $("#price").val(produit.price);
 
         //window.location.reload(false);
     }
