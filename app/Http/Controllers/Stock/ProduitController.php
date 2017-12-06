@@ -6,6 +6,8 @@ use App\Famille;
 use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
 use App\Produit;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -21,7 +23,14 @@ class ProduitController extends Controller
     public function addProduct(Request $request)
     {
         $this->valideRequest($request);
-        $produit = $this->createProduct($request->input());
+
+        //On vérifie la que la référence n'est pas utilisée par un autre produit
+        if($this->checkReferenceExist($request->input("reference"))){
+            return redirect()->back()->withErrors("La référence du produit existe déjà.")
+                ->withInput();
+        }
+
+        $produit = $this->persitProduct($request->input());
 
         if($request->query("from") == "proforma"){ //On provient du popup de la fenêtre de nouvelle pro forma
             $json = json_encode([
@@ -44,7 +53,6 @@ class ProduitController extends Controller
 
     /**
      * @param Request $request
-     * @return $this|null
      */
     protected function valideRequest(Request $request)
     {
@@ -54,22 +62,61 @@ class ProduitController extends Controller
             "prixunitaire" => "integer",
             "famille_id" => "required|exists:famille,id"
         ]);
-
-        if($this->checkReferenceExist($request->input("reference"))){
-            return redirect()->back()->withErrors("La référence du produit existe déjà.")
-                ->withInput();
-        }
-        return null;
     }
 
     public function liste(Request $request)
     {
         $keyword = null;
 
+        $familles = Famille::orderBy("libelle")->get();
         $produits = Produit::with("famille")
-            ->orderBy("libelle")
-            ->paginate(25);
+            ->orderBy("libelle");
 
-        return view("produit.liste", compact("produits","keyword"));
+        $this->filter($produits, $request);
+
+        $produits = $produits->paginate(25);
+
+        return view("produit.liste", compact("produits","familles"));
+    }
+
+    private function filter(Builder &$builder, Request $request)
+    {
+        if(!empty($request->query('famille')) && $request->query('famille') != "all")
+        {
+            $builder->where("famille_id", $request->query("famille"));
+        }
+
+        if(!empty($request->query('keyword')))
+        {
+            $keyword = $request->query('keyword');
+            $builder->whereRaw("( reference like '%{$keyword}%' OR libelle like '%{$keyword}%')");
+        }
+    }
+
+    public function modifier($reference)
+    {
+        $familles = Famille::orderBy("libelle")->get();
+        try{
+            $produit = Produit::with("famille")->where("reference", $reference)->firstOrFail();
+        }catch (ModelNotFoundException $e){
+           return back()->withErrors("Le produit spécifié n'existe pas.");
+        }
+        return view("produit.modifier", compact("produit","familles"));
+    }
+
+    public function update($reference, Request $request)
+    {
+        $this->valideRequest($request);
+
+        try{
+            $produit = Produit::with("famille")->where("reference", $reference)->firstOrFail();
+            $this->persitProduct($request->except('_token'), $produit);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors("Une erreur de mise à jour a été rencontrée.");
+        }
+
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Produit modifié avec succès !");
+        return redirect()->route("stock.produit.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 }

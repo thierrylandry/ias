@@ -52,6 +52,7 @@ class UtilisateurController extends Controller
             $user->password = bcrypt($request->input("password"));
             $user->login.= "@ivoireautoservices.net";
             $user->satut = Statut::TYPE_UTILISATEUR.Statut::ETAT_ACTIF.Statut::AUTRE_NON_DEFINI;
+            $user->employe_id = $request->input("employe_id");
 
             $user->saveOrFail();
         }catch (QueryException $e){

@@ -20,6 +20,7 @@
         <ul class="ml-menu">
             <li>
                 <a href="{{ route("vehicule.liste") }}">
+                    <i class="material-icons">list</i>
                     <span>Liste</span>
                 </a>
             </li>
@@ -72,10 +73,18 @@
         </ul>
     </li>
     <li>
-        <a href="{{ route("stock.produit.liste") }}" class="">
+        <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">redeem</i>
             <span>Produits</span>
         </a>
+        <ul class="ml-menu">
+            <li>
+                <a href="{{ route("stock.produit.liste") }}">Liste</a>
+            </li>
+            <li>
+                <a href="{{ route("stock.produit.famille") }}">Famille</a>
+            </li>
+        </ul>
     </li>
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -84,19 +93,19 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="pages/charts/morris.html">Morris</a>
+                <a href="#">Morris</a>
             </li>
             <li>
-                <a href="pages/charts/flot.html">Flot</a>
+                <a href="#">Flot</a>
             </li>
             <li>
-                <a href="pages/charts/chartjs.html">ChartJS</a>
+                <a href="#">ChartJS</a>
             </li>
             <li>
-                <a href="pages/charts/sparkline.html">Sparkline</a>
+                <a href="#">Sparkline</a>
             </li>
             <li>
-                <a href="pages/charts/jquery-knob.html">Jquery Knob</a>
+                <a href="#">Jquery Knob</a>
             </li>
         </ul>
     </li>

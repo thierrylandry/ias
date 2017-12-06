@@ -114,6 +114,13 @@ Route::prefix('stock')->middleware('auth')->group(function (){
     Route::get("produit/nouveau.html","Stock\ProduitController@ajouter")->name('stock.produit.ajouter');
     Route::post("produit/nouveau.html","Stock\ProduitController@addProduct");
     Route::get("produits/liste.html","Stock\ProduitController@liste")->name('stock.produit.liste');
+    Route::get("produits/{reference}/modifier.html","Stock\ProduitController@modifier")->name("stock.produit.modifier");
+    Route::post("produits/{reference}/modifier.html","Stock\ProduitController@update");
+
+    Route::post("produits/famille/add","Stock\FamilleController@addFamille")->name("stock.produit.famille.ajouter");
+    Route::get("produits/famille/liste.html","Stock\FamilleController@liste")->name("stock.produit.famille");
+    Route::get("produits/famille/{id}/modifier.html","Stock\FamilleController@modifier")->name("stock.produit.famille.modifier");
+    Route::post("produits/famille/{id}/modifier.html","Stock\FamilleController@update");
 });
 
 //Email

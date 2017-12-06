@@ -18,9 +18,12 @@ trait ProduitCrud
      * @param array $data
      * @return Produit
      */
-    protected function createProduct(array $data)
+    protected function persitProduct(array $data, Produit $produit = null)
     {
-        $produit = new Produit();
+        if(!$produit){
+            $produit = new Produit();
+        }
+
         $produit->reference = $data["reference"];
         $produit->libelle = $data["libelle"];
         $produit->prixunitaire = $data["prixunitaire"];

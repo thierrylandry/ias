@@ -73,8 +73,8 @@
     </div>
 </div>
 @endsection
-@section("script")
 
+@section("script")
 @if(request()->session()->has("produit"))
 <script type="application/javascript">
     //document.write(window.opener.document.URL);
