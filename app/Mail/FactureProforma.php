@@ -36,7 +36,7 @@ class FactureProforma extends Mailable
      */
     public function build()
     {
-        $from = sprintf("%s, %s", Auth::user()->employe->nom, Auth::user()->employe->prenoms);
+        $from = sprintf("%s", Auth::user()->login);
 
         $piece = $this->piece;
 

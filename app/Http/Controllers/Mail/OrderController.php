@@ -10,6 +10,7 @@ use App\PieceComptable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -31,11 +32,11 @@ class OrderController extends Controller
         //dd($collection);
 
         try{
-            Mail::to($collection)
+            Mail::to($collection->toArray())
                 ->cc(Application::getMailCopie())
                 ->send(new FactureProforma($piece, PieceComptable::PRO_FORMA ));
         }catch (\Exception $e){
-            logger($e->getMessage());
+            Log::error($e->getMessage()."\r\n".$e->getTraceAsString());
         }
 
         $notification = new Notifications();

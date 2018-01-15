@@ -28,10 +28,13 @@ class Produit extends Model implements Commercializable
      */
     public function detailsForCommande()
     {
+        return $this->libelle;
+
+        /*
         return sprintf("%s , %s",
             $this->famille->libelle,
             $this->libelle
-        );
+        ); */
     }
 
     /**

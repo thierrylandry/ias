@@ -35,6 +35,8 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::get('liste.html','Car\RegisterController@index')->name('vehicule.liste');
     Route::get('nouveau.html','Car\RegisterController@showNewFormView')->name('vehicule.nouveau');
     Route::post('nouveau.html','Car\RegisterController@ajouter');
+    Route::get('{immatriculation}/modifier.html','Car\UpdateController@modifier')->name('vehicule.modifier');
+    Route::post('{immatriculation}/modifier.html','Car\UpdateController@update');
     Route::get('reparations.html','Car\ReparationController@index')->name('reparation.liste');
     Route::get('interventions/nouvelle.html','Car\ReparationController@nouvelle')->name("reparation.nouvelle");
     Route::post('interventions/nouvelle.html','Car\ReparationController@ajouter');

@@ -12,8 +12,10 @@ namespace App\Metier\Processing;
 use App\Metier\Behavior\Notifications;
 use App\Vehicule;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 trait VehiculeManager
 {
@@ -29,15 +31,38 @@ trait VehiculeManager
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION,$notification);
     }
 
-    private function save(Request $request)
+    private function save(Request $request, Vehicule $vehicule = null)
     {
-        $vehicule = new Vehicule($request->except('_token'));
+        if($vehicule === null){
+            $vehicule = new Vehicule($request->except('_token'));
+        }
 
-        $vehicule->visite = Carbon::createFromFormat('d/m/Y',$vehicule->visite)->toDateString();
-        $vehicule->assurance = Carbon::createFromFormat('d/m/Y',$vehicule->assurance)->toDateString();
-        $vehicule->dateachat = Carbon::createFromFormat('d/m/Y',$vehicule->dateachat)->toDateString();
+        $vehicule->visite = Carbon::createFromFormat('d/m/Y',$request->input("visite"))->toDateString();
+        $vehicule->assurance = Carbon::createFromFormat('d/m/Y',$request->input("assurance"))->toDateString();
+        $vehicule->dateachat = Carbon::createFromFormat('d/m/Y',$request->input("dateachat"))->toDateString();
 
         $vehicule->save();
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request, $this->validateRules(true));
+
+        try{
+            $vehicule = Vehicule::find($request->input('id'));
+
+            $vehicule->fill($request->except("visite", "assurance", "dateachat"));
+
+            $this->save($request, $vehicule);
+
+            $notification = new Notifications();
+            $notification->add($notification::SUCCESS,Lang::get('message.vehicule.modifier',['immatriculation' => $request->input('immatriculation')]));
+
+            return back()->with(Notifications::NOTIFICATION_KEYS_SESSION,$notification);
+        }catch (ModelNotFoundException $e){
+            Log::error($e->getMessage()."\r\n".$e->getTraceAsString());
+            return back()->withErrors("Véhicule non trouvé");
+        }
     }
 
     /**

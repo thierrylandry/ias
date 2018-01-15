@@ -9,7 +9,8 @@
 return [
 
     "vehicule" => [
-        "ajout" => "Nouveau véhicule immatriculé :immatriculation ajouté avec succès !"
+        "ajout" => "Nouveau véhicule immatriculé :immatriculation ajouté avec succès !",
+        "modifier" => "Véhicule immatriculé :immatriculation modifié avec succès !",
     ],
     "admin" => [
         "chauffeur" => [

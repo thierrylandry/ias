@@ -134,6 +134,7 @@
 
     </div>
 
+    <!--
     <div class="fadeOut">
         <div class="list-group">
             <a href="javascript:void(0);" class="list-group-item">
@@ -146,13 +147,17 @@
             </a>
         </div>
     </div>
+    -->
 </div>
 @endsection
 @section("script")
+<script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
 <!-- SweetAlert Plugin Js -->
 <script src="{{ asset('plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
     var URL_CHECKER = '{{ route("rappel") }}';
+    var dataObject = null;
+
     $(document).ready(function () {
         $.ajax({
             url: URL_CHECKER,
@@ -167,8 +172,101 @@
             },
             complete : function (xhr, statut) {
                 console.log(xhr.responseJSON);
+                dataObject = xhr.responseJSON;
+
+                processMission(dataObject.missions);
+                processChauffeur(dataObject.chauffeurs);
+                processPartenaire({});
             }
         });
     });
+    
+    function processMission(missions) {
+        var extrem = "";
+        var $target = $("#vehicule_state");
+
+        var lines = "";
+
+        for(var i=0; i<missions.length; i++){
+            //console.log(missions[i]);
+            var tmp="La mission du "+
+                missions[i].immatriculation+", chauffeur "+missions[i].nom+" "+missions[i].prenoms+" "+
+                " à "+missions[i].destination+" prévu pour le "+
+                moment(missions[i].debuteffectif).format("DD/MM/YYYY")+
+                (missions[i].delais > 0 ? " est dans":" est passée")+
+                " de "+ Math.abs(missions[i].delais)+ " jour(s)" ;
+
+            lines += getLineTemplate(tmp);
+        }
+
+        $target.html("");
+        $target.append(getBaseTemplate(lines));
+    }
+
+    function processVehicules(vehicules) {
+        var extrem = "";
+        var $target = $("#vehicule_state");
+
+        var lines = "";
+
+        for(var i=0; i<missions.length; i++){
+            //console.log(missions[i]);
+            var tmp="La mission du "+
+                missions[i].immatriculation+", chauffeur "+missions[i].nom+" "+missions[i].prenoms+" "+
+                " à "+missions[i].destination+" prévu pour le "+
+                moment(missions[i].debuteffectif).format("DD/MM/YYYY")+
+                (missions[i].delais > 0 ? " est dans":" est passée")+
+                " de "+ Math.abs(missions[i].delais)+ " jour(s)" ;
+
+            lines += getLineTemplate(tmp);
+        }
+
+        $target.html("");
+        $target.append(getBaseTemplate(lines));
+    }
+
+    function processChauffeur(chauffeurs) {
+        var extrem = "";
+        var $target = $("#employe_state");
+
+        var lines = "";
+
+        for(var i=0; i<chauffeurs.length; i++){
+            //console.log(missions[i]);
+            var tmp="La permis du chauffeur "+
+                chauffeurs[i].nom+" "+chauffeurs[i].prenoms+
+                (chauffeurs[i].expiration_c > 0 ? " est arrivé ":" arrive ")+
+                " à expiration dans "+ Math.abs(chauffeurs[i].delai_permis_c)+ " jour(s)" ;
+
+            lines += getLineTemplate(tmp);
+        }
+
+        $target.html("");
+        $target.append(getBaseTemplate(lines));
+    }
+
+    function processPartenaire(partenaires) {
+        var extrem = "";
+        var $target = $("#partnaire_state");
+        var lines = "";
+
+        //
+
+        $target.html("");
+        $target.append(getBaseTemplate(lines));
+    }
+
+    function getLineTemplate(text) {
+        return '<a href="javascript:void(0);" class="list-group-item list-group-bg-red">' + text +'</a>';
+    }
+
+    function getBaseTemplate(lines) {
+        return ""+
+        '<div class="fadeOut">' +
+            '<div class="list-group">' +
+            lines+
+            '</div>' +
+        '</div>';
+    }
 </script>
 @endsection
