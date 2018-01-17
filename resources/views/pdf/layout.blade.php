@@ -18,7 +18,7 @@
         </div>
     </div>
 </header>
-
+<hr/>
 <div id="baner">
     <div class="row titre">
         <span class="h1">@yield("titre")</span>

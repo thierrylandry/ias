@@ -108,8 +108,15 @@ class RegisterController extends Controller
         return view("partenaire.modifier", compact("partenaire"));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, int $id)
     {
-        
+        $partenaire = Partenaire::find($id);
+
+        $partenaire->fill($request->except("_token"));
+        $partenaire->saveOrFail();
+
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Partenaire modifié avec succès.");
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 }

@@ -14,11 +14,9 @@
 <header class="clearfix">
     <div>
         <div id="logo">
-            <br><br><br><br><br>
-            <br><br>
-            <!--
-            <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
-            -->
+            <br><br><br><br><br><br><br>
+            <br><br><br/><br/><br/><br/>
+
         </div>
     </div>
 </header>

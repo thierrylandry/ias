@@ -12,6 +12,7 @@ class IasTableSeeder extends Seeder
      */
     public function run()
     {
+        /*
         DB::table("application")->insert([
             [
                 "version" => "1",
@@ -35,7 +36,9 @@ class IasTableSeeder extends Seeder
             [ "libelle" => "Révision" ],
             [ "libelle" => "Panne" ],
         ]);
+        */
 
+        /*
         DB::table("employe")->insert([
             [
                 "matricule" => "E000",
@@ -47,48 +50,6 @@ class IasTableSeeder extends Seeder
                 "basesalaire" => 0,
                 "service_id" => 1,
             ],
-            /*
-            [
-                "matricule" => "E002",
-                "nom" => "Kouassi",
-                "prenoms" => "Yannick",
-                "datenaissance" => "1984-09-25",
-                "pieceidentite" => "azer1247cvx",
-                "dateembauche" => "2009-01-01",
-                "basesalaire" => 300000,
-                "service_id" => 1,
-            ],
-            [
-                "matricule" => "E003",
-                "nom" => "Toutou",
-                "prenoms" => "Benjamin",
-                "datenaissance" => "1984-09-25",
-                "pieceidentite" => "C986512151044",
-                "dateembauche" => "2009-01-01",
-                "basesalaire" => 200000,
-                "service_id" => 3,
-            ],
-            [
-                "matricule" => "E004",
-                "nom" => "Touré",
-                "prenoms" => "Sekou",
-                "datenaissance" => "1984-09-25",
-                "pieceidentite" => "C801487021121",
-                "dateembauche" => "2009-01-01",
-                "basesalaire" => 200000,
-                "service_id" => 3,
-            ],
-            [
-                "matricule" => "E005",
-                "nom" => "Touré",
-                "prenoms" => "Brice",
-                "datenaissance" => "1970-05-12",
-                "pieceidentite" => "yerv5646iog",
-                "dateembauche" => "2000-01-01",
-                "basesalaire" => 500000,
-                "service_id" => 1,
-            ],
-            */
         ]);
 
         DB::table("utilisateur")->insert([
@@ -98,6 +59,8 @@ class IasTableSeeder extends Seeder
                 "employe_id" => 1
             ],
         ]);
+        */
+
         /*
         DB::table('chauffeur')->insert([
             [
@@ -160,9 +123,11 @@ class IasTableSeeder extends Seeder
             ]
         ]); */
 
+        /*
         DB::table('famille')->insert([
             ['libelle' => 'Non définie']
         ]);
+        */
 
         DB::table('moyenreglement')->insert([
             ['libelle' => 'Espèce'],
@@ -1028,42 +993,7 @@ class IasTableSeeder extends Seeder
                 'nbreplace' => 5,
                 'puissancefiscale' => 8,
                 'genre_id' => 3
-            ],
-
-
-
-
-
-            [
-                'cartegrise' => '00002',
-                'coutachat' => 4510000,
-                "dateachat" => "2013-12-04",
-                'immatriculation' => '9601GP01',
-                'marque' => 'Nissan',
-                'visite' => '2017-06-13',
-                'assurance' => '2017-10-25',
-                'typecommercial' => 'Navara',
-                'couleur' => 'blanche',
-                'energie' => 'Gaz-oil',
-                'nbreplace' => 4,
-                'puissancefiscale' => 7,
-                'genre_id' => 4
-            ],
-            [
-                'cartegrise' => '32146046545600',
-                'coutachat' => 4000000,
-                "dateachat" => "2011-05-26",
-                'immatriculation' => '154FE01',
-                'marque' => 'Nissan',
-                'visite' => '2018-01-07',
-                'assurance' => '2017-01-23',
-                'typecommercial' => 'Urvan',
-                'couleur' => 'blanche',
-                'energie' => 'Gaz-oil',
-                'nbreplace' => 23,
-                'puissancefiscale' => 15,
-                'genre_id' => 3
-            ],
+            ]
         ]);
 
         /*

@@ -55,7 +55,7 @@ class Mission extends Model implements Commercializable, IAmortissement
                 $this->vehicule->immatriculation,
             (new Carbon($this->debutprogramme))->format("d/m/Y"),
             (new Carbon($this->finprogramme))->format("d/m/Y"),
-            (new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme)),
+            '', //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
             $this->destination
         );
     }

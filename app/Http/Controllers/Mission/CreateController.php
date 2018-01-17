@@ -57,7 +57,7 @@ class CreateController extends Controller
     {
         $data = $request->except("_token","vehicule");
 
-        if(! array_key_exists("code",$data) || $data["code"] == null)
+        if(! array_key_exists("code",$data) || $data["code"] == null || empty($data["code"]))
         {
             $data["code"] = Application::getNumeroMission(true);
         }

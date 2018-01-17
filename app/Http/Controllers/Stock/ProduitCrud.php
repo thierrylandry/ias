@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Stock;
 
 use App\Famille;
 use App\Produit;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 trait ProduitCrud
 {
@@ -44,5 +45,16 @@ trait ProduitCrud
         }else{
             return false;
         }
+    }
+
+    /**
+     * @param int $id
+     * @return bool|null
+     * @throws ModelNotFoundException
+     */
+    protected function delete (int $id){
+
+        $produit = Produit::find($id);
+        return $produit->delete();
     }
 }
