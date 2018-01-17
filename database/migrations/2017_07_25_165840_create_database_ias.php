@@ -149,8 +149,12 @@ class CreateDatabaseIas extends Migration
             $table->float('tva',3,2)->default(0.18);
             $table->boolean('isexonere');
             $table->string("conditions")->nullable();
+            $table->date('datereglement')->nullable();
+            $table->unsignedInteger('moyenpaiment_id')->nullable();
+            $table->string('remarquepaiement')->nullable();
             $table->unsignedInteger('partenaire_id');
             $table->unsignedInteger('utilisateur_id');
+            $table->foreign('moyenpaiment_id')->references('id')->on('moyenreglement');
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
             $table->foreign('utilisateur_id')->references('employe_id')->on('utilisateur');
         });
@@ -203,6 +207,13 @@ class CreateDatabaseIas extends Migration
             $table->integer('quantitelivree')->default(0);
             $table->unsignedInteger('piececomptable_id');
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
+        });
+
+        Schema::create("brouillard", function (Blueprint $table){
+
+        });
+        Schema::create("lignebrouillard", function (Blueprint $table){
+
         });
     }
 

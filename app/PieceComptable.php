@@ -27,6 +27,10 @@ class PieceComptable extends Model
         return $this->belongsTo(Utilisateur::class,'utilisateur_id');
     }
 
+    public function moyenPaiement(){
+        return $this->belongsTo(MoyenReglement::class,'moyenpaiment_id');
+    }
+
     public function getReference()
     {
         return $this->referencefacture ? $this->referencefacture : $this->referenceproforma;
@@ -38,7 +42,7 @@ class PieceComptable extends Model
             case  Statut::PIECE_COMPTABLE_PRO_FORMA :
                 return route("print.piececomptable",["reference"=> $this->referenceproforma, "state" => PieceComptable::PRO_FORMA]);
                 break;
-            case  Statut::PIECE_COMPTABLE_FACTURE_SANS_BL || Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL :
+            case  Statut::PIECE_COMPTABLE_FACTURE_SANS_BL || Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL || Statut::PIECE_COMPTABLE_FACTURE_PAYEE:
                 return route("print.piececomptable",["reference"=> $this->referencefacture, "state" => PieceComptable::FACTURE]);
                 break;
 
