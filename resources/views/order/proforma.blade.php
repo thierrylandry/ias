@@ -71,7 +71,7 @@
                                 <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
-                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{{ $commercializable->detailsForCommande() }}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {{ $commercializable->detailsForCommande() }}</option>
+                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{!! $commercializable->detailsForCommande() !!}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {!! $commercializable->detailsForCommande() !!}</option>
                                     @endforeach
                                 </select>
                                 <button id="addProduct" title="Ajouter un produit" class="btn bg-teal btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i> </button>

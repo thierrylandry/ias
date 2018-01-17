@@ -50,12 +50,12 @@ class Mission extends Model implements Commercializable, IAmortissement
      */
     public function detailsForCommande()
     {
-        return sprintf("Location de véhicule %s immatriculé %s pour %s jours (du %s au %s). Destination(s) : %s",
+        return sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s ( %s jours).<br/> Destination(s) : %s",
             $this->vehicule->genre->libelle." ".$this->vehicule->marque." ".$this->vehicule->typecommercial,
                 $this->vehicule->immatriculation,
-            (new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme)),
             (new Carbon($this->debutprogramme))->format("d/m/Y"),
             (new Carbon($this->finprogramme))->format("d/m/Y"),
+            (new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme)),
             $this->destination
         );
     }
