@@ -208,12 +208,15 @@ class CreateDatabaseIas extends Migration
             $table->unsignedInteger('piececomptable_id');
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
         });
-
-        Schema::create("brouillard", function (Blueprint $table){
-
-        });
         Schema::create("lignebrouillard", function (Blueprint $table){
-
+            $table->bigIncrements('id');
+            $table->date("dateecriture");
+            $table->dateTime("dateaction");
+            $table->integer('montant')->default(0);
+            $table->integer('balance');
+            $table->string('observation')->nullable();
+            $table->unsignedInteger("employe_id");
+            $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
         });
     }
 
