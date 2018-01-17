@@ -70,7 +70,7 @@ class ProduitController extends Controller
 
         $familles = Famille::orderBy("libelle")->get();
         $produits = Produit::with("famille")
-            ->orderBy("libelle");
+            ->orderBy("reference", 'asc');
 
         $this->filter($produits, $request);
 
