@@ -405,12 +405,12 @@
         });
 
         $("#montantHT").text(montantHT);
-        $("#montantTVA").text(montantHT * 0.18);
+        $("#montantTVA").text(Math.ceil(montantHT * 0.18));
 
         if($("#isexonere").is(":checked"))
             $("#montantTTC").text(montantHT);
         else
-            $("#montantTTC").text(montantHT * 1.18);
+            $("#montantTTC").text(Math.ceil(montantHT * 1.18));
     }
 
     function editQty(arg)
