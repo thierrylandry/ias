@@ -17,7 +17,7 @@
                                 <li><a href="{{ route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) }}">Consulter la facture</a></li>
                                 @endif
                                 @if($mission->status != \App\Statut::MISSION_TERMINEE_SOLDEE)
-                                    <li><a class="btn bg-teal waves-effect" href="{{ route("versement.mission.ajouter", ["code"=>$mission->code]) }}" title="Effectuer un versement"><i class="material-icons">monetization_on</i></a></li>
+                                    <li><a class="btn bg-teal waves-effect" href="{{ route("versement.mission.ajouter", ["code"=>$mission->code]) }}" title="Effectuer un versement">Effectuer un versement</a></li>
                                 @endif
                             </ul>
                         </li>
@@ -34,7 +34,7 @@
                         <div class="col-md-4 col-sm-6 font-16">
                             <b class="">Client</b>
                             <div class="input-group">
-                                <span><a href="#">{{ $mission->clientPartenaire->raisonsociale }}</a></span>
+                                <span><a href="{{ route('partenaire.client', ['id' => $mission->clientPartenaire->id]) }}">{{ $mission->clientPartenaire->raisonsociale }}</a></span>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 font-16">
@@ -70,13 +70,13 @@
                         <div class="col-md-4 col-sm-6 font-16">
                             <b class="">Véhicule</b>
                             <div class="input-group">
-                                <span><a href="#">{{ $mission->vehicule->marque }} {{ $mission->vehicule->typecommercial }}, {{ $mission->vehicule->immatriculation }}</a></span>
+                                <span><a href="{{ route('vehicule.details', ['immatriculation' => $mission->vehicule->immatriculation]) }}">{{ $mission->vehicule->marque }} {{ $mission->vehicule->typecommercial }}, {{ $mission->vehicule->immatriculation }}</a></span>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 font-16">
                             <b class="">Chauffeur</b>
                             <div class="input-group">
-                                <span class=""><a href="#">{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</a></span>
+                                <span class=""><a href="{{ route('admin.chauffeur.situation', ['matricule' => $mission->chauffeur->employe->matricule]) }}">{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</a></span>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 font-16">

@@ -39,7 +39,7 @@ class FactureController extends Controller
         $periode = $this->getPeriode($request);
 
         $raw = PieceComptable::with("partenaire","lignes")
-            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString(), $periode->get("fin")->toDateTimeString()]);
+            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString().' 00:00:00', $periode->get("fin")->toDateTimeString().' 23:59:59']);
 
         if(!empty($request->query('reference'))){
             $raw->whereRaw("( referencebc like '%{$request->query('reference')}%' OR referenceproforma like '%{$request->query('reference')}%' 

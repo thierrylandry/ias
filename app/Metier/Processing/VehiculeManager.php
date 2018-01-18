@@ -71,7 +71,7 @@ trait VehiculeManager
     protected function validateRules($withID = false)
     {
         $rules = [
-            'immatriculation' =>'required|regex:/([0-9]{1,4})([A-Z]{2})([0-3]{2})/',
+            'immatriculation' =>'required|regex:/([0-9]{1,4}) ([A-Z]{2}) ([0-3]{2})/',
             'genre_id' => 'required|numeric',
             'cartegrise' => 'required',
             'marque' => 'required',

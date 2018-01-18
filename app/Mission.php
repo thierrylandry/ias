@@ -50,12 +50,12 @@ class Mission extends Model implements Commercializable, IAmortissement
      */
     public function detailsForCommande()
     {
-        return sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s ( %s jours).<br/> Destination(s) : %s",
+        return sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s.<br/> Destination(s) : %s",
             $this->vehicule->genre->libelle." ".$this->vehicule->marque." ".$this->vehicule->typecommercial,
                 $this->vehicule->immatriculation,
-            (new Carbon($this->debutprogramme))->format("d/m/Y"),
-            (new Carbon($this->finprogramme))->format("d/m/Y"),
-            '', //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
+            (new Carbon($this->debuteffectif))->format("d/m/Y"),
+            (new Carbon($this->fineffective))->format("d/m/Y"),
+            //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
             $this->destination
         );
     }
@@ -70,7 +70,7 @@ class Mission extends Model implements Commercializable, IAmortissement
 
     public function getReference()
     {
-        return empty($this->code) ? $this->code : "#" ;
+        return empty($this->code) ? '#' : $this->code ;
     }
 
     public function getPrice()

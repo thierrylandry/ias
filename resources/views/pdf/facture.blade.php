@@ -49,12 +49,12 @@
     <div class="objet"><span><strong>Objet : </strong>{{ $pieceComptable->objet }}</span></div>
     <br/>
     <br/>
-    <table>
+    <table class="facture">
         <thead>
         <tr class="">
-            <th width="18%">Référence</th>
+            <th width="15%">Référence</th>
             <th width="45%">Désignation</th>
-            <th width="12%" class="amount">P.U HT</th>
+            <th width="10%" class="amount">P.U HT</th>
             <th class="quantity">Quantité</th>
             <th width="15%" class="amount">Total</th>
         </tr>
@@ -79,18 +79,18 @@
         <tr>
             <td colspan="2"></td>
             <td colspan="2" class="amount h3">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-            <td class="amount h3">{{ number_format(($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} FCFA</td>
+            <td class="amount h3">{{ number_format(ceil($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} FCFA</td>
         </tr>
-        <tr>
+        <tr style="border-top:1px solid #777777;">
             <td colspan="2"></td>
-            <td colspan="2" class="amount h3">Montant TTC</td>
-            <td class="amount h3">{{ number_format(($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} FCFA</td>
+            <td colspan="2" class="amount h3" style="color: #000000; border-top:1px solid #777777;">Montant TTC</td>
+            <td class="amount h3" style="color: #000000; border-top:1px solid #777777;">{{ number_format(ceil($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} FCFA</td>
         </tr>
         </tfoot>
     </table>
 
     <div class="">
-        <p class="h3">Arrêté la présente facture pro forma à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter(ceil($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) ))) }} francs CFA.</p>
+        <p class="h3">Arrêté la présente facture à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter(ceil($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) ))) }} francs CFA.</p>
 
         <br/>
         <br/>

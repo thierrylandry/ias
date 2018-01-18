@@ -1,4 +1,4 @@
-²@font-face {
+@font-face {
     font-family: SourceSansPro;
     src: url(SourceSansPro-Regular.ttf);
 }
@@ -105,6 +105,13 @@ table tr th{
     padding: 0 0 5px 0;
 }
 
+table.facture tr th{
+    border-bottom: 1px solid #777777;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 0 0 5px 0;
+}
+
 table tbody tr:last-child{
 
 }
@@ -203,7 +210,6 @@ table tfoot tr:last-child td {
     color: #0258c3;
     font-size: 1.4em;
     border-top: 1px solid #0258c3;
-
 }
 
 table tfoot tr td:first-child {

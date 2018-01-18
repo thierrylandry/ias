@@ -27,7 +27,6 @@
     </div>
     @yield("titre-complement")
 </div>
-<hr/>
 
 <br/>
 <br/>

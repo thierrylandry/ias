@@ -11,11 +11,8 @@ $totalJours = 0;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <h2>Situation chauffeur : {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</h2>
-                    </div>
-                    <div class="col-md-4">
-
                     </div>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">

@@ -24,12 +24,6 @@
             <hr/>
             <p class="item">{{ (new Carbon\Carbon($pieceComptable->creationbl))->format("d/m/Y") }}</p>
         </div>
-
-        <div class="row quatre-cm">
-            <p><strong>Emetteur</strong></p>
-            <hr/>
-            <p class="item">{{ $pieceComptable->utilisateur->employe->nom }} {{ $pieceComptable->utilisateur->employe->prenoms }}</p>
-        </div>
     </div>
     <br style="clear: both"/>
     <br/>
@@ -63,5 +57,26 @@
         <br/>
         <br/>
         <br/>
+
+        <div class="row quatre-cm">
+            <p><strong>Emetteur</strong></p>
+            <hr/>
+            <p class="item">{{ $pieceComptable->utilisateur->employe->nom }} {{ $pieceComptable->utilisateur->employe->prenoms }}</p>
+        </div>
+        <div class="row quatre-cm"></div>
+        <div class="row quatre-cm"></div>
+        <div class="row quatre-cm">
+            <p><u>Signature Client</u></p>
+        </div>
+    </div>
+    <br style="clear: both;"/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="">
+        <h4><u>Remarque éventuelle du client concernant la livraison</u></h4>
+        <p></p>
     </div>
 @endsection

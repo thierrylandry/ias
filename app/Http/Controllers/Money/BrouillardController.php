@@ -10,6 +10,4 @@ class BrouillardController extends Controller
     public function index(){
 
     }
-
-
 }

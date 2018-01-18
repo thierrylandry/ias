@@ -20,7 +20,6 @@
         <ul class="ml-menu">
             <li>
                 <a href="{{ route("vehicule.liste") }}">
-                    <i class="material-icons">list</i>
                     <span>Liste</span>
                 </a>
             </li>
