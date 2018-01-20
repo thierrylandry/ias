@@ -9,8 +9,10 @@
 namespace App\Http\Controllers\Mission;
 
 
+use App\Metier\Behavior\Notifications;
 use App\Mission;
 use App\Vehicule;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 trait Process
@@ -67,5 +69,30 @@ trait Process
         }else{
             return Vehicule::all();
         }
+    }
+
+    public function changeStatus(string $reference, int $statut, Request $request)
+    {
+        $sessionToken = $request->session()->token();
+        $token = $request->input('_token');
+        if (! is_string($sessionToken) || ! is_string($token) || !hash_equals($sessionToken, $token) ) {
+            return back()->withErrors('La page a expiré, veuillez recommencer SVP !');
+        }
+
+        try {
+            $mission = $this->missionBuilder()
+                ->where("code", $reference)
+                ->firstOrFail();
+
+            $mission->status = $statut;
+            $mission->save();
+
+        }catch(ModelNotFoundException $e){
+            return back()->withErrors('La mission est introuvable !');
+        }
+
+        $notification = new Notifications();
+        $notification->add(Notifications::SUCCESS,"Statut de la mission modifiée avec succès !");
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 }

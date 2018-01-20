@@ -12,7 +12,18 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
+                                @if($mission->status != \App\Statut::MISSION_TERMINEE_SOLDEE || $mission->status != \App\Statut::MISSION_ANNULEE || $mission->status != \App\Statut::MISSION_TERMINEE)
                                 <li><a href="{{ route("mission.modifier", ["reference" => $mission->code]) }}">Modifier la mission</a></li>
+                                @endif
+                                @if($mission->status == \App\Statut::MISSION_COMMANDEE)
+                                <li><a href="{{ route("mission.changer-statut", ["reference" => $mission->code, "statut" => \App\Statut::MISSION_EN_COURS, "_token" => csrf_token()]) }}">Démarrer la mission</a></li>
+                                @endif
+                                @if($mission->status == \App\Statut::MISSION_COMMANDEE)
+                                    <li><a href="{{ route("mission.changer-statut", ["reference" => $mission->code, "statut" => \App\Statut::MISSION_ANNULEE, "_token" => csrf_token()]) }}">Annuler la mission</a></li>
+                                @endif
+                                @if($mission->status == \App\Statut::MISSION_EN_COURS)
+                                    <li><a href="{{ route("mission.changer-statut", ["reference" => $mission->code, "statut" => \App\Statut::MISSION_TERMINEE, "_token" => csrf_token()]) }}">Terminer la mission</a></li>
+                                @endif
                                 @if($mission->pieceComptable)
                                 <li><a href="{{ route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) }}">Consulter la facture</a></li>
                                 @endif

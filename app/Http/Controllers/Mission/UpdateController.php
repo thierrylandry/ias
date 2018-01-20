@@ -70,6 +70,10 @@ class UpdateController extends Controller
         return redirect()->route("mission.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
+    /**
+     * @param Mission $mission
+     * @param Request $request
+     */
     private function maj(Mission $mission, Request $request)
     {
         $data = $request->except("_token");

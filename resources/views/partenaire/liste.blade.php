@@ -40,7 +40,12 @@
                                         <div class="btn-group btn-group-xs" role="group">
                                             <a class="btn bg-blue-grey waves-effect" href="{{ '#' }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
                                             <a class="btn bg-green waves-effect" href="{{ route("partenaire.modifier", ["id" => $partenaire->id]) }}" title="Modifier"><i class="material-icons">edit</i></a>
-                                            <a class="btn bg-orange waves-effect" href="{{ route('partenaire.client', ['id' => $partenaire->id]) }}" title="Consulter l'état"><i class="material-icons">insert_drive_file</i></a>
+                                            @if($partenaire->isclient)
+                                                <a class="btn bg-orange waves-effect" href="{{ route('partenaire.client', ['id' => $partenaire->id]) }}" title="Consulter le point client"><i class="material-icons">insert_drive_file</i></a>
+                                            @endif
+                                            @if($partenaire->isfournisseur)
+                                                <a class="btn bg-indigo waves-effect" href="{{ route('partenaire.fournisseur', ['id' => $partenaire->id]) }}" title="Consulter le point fournisseur"><i class="material-icons">insert_drive_file</i></a>
+                                            @endif
                                         </div>
                                     </div>
                                 </th>

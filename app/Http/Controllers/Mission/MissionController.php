@@ -43,8 +43,6 @@ class MissionController extends Controller
            Statut::MISSION_ANNULEE => Statut::getStatut(Statut::MISSION_ANNULEE),
         ]);
 
-        //dd($missions);
-
         return view("mission.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
     }
 

@@ -150,11 +150,11 @@ class CreateDatabaseIas extends Migration
             $table->boolean('isexonere');
             $table->string("conditions")->nullable();
             $table->date('datereglement')->nullable();
-            $table->unsignedInteger('moyenpaiment_id')->nullable();
+            $table->unsignedInteger('moyenpaiement_id')->nullable();
             $table->string('remarquepaiement')->nullable();
             $table->unsignedInteger('partenaire_id');
             $table->unsignedInteger('utilisateur_id');
-            $table->foreign('moyenpaiment_id')->references('id')->on('moyenreglement');
+            $table->foreign('moyenpaiement_id')->references('id')->on('moyenreglement');
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
             $table->foreign('utilisateur_id')->references('employe_id')->on('utilisateur');
         });
@@ -218,6 +218,37 @@ class CreateDatabaseIas extends Migration
             $table->unsignedInteger("employe_id");
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
         });
+        Schema::create("piecefournisseur", function (Blueprint $table){
+            $table->bigIncrements('id');
+            $table->date("datepiece");
+            $table->string("reference")->unique();
+            $table->string("objet");
+            $table->integer('montant')->default(0);
+            $table->string('observation')->nullable();
+            $table->string('statut');
+            $table->date('datereglement')->nullable();
+            $table->unsignedInteger('moyenpaiement_id')->nullable();
+            $table->string('remarquepaiement')->nullable();
+            $table->unsignedInteger("partenaire_id");
+            $table->unsignedInteger("employe_id");
+            $table->foreign('partenaire_id')->references('id')->on('partenaire');
+            $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
+        });
+        /*
+        Schema::create("versementfournisseur", function (Blueprint $table){
+            $table->bigIncrements('id');
+            $table->date("datepaiement");
+            $table->dateTime("dateenregistrement");
+            $table->string("objet");
+            $table->integer('montant')->default(0);
+            $table->string('observation')->nullable();
+            $table->unsignedInteger("employe_id");
+            $table->unsignedInteger("piecefournisseur_id");
+            $table->unsignedInteger("moyenpaiement_id");
+            $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
+            $table->foreign('piecefournisseur_id')->references('id')->on('piecefournisseur');
+            $table->foreign('moyenpaiement_id')->references('id')->on('moyenreglement');
+        }); */
     }
 
     /**
@@ -228,6 +259,9 @@ class CreateDatabaseIas extends Migration
      */
     public function down()
     {
+        //Schema::dropIfExists('versementfournisseur');
+        Schema::dropIfExists('piecefournisseur');
+        Schema::dropIfExists('lignebrouillard');
         Schema::dropIfExists('application');
         Schema::dropIfExists('lignepiece');
         Schema::dropIfExists('mission');

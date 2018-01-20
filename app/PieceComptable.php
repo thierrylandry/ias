@@ -28,7 +28,7 @@ class PieceComptable extends Model
     }
 
     public function moyenPaiement(){
-        return $this->belongsTo(MoyenReglement::class,'moyenpaiment_id');
+        return $this->belongsTo(MoyenReglement::class,'moyenpaiement_id');
     }
 
     public function getReference()

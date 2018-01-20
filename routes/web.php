@@ -51,6 +51,7 @@ Route::prefix('missions')->middleware('auth')->group(function (){
     Route::get('{reference}/detail.html','Mission\MissionController@details')->name('mission.details');
     Route::get('{reference}/modifier.html','Mission\UpdateController@modifier')->name('mission.modifier');
     Route::post('{reference}/modifier.html','Mission\UpdateController@update');
+    Route::get('{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatus')->name('mission.changer-statut');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
@@ -94,6 +95,8 @@ Route::prefix('factures')->middleware('auth')->group(function (){
 Route::prefix("versement")->middleware("auth")->group(function (){
     Route::get("mission/{code}/nouveau.html","Money\VersementController@nouveauVersement")->name("versement.mission.ajouter");
     Route::post("mission/{code}/nouveau.html","Money\VersementController@ajouter");
+    Route::post('facture/partenaire/client','Money\ReglementController@reglementClient')->name('versement.facture.client');
+    Route::post('facture/partenaire/fournisseur','Money\ReglementController@reglementFournisseur')->name('versement.facture.fournisseur');
 });
 
 //PDF
@@ -108,7 +111,12 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::post('nouveau.html','Partenaire\RegisterController@ajouter');
     Route::get('{id}/modifier.html','Partenaire\RegisterController@modifier')->name('partenaire.modifier');
     Route::post('{id}/modifier.html','Partenaire\RegisterController@update');
-    Route::get("{id}/details.html","Partenaire\DetailsController@fiche")->name("partenaire.client");
+
+    Route::get("client/{id}/details.html","Partenaire\DetailsController@ficheClient")->name("partenaire.client");
+
+    Route::get("fournisseur/{id}/details.html","Partenaire\DetailsController@ficheFournisseur")->name("partenaire.fournisseur");
+    Route::get("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@newOrder")->name("partenaire.fournisseurs.factures");
+    Route::post("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@addOrder");
 });
 
 //Stock
