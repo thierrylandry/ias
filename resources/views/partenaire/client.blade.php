@@ -87,7 +87,6 @@ $rap = 0;
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
-
                     <div class="row clearfix">
                         <div class="col-md-3 col-xs-12 form-control-label">
                             <label for="datereglement">Date</label>

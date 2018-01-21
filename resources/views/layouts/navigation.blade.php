@@ -69,7 +69,18 @@
                     <span>Toutes les factures</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route("partenaire.fournisseurs.factures") }}">
+                    <span>Factures fournisseurs</span>
+                </a>
+            </li>
         </ul>
+    </li>
+    <li>
+        <a href="{{ route('brouillard.registre') }}" class="">
+            <i class="material-icons">local_atm </i>
+            <span>Brouillard caisse</span>
+        </a>
     </li>
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -85,6 +96,7 @@
             </li>
         </ul>
     </li>
+    <!--
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">pie_chart</i>
@@ -108,6 +120,7 @@
             </li>
         </ul>
     </li>
+    -->
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">settings</i>

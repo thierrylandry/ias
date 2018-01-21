@@ -99,6 +99,12 @@ Route::prefix("versement")->middleware("auth")->group(function (){
     Route::post('facture/partenaire/fournisseur','Money\ReglementController@reglementFournisseur')->name('versement.facture.fournisseur');
 });
 
+//Brouillard
+Route::prefix('brouillard')->middleware('auth')->group(function (){
+   Route::get('registre.html','Money\BrouillardController@registre')->name('brouillard.registre');
+   Route::post('registre.html','Money\BrouillardController@addNewLine');
+});
+
 //PDF
 Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("{reference}/{state}/pdf.html","Printer\PdfController@imprimerPieceComptable")->name("print.piececomptable");

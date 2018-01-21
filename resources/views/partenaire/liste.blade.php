@@ -13,7 +13,9 @@
                         </h2>
                     </div>
                     <div class="col-md-4">
-
+                        <div class="align-right">
+                            <a href="{{ route('partenaire.fournisseurs.factures') }}" class="btn bg-blue-grey waves-effect"><i class="material-icons">add</i> Facture fournisseur</a>
+                        </div>
                     </div>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
@@ -26,7 +28,7 @@
                     <table class="table table-bordered table-hover ">
                         <thead>
                         <tr class="bg-green">
-                            <th width="7.5%"></th>
+                            <th width="15%"></th>
                             <th>RAISON SOCIALE</th>
                             <th>COMPTE CONTRIBUABLE</th>
                             <th>CONTACT</th>

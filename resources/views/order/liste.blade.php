@@ -39,10 +39,10 @@ $totalPeriode = 0;
                         </div>
 
                         <div class="col-md-2 col-sm-6">
-                            <b>Fin</b>
+                            <b>Référence</b>
                             <div class="input-group">
                                 <span class="input-group-addon">
-                                    <i class="material-icons">date_range</i>
+                                    <i class="material-icons">credit_card</i>
                                 </span>
                                 <div class="form-line">
                                     <input name="reference" type="text" class="form-control" placeholder="N° de facture" value="{{ old("reference", request()->query('reference')) }}">

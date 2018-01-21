@@ -14,7 +14,7 @@ class CreateDatabaseIas extends Migration
     public function up()
     {
         Schema::create("application", function (Blueprint $table){
-            $table->string("version",3)->default(1);
+            $table->string("version",3)->default('1');
             $table->string("sendmail",1)->default("Y");
             $table->string("mailcopy")->default("commercial@ivoireautoservices.net");
             $table->integer("numeroproforma")->default(1);
@@ -22,6 +22,7 @@ class CreateDatabaseIas extends Migration
             $table->integer("numerofacture")->default(1);
             $table->integer("numeromission")->default(1);
             $table->string("prefix",10)->default("");
+            $table->primary('version');
         });
         Schema::create("service", function(Blueprint $table){
             $table->increments("id");
@@ -212,11 +213,13 @@ class CreateDatabaseIas extends Migration
             $table->bigIncrements('id');
             $table->date("dateecriture");
             $table->dateTime("dateaction");
+            $table->string('objet');
             $table->integer('montant')->default(0);
             $table->integer('balance');
             $table->string('observation')->nullable();
             $table->unsignedInteger("employe_id");
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
+            $table->softDeletes();
         });
         Schema::create("piecefournisseur", function (Blueprint $table){
             $table->bigIncrements('id');
