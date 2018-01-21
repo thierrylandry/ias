@@ -9,7 +9,7 @@
     <div class="col-md-12 col-sm-12">
         <div class="card">
             <div class="header">
-                <h3>Brouillard de caisse | <b class="bg-green"> solde {{ number_format(100000, 0,',',' ') }} FCFA </b></h3>
+                <h3>Brouillard de caisse | solde : <b class="bg-green">{{ number_format($solde, 0,',',' ') }} FCFA </b></h3>
                 <hr/>
                 <form action="" method="get">
                     <div class="row clearfix">
@@ -67,19 +67,26 @@
                         <table class="table table-bordered table-hover ">
                             <thead>
                             <tr class="bg-green">
-                                <th width="15%"></th>
+                                <th width=""></th>
                                 <th>Date écriture</th>
                                 <th>Date action</th>
                                 <th>Objet</th>
                                 <th>Montant</th>
                                 <th>Balance</th>
-                                <th>Utilisateur</th>
+                                <th>Opérateur</th>
                             </tr>
                             </thead>
                             <tbody class="table-hover">
                             @foreach($lignes as $ligne)
                                 <tr>
-                                    <td></td>
+                                    <td>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group btn-group-xs" role="group">
+                                                <a class="btn bg-orange waves-effect" href="{{ '#' }}" title="Modifier"><i class="material-icons">edit</i></a>
+                                                <a class="btn bg-red waves-effect" href="{{ '#' }}" title="Supprimer la ligne"><i class="material-icons">delete</i></a>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>{{ (new \Carbon\Carbon($ligne->dateaction))->format('d/m/Y H:i:s') }}</td>
                                     <td>{{ (new \Carbon\Carbon($ligne->dateecriture))->format('d/m/Y') }}</td>
                                     <td>{{ $ligne->objet }}</td>
@@ -122,12 +129,12 @@
 
                     <div class="row clearfix">
                         <div class="col-md-3 col-xs-12 form-control-label">
-                            <label for="sens">Sens</label>
+                            <label for="sens">Opération</label>
                         </div>
                         <div class="col-md-8 col-xs-12 ">
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="sens" name="sens" required>
-                                    <option @if(old('sens') == '-1') selected @endif value="-1" >Décaissement</option>
+                                    <option @if(old('sens') == '-1') selected @endif value="-1" >Sortie caisse</option>
                                     <option @if(old('sens') == '1') selected @endif value="1" >Approvisionnement</option>
                                 </select>
                             </div>

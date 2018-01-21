@@ -15,10 +15,14 @@ class BrouillardController extends Controller
         $debut = Carbon::now()->firstOfMonth()->toDateTimeString();
         $fin = Carbon::now()->toDateTimeString();
 
+        $last = Brouillard::latest('dateaction')->first();
+        $solde = $last != null ? $last->balance : 0;
+
         $lignes = Brouillard::with('utilisateur')
             ->whereBetween('dateaction', [$debut, $fin])
+            ->orderBy('dateaction', 'desc')
             ->paginate(30);
-        return view('brouillard.registre', compact("lignes"));
+        return view('brouillard.registre', compact("lignes", "solde"));
     }
 
     public function addNewLine(Request $request){
