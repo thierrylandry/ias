@@ -67,7 +67,7 @@
                         <table class="table table-bordered table-hover ">
                             <thead>
                             <tr class="bg-green">
-                                <th width=""></th>
+                                <th width="3%"></th>
                                 <th>Date écriture</th>
                                 <th>Date action</th>
                                 <th>Objet</th>
@@ -82,8 +82,7 @@
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
                                             <div class="btn-group btn-group-xs" role="group">
-                                                <a class="btn bg-orange waves-effect" href="{{ '#' }}" title="Modifier"><i class="material-icons">edit</i></a>
-                                                <a class="btn bg-red waves-effect" href="{{ '#' }}" title="Supprimer la ligne"><i class="material-icons">delete</i></a>
+                                                <a class="btn bg-orange waves-effect" href="javascript:void(0);" onclick="edit('{{ $ligne->id }}','{{ (new \Carbon\Carbon($ligne->dateecriture))->format('d/m/Y') }}','{{ $ligne->objet }}');" title="Modifier"><i class="material-icons">edit</i></a>
                                             </div>
                                         </div>
                                     </td>
@@ -182,7 +181,55 @@
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
-                            <button type="reset" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                            <button type="reset" data-dismiss="modal" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form class="form-line" action="{{ route('brouillard.modifier') }}" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-light-green">
+                    <h4 class="modal-title" id="editModalLabel">Modification mouvement de caisse</h4>
+                </div>
+                <div class="modal-body">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id" id="md-id">
+                    <div class="row clearfix">
+                        <div class="col-md-3 col-xs-12 form-control-label">
+                            <label for="md-dateecriture">Date</label>
+                        </div>
+                        <div class="col-md-8 col-xs-12 ">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="dateecriture" id="md-dateecriture" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateecriture',\Carbon\Carbon::now()->format("d/m/Y")) }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-md-3 col-xs-12 form-control-label">
+                                <label for="md-objet">Objet du mouvement</label>
+                            </div>
+                            <div class="col-md-8 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" required name="objet" id="md-objet" class="form-control" placeholder="Objet du mouvement" value="{{ old('objet') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row clearfix">
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Modifier</button>
+                                <button type="reset" data-dismiss="modal" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,5 +257,13 @@
             cancelText : 'ANNULER',
             nowText : 'AUJOURD\'HUI'
         });
+
+        function edit(id, dateEcriture, objet) {
+            $('#md-id').val(id);
+            $('#md-dateecriture').val(dateEcriture);
+            $('#md-objet').val(objet);
+            $('#editModal').modal('show');
+        }
+
     </script>
 @endsection

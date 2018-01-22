@@ -7,6 +7,7 @@ use App\Metier\Behavior\Notifications;
 use App\Partenaire;
 use App\PieceFournisseur;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,10 +24,14 @@ class FournisseurController extends Controller
     public function addOrder(Request $request){
         $this->validRequest($request);
 
-        $pieceFournisseur = new PieceFournisseur($request->except('_token'));
-        $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
-        $pieceFournisseur->employe_id = Auth::id();
-        $pieceFournisseur->save();
+        try{
+            $pieceFournisseur = new PieceFournisseur($request->except('_token'));
+            $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
+            $pieceFournisseur->employe_id = Auth::id();
+            $pieceFournisseur->save();
+        }catch (ModelNotFoundException $e){
+            return back()->with('Impossible d\'ajouter cette facture. La référence est déjà utilisée. <br>'.$e->getMessage());
+        }
 
         $notification = new Notifications();
         $notification->add(Notifications::SUCCESS,"Facture fournisseur enregistrée avec succès !");

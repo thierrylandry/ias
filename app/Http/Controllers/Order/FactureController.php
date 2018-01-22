@@ -100,6 +100,22 @@ class FactureController extends Controller
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }
 
+    public function annuler(string $reference, Request $request){
+        $sessionToken = $request->session()->token();
+        $token = $request->query('_token');
+        if (! is_string($sessionToken) || ! is_string($token) || !hash_equals($sessionToken, $token) ) {
+            return back()->withErrors('Votre demande n\'a pas été validée. Veuillez recommencer SVP !');
+        }
+
+        $piece = $this->getPieceComptableFromReference($reference);
+        $piece->etat = Statut::PIECE_COMPTABLE_FACTURE_ANNULEE;
+        $piece->save();
+
+        $notif = new Notifications();
+        $notif->add(Notifications::SUCCESS,sprintf("Facture N° %s annulée.", $piece->referencefacture ?? $piece->referenceproforma));
+        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+    }
+
     private function valideRulesNormalPiece()
     {
         return [

@@ -116,22 +116,22 @@
                     <hr/>
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="datesortie">Date de sortie</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="datesortie" id="datesortie" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('datesortie') }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="dateembauche">Date d'embauche</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" name="dateembauche" id="dateembauche" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateembauche') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="datesortie">Date de sortie</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" name="datesortie" id="datesortie" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('datesortie') }}">
                                 </div>
                             </div>
                         </div>

@@ -27,6 +27,7 @@ class Statut
     const PIECE_COMPTABLE_FACTURE_SANS_BL = 201;
     const PIECE_COMPTABLE_FACTURE_AVEC_BL = 202;
     const PIECE_COMPTABLE_FACTURE_PAYEE = 203;
+    const PIECE_COMPTABLE_FACTURE_ANNULEE = 204;
 
     /**
      * @param int $statut
@@ -41,6 +42,7 @@ class Statut
             case self::PIECE_COMPTABLE_FACTURE_AVEC_BL : $string = "Facture (Impayé)"; break;
             case self::PIECE_COMPTABLE_FACTURE_SANS_BL : $string = "Facture non livrée (Impayé)"; break;
             case self::PIECE_COMPTABLE_FACTURE_PAYEE : $string = "Facture (Payé)"; break;
+            case self::PIECE_COMPTABLE_FACTURE_ANNULEE : $string = "Facture Annulée"; break;
 
             case self::MISSION_COMMANDEE : $string = "Mission commandée"; break;
             case self::MISSION_EN_COURS : $string = "Mission en cours"; break;

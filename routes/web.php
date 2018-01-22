@@ -86,6 +86,7 @@ Route::prefix('factures')->middleware('auth')->group(function (){
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
     Route::post("normale/make","Order\FactureController@makeNormal")->name("facturation.switch.normal");
+    Route::get("{reference}/annuler","Order\FactureController@annuler")->name("facturation.switch.annuler");
     Route::get("{id}/livraison/make","Order\BonLivraisonController@makeBonLivraison")->name("facturation.switch.livraison");
     Route::get("{reference}/option-email.html","Order\SenderController@choice")->name("facturation.envoie.emailchoice");
     Route::get("{reference}/details.html","Order\FactureController@details")->name("facturation.details");
@@ -103,6 +104,7 @@ Route::prefix("versement")->middleware("auth")->group(function (){
 Route::prefix('brouillard')->middleware('auth')->group(function (){
    Route::get('registre.html','Money\BrouillardController@registre')->name('brouillard.registre');
    Route::post('registre.html','Money\BrouillardController@addNewLine');
+   Route::post('modifier.html','Money\BrouillardController@updateLine')->name('brouillard.modifier');
 });
 
 //PDF

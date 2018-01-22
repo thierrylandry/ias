@@ -57,7 +57,7 @@ $rap = 0;
                             <td>{{ $piece->datereglement ? (new \Carbon\Carbon($piece->datereglement))->format('d/m/Y') : null }}</td>
                         </tr>
                         @php
-                            if($piece->etat != \App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE){
+                            if(!in_array($piece->etat ,[\App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE, \App\Statut::PIECE_COMPTABLE_PRO_FORMA, \App\Statut::PIECE_COMPTABLE_FACTURE_ANNULEE])){
                                 $rap += $piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva);
                             }
                         @endphp

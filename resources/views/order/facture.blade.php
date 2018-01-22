@@ -13,23 +13,31 @@
                 </div>
                 <div class="body">
                     <div class="row clearfix">
-                        @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
-                        <!--
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">refresh</i> Créer à partir de cette Pro forma</a>
-                        </div>
-                        -->
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">loop</i> Transformer en facture</button>
-                        </div>
-                        @endif
+                        @if($piece->etat != \App\Statut::PIECE_COMPTABLE_FACTURE_ANNULEE)
+                            @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
+                            <!--
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <a href="#" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">refresh</i> Créer à partir de cette Pro forma</a>
+                            </div>
+                            -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">loop</i> Transformer en facture</button>
+                            </div>
+                            @endif
 
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="{{ route("facturation.switch.livraison", ['id' => $piece->id]) }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            <a href="{{ $piece->printing() }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
-                        </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <a href="{{ route("facturation.switch.livraison", ['id' => $piece->id]) }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">local_shipping</i> Bon de livraison</a>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <a href="{{ $piece->printing() }}" target="_blank" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">print</i> Imprimer</a>
+                            </div>
+
+                            @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <a href="{{ route('facturation.switch.annuler',['reference' =>$piece->referenceproforma, '_token' => csrf_token() ]) }}" onclick="return confirm('Voulez-vous vraiment annuler cette facture ?')" class="btn btn-flat waves-effect bg-red"><i class="material-icons">cancel</i> Annuler la facture</a>
+                            </div>
+                            @endif
+                        @endif
                     </div>
 
                     <hr/>

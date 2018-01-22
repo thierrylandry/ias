@@ -30,6 +30,10 @@ trait Process
         return Partenaire::orderBy("raisonsociale")->get();
     }
 
+    /**
+     * @param Request $request
+     * @return Collection
+     */
     private function getCommercializableList(Request $request)
     {
         $commercializables = new Collection();
@@ -75,6 +79,7 @@ trait Process
      * @param PieceComptable $pieceComptable
      * @param array $data
      * @return bool
+     * @throws \Throwable
      */
     private function addLineToPieceComptable(PieceComptable $pieceComptable, array $data)
     {
@@ -96,11 +101,12 @@ trait Process
     }
 
     /**
-     * @param int $type
+     * @param $type
      * @param Partenaire $partenaire
      * @param Collection $data
-     * @param integer|null $id
+     * @param null $id
      * @return PieceComptable
+     * @throws \Throwable
      */
     private function createPieceComptable($type, Partenaire $partenaire, Collection $data, $id=null)
     {
