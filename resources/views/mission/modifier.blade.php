@@ -133,22 +133,41 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" required>
+                                    <option value="-1">Aucun chauffeur</option>
                                     @foreach($chauffeurs as $chauffeur)
                                         <option value="{{ $chauffeur->employe_id }}" @if(old('chauffeur_id',$mission->chauffeur_id) == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="vehicule_id">Véhicule</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" required>
+                                    <option value="-1">Véhicule du sous-traitant</option>
                                     @foreach($vehicules as $vehicule)
                                         <option value="{{ $vehicule->id }}" @if(old('vehicule_id',$mission->vehicule_id) == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class=" col-md-offset-6 col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="immat_soustraitance">Mission sous-traitée</label>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-8 col-xs-7">
+                            <div class="switch">
+                                <label><input type="checkbox" name="soustraite" value="1" id="soustraite" @if(old("soustraite", $mission->soustraite)) checked @endif><span class="lever switch-col-light-blue"></span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" required name="immat_soustraitance" id="immat_soustraitance" class="form-control" placeholder="Détails véhicule de sous-traitance" value="{{ old('immat_soustraitance', $mission->immat_soustraitance) }}">
+                                </div>
                             </div>
                         </div>
                     </div>

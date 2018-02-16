@@ -50,14 +50,29 @@ class Mission extends Model implements Commercializable, IAmortissement
      */
     public function detailsForCommande()
     {
-        return sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s.<br/> Destination(s) : %s",
-            $this->vehicule->genre->libelle." ".$this->vehicule->marque." ".$this->vehicule->typecommercial,
+        $txt = null;
+
+        if($this->soustraite)
+        {
+            $txt = sprintf("Location de véhicule %s <br/> Du %s au %s.<br/> Destination(s) : %s",
+                $this->immat_soustraitance ,
+                (new Carbon($this->debuteffectif))->format("d/m/Y"),
+                (new Carbon($this->fineffective))->format("d/m/Y"),
+                //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
+                $this->destination
+            );
+        }else {
+            $txt = sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s.<br/> Destination(s) : %s",
+                $this->vehicule->genre->libelle . " " . $this->vehicule->marque . " " . $this->vehicule->typecommercial,
                 $this->vehicule->immatriculation,
-            (new Carbon($this->debuteffectif))->format("d/m/Y"),
-            (new Carbon($this->fineffective))->format("d/m/Y"),
-            //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
-            $this->destination
-        );
+                (new Carbon($this->debuteffectif))->format("d/m/Y"),
+                (new Carbon($this->fineffective))->format("d/m/Y"),
+                //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
+                $this->destination
+            );
+        }
+
+        return $txt;
     }
 
     /**

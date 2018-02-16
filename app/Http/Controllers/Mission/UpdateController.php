@@ -77,6 +77,13 @@ class UpdateController extends Controller
     private function maj(Mission $mission, Request $request)
     {
         $data = $request->except("_token");
+
+        //Check si mission est sous traitée
+        if($data['soustraite']){
+            $data['chauffeur_id'] = null;
+            $data['vehicule_id'] = null;
+        }
+
         $data["debuteffectif"] = Carbon::createFromFormat("d/m/Y",$request->input("debuteffectif"))->toDateString();
         $data["fineffective"] = Carbon::createFromFormat("d/m/Y",$request->input("fineffective"))->toDateString();
 

@@ -137,8 +137,8 @@
                                 <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
                                 <td>{{ $mission->destination }}</td>
                                 <td>{{ \App\Statut::getStatut($mission->status) }}</td>
-                                <td>{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</td>
-                                <td>{{ $mission->vehicule->immatriculation }}</td>
+                                <td>{{ $mission->chauffeur ? $mission->chauffeur->employe->nom : 'Chauffeur de sous traitance'}} {{ $mission->chauffeur ? $mission->chauffeur->employe->prenoms : ""}}</td>
+                                <td>{{ $mission->soustraite ? $mission->immat_soustraitance : $mission->vehicule->immatriculation }}</td>
                                 <td class="amount">{{ number_format($mission->montantjour * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)),0,","," ") }}</td>
                                 <td><a href="{{ $mission->pieceComptable ? route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) : "javascript:void(0);" }}" >{{ $mission->pieceComptable ? $mission->pieceComptable->getReference() : ""}}</a></td>
                             </tr>

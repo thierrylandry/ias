@@ -62,6 +62,12 @@ class CreateController extends Controller
             $data["code"] = Application::getNumeroMission(true);
         }
 
+        //Check si mission est sous traitée
+        if($data['soustraite']){
+            $data['chauffeur_id'] = null;
+            $data['vehicule_id'] = null;
+        }
+
         $data["status"] = Statut::MISSION_COMMANDEE;
 
         $data["debutprogramme"] = Carbon::createFromFormat("d/m/Y",$request->input("debutprogramme"))->toDateString();

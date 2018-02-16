@@ -173,9 +173,10 @@ class CreateDatabaseIas extends Migration
             $table->integer('montantjour')->default(0);
             $table->integer('soldeperdiem')->default(0);
             $table->boolean('soustraite')->default(false);
+            $table->string('immat_soustraitance')->nullable();
             $table->string('status',4);
-            $table->unsignedInteger('chauffeur_id');
-            $table->unsignedInteger('vehicule_id');
+            $table->unsignedInteger('chauffeur_id')->nullable();
+            $table->unsignedInteger('vehicule_id')->nullable();
             $table->unsignedInteger('client');
             $table->unsignedInteger('soustraitant')->nullable();
             $table->unsignedInteger('piececomptable_id')->nullable();

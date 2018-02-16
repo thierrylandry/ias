@@ -5,7 +5,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header bg-green">
-                    <h2>Détails de misssion #{{ $mission->code }}</h2>
+                    <h2>Détails de misssion #{{ $mission->code }} @if( $mission->soustraite ) (Mission sous-traitée) @endif</h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -81,13 +81,13 @@
                         <div class="col-md-4 col-sm-6 font-16">
                             <b class="">Véhicule</b>
                             <div class="input-group">
-                                <span><a href="{{ route('vehicule.details', ['immatriculation' => $mission->vehicule->immatriculation]) }}">{{ $mission->vehicule->marque }} {{ $mission->vehicule->typecommercial }}, {{ $mission->vehicule->immatriculation }}</a></span>
+                                <span><a href="@if($mission->vehicule){{ route('vehicule.details', ['immatriculation' => $mission->vehicule->immatriculation]) }}@else # @endif">@if($mission->vehicule) {{ $mission->vehicule->marque }} {{ $mission->vehicule->typecommercial }}, {{ $mission->vehicule->immatriculation }} @else {{ $mission->immat_soustraitance }} @endif</a></span>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 font-16">
                             <b class="">Chauffeur</b>
                             <div class="input-group">
-                                <span class=""><a href="{{ route('admin.chauffeur.situation', ['matricule' => $mission->chauffeur->employe->matricule]) }}">{{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</a></span>
+                                <span><a href="@if($mission->chauffeur){{ route('admin.chauffeur.situation', ['matricule' => $mission->chauffeur->employe->matricule]) }}@else # @endif"> @if($mission->chauffeur) {{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }} @else Chauffeur du soustraitant @endif</a></span>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 font-16">
