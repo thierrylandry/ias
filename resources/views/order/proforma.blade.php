@@ -103,6 +103,18 @@
                         <button type="button" id="btnajouter" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
                     </div>
 
+                    <div class="row clearfix">
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                            <label for="client">Motif</label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <textarea required name="complement" id="complement" class="form-control" placeholder="Compléments de la ligne" value="">{{ old('complement') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr/>
 
                     <table id="piece" class="table table-bordered">
@@ -368,7 +380,7 @@
         $("#piece tbody").fadeIn().append("<tr>\n" +
             "<th data-id=\""+$product.data('id')+"\" data-modele=\""+ $product.data("modele") +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
             "<td>"+ $product.data("reference") +"</td>\n" +
-            "<td>"+ $product.data("libelle") +"</td>\n" +
+            "<td>"+ $product.data("libelle")+ " "+ $("#complement").val() +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
             "<td class='price'>"+ $("#price").val() +"</td>\n" +
             "<td class='amount'>"+ parseInt($("#price").val()) * parseInt($quantity.val()) +"</td>\n" +
