@@ -63,7 +63,7 @@ class CreateController extends Controller
         }
 
         //Check si mission est sous traitée
-        if($data['soustraite']){
+        if(isset($data['soustraite'])){
             $data['chauffeur_id'] = null;
             $data['vehicule_id'] = null;
         }

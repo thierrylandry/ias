@@ -166,7 +166,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="immat_soustraitance" id="immat_soustraitance" class="form-control" placeholder="Détails véhicule de sous-traitance" value="{{ old('immat_soustraitance') }}">
+                                    <input type="text" name="immat_soustraitance" id="immat_soustraitance" class="form-control" placeholder="Détails véhicule de sous-traitance" value="{{ old('immat_soustraitance') }}">
                                 </div>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <textarea required name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation') }}</textarea>
+                                    <textarea name="observation" id="observation" class="form-control" placeholder="Observations de la mission" value="">{{ old('observation') }}</textarea>
                                 </div>
                             </div>
                         </div>
