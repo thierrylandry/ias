@@ -23,7 +23,9 @@ class LignePieceComptable extends Model
     public function commercializable()
     {
         if($this->modele == null || empty($this->modele) )
-            return null;
+        {
+	        return null;
+        }
 
         return $this->belongsTo($this->modele,$this->modele_id);
     }

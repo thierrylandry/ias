@@ -17,11 +17,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-md-4">
-                        <h2> Facture Pro forma </h2>
-                    </div>
-                    <div class="col-md-4">
-
+                    <div class="col-md-12">
+                        <h2> Facture Pro forma  @if($proforma != null)(copié de la pro forma n° {{$proforma->referenceproforma}} ) @endif</h2>
                     </div>
                 </div>
                 <div class="body table-responsive">
@@ -32,7 +29,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="objet" id="objet" class="form-control" value="" maxlength="150" placeholder="Objet de la facture">
+                                    <input type="text" required name="objet" id="objet" class="form-control" value="{{ $proforma->objet ?? null }}" maxlength="150" placeholder="Objet de la facture">
                                 </div>
                             </div>
                         </div>
@@ -44,7 +41,7 @@
                             <div class="form-group">
                                 <select class="form-control selectpicker" id="client" name="client" data-live-search="true" required>
                                     @foreach($partenaires as $partenaire)
-                                        <option value="{{ $partenaire->id }}">{{ $partenaire->raisonsociale }}</option>
+                                        <option @if(($proforma->partenaire_id ?? null) ==  $partenaire->id) selected @endif value="{{ $partenaire->id }}">{{ $partenaire->raisonsociale }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -56,7 +53,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="creationbc" id="creationbc" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{old('debutprogramme',Carbon\Carbon::now()->format('d/m/Y'))}}">
+                                    <input type="text" required name="creationbc" id="creationbc" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{(new Carbon\Carbon($proforma->creationproforma ?? null))->format('d/m/Y') }}">
                                 </div>
                             </div>
                         </div>
@@ -175,7 +172,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="delailivraison" id="delailivraison" class="form-control" value="" maxlength="255" placeholder="Délai de livraison de la commande">
+                                    <input type="text" required name="delailivraison" id="delailivraison" class="form-control" value="{{ $proforma->delailivraison ?? null }}" maxlength="255" placeholder="Délai de livraison de la commande">
                                 </div>
                             </div>
                         </div>
@@ -188,7 +185,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="conditions" id="conditions" class="form-control" value="" maxlength="255" placeholder="Conditions de paiement de la commande">
+                                    <input type="text" required name="conditions" id="conditions" class="form-control" value="{{ $proforma->conditions ?? null }}" maxlength="255" placeholder="Conditions de paiement de la commande">
                                 </div>
                             </div>
                         </div>
@@ -201,7 +198,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="validite" id="validite" class="form-control" value="" maxlength="255" placeholder="Validite de l'offre">
+                                    <input type="text" required name="validite" id="validite" class="form-control" value="{{ $proforma->validite ?? null }}" maxlength="255" placeholder="Validite de l'offre">
                                 </div>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ use App\Metier\Behavior\Notifications;
 use App\Mission;
 use App\Partenaire;
 use App\PieceComptable;
+use App\Produit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
@@ -18,6 +19,7 @@ class ProformaController extends Controller
     {
         $lignes = new Collection();
         $commercializables = null;
+        $proforma = null;
 
         //Si une mission est passée en session
         if( $request->query("from") == Notifications::MISSION_OBJECT )
@@ -29,13 +31,36 @@ class ProformaController extends Controller
             }
 
             $lignes = $commercializables;
-        }else{ //Facture sans intention préalable
+
+        }elseif($request->query("from") == Notifications::CREATE_FROM_PROFORMA){
+
+			$proforma = $this->getPieceComptableFromReference($request->query('ID'));
+
+			$proforma->lignes->each(function ($item, $key) use ($lignes){
+				$produit = new Produit();
+		        $produit->reference = $item->reference;
+		        $produit->libelle = $item->designation;
+				$produit->prixunitaire = $item->prixunitaire;
+				$produit->modele = $item->modele;
+				$produit->modele_id = $item->modele_id;
+				$produit->quantite = $item->quantite;
+
+				$produit->id = $item->modele_id; //ID du produit et non de la ligne
+		        $lignes->push($produit);
+	        });
+
+	        //dd($lignes);
+        }
+
+        if($commercializables == null){ //Facture sans intention préalable
+
             $commercializables = $this->getCommercializableList($request);
         }
 
+
         $partenaires = $this->getPartenaireList($request);
 
-        return view('order.proforma', compact("commercializables", "partenaires", "lignes"));
+        return view('order.proforma', compact("commercializables", "partenaires", "lignes", "proforma"));
     }
 
     public function ajouter(Request $request)

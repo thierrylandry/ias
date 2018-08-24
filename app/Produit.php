@@ -9,6 +9,8 @@ class Produit extends Model implements Commercializable
 {
     protected $table = "produit";
     public $timestamps = false;
+    public $quantite = 1;
+    public $modele = self::class;
 
     public function famille()
     {
@@ -42,7 +44,7 @@ class Produit extends Model implements Commercializable
      */
     public function getRealModele()
     {
-        return self::class;
+        return $this->modele;
     }
 
     public function getReference()
@@ -57,6 +59,6 @@ class Produit extends Model implements Commercializable
 
     public function getQuantity()
     {
-        return 1;
+        return $this->quantite;
     }
 }
