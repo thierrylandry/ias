@@ -6,6 +6,7 @@ use App\Intervention;
 use App\Mission;
 use App\Vehicule;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class FicheController extends Controller
 {
@@ -15,14 +16,18 @@ class FicheController extends Controller
             ->where("immatriculation", $immatriculation)
             ->first();
 
-       $collection = $this->getInterventions($vehicule);
+        $collection = $this->getInterventions($vehicule);
 
-       foreach ($this->getMission($vehicule) as $item)
-       {
+        foreach ($this->getMission($vehicule) as $item)
+        {
            $collection->add($item);
-       }
+        }
 
-       return view("car.fiche", compact("vehicule", "collection"));
+	    $collection = $collection->each(function ($item, $key) {
+		    $item->date_ = (new Carbon($item->date_))->timestamp;
+	    })->sortBy("date_");
+
+        return view("car.fiche", compact("vehicule", "collection"));
     }
 
     /**

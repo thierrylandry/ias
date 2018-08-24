@@ -51,7 +51,7 @@ class ReparationController extends Controller
 
     public function ajouter(Request $request)
     {
-        $this->validate($request, $this->validateRules());
+        $this->validate($request, $this->validateRules()[0], $this->validateRules()[1]);
         $intervention = new Intervention($request->except("_token", "vehicule"));
         $intervention->debut = Carbon::createFromFormat("d/m/Y", $request->input("debut"))->toDateTimeString();
         $intervention->fin = Carbon::createFromFormat("d/m/Y", $request->input("fin"))->toDateTimeString();
@@ -66,12 +66,17 @@ class ReparationController extends Controller
     private function validateRules()
     {
         return [
+        	[
             "debut" => "required|date_format:d/m/Y",
             "fin" => "required|date_format:d/m/Y",
             "vehicule_id" => "required|exists:vehicule,id",
             "typeintervention_id" => "required|exists:typeintervention,id",
-            "cout" => "required|integer",
-            "details" => "present"
+            "cout" => "required|integer|min:1",
+            "details" => "required"
+            ],
+	        [
+	        	"cout.min" => "Le coût de la réparation ne peut pas être égale à 0"
+	        ]
         ];
     }
 }

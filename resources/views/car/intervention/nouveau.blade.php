@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <select class="form-control selectpicker" id="typeintervention_id" name="typeintervention_id" data-live-search="true" required>
                                         @foreach($types as $type)
-                                            <option value="{{ $type->id }}">{{ $type->libelle }}</option>
+                                            <option value="{{ $type->id }}" @if($type->id == old('typeintervention_id')) selected @endif>{{ $type->libelle }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                                 <div class="input-group">
                                     <div class="form-line">
-                                        <input type="number" name="cout" id="cout" class="form-control">
+                                        <input type="number" name="cout" id="cout" class="form-control" value="{{ old('cout', 0) }}">
                                     </div>
                                     <span class="input-group-addon">F CFA</span>
                                 </div>
@@ -96,7 +96,7 @@
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <textarea class="form-control" name="details" id="details" placeholder="Observations et remarques de l'intervention"></textarea>
+                                        <textarea class="form-control" name="details" id="details" placeholder="Observations et remarques de l'intervention">{{ old('details', null) }}</textarea>
                                     </div>
                                 </div>
                             </div>

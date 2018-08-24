@@ -16,8 +16,8 @@
                     <tr class="bg-teal">
                         <th>Date</th>
                         <th>Opérations</th>
-                        <th>Débit</th>
                         <th>Crédit</th>
+                        <th>Débit</th>
                     </tr>
                     </thead>
                     <tbody>

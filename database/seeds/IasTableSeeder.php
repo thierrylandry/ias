@@ -12,7 +12,7 @@ class IasTableSeeder extends Seeder
      */
     public function run()
     {
-        /*
+
         DB::table("application")->insert([
             [
                 "version" => "1",
@@ -36,9 +36,7 @@ class IasTableSeeder extends Seeder
             [ "libelle" => "Révision" ],
             [ "libelle" => "Panne" ],
         ]);
-        */
 
-        /*
         DB::table("employe")->insert([
             [
                 "matricule" => "E000",
@@ -50,6 +48,36 @@ class IasTableSeeder extends Seeder
                 "basesalaire" => 0,
                 "service_id" => 1,
             ],
+            [
+                "matricule" => "E001",
+                "nom" => "Koné",
+                "prenoms" => "Boubacar",
+                "datenaissance" => \Carbon\Carbon::now()->toDateString(),
+                "pieceidentite" => "C XXX XXXX XXXX",
+                "dateembauche" => \Carbon\Carbon::now()->toDateString(),
+                "basesalaire" => 0,
+                "service_id" => 3,
+            ],
+            [
+                "matricule" => "E002",
+                "nom" => "Kouassi",
+                "prenoms" => "Lucien",
+                "datenaissance" => \Carbon\Carbon::now()->toDateString(),
+                "pieceidentite" => "C XXX XXXX XXXX",
+                "dateembauche" => \Carbon\Carbon::now()->toDateString(),
+                "basesalaire" => 0,
+                "service_id" => 3,
+            ],
+            [
+                "matricule" => "E003",
+                "nom" => "Dossongui",
+                "prenoms" => "Ibrahim",
+                "datenaissance" => \Carbon\Carbon::now()->toDateString(),
+                "pieceidentite" => "C XXX XXXX XXXX",
+                "dateembauche" => \Carbon\Carbon::now()->toDateString(),
+                "basesalaire" => 0,
+                "service_id" => 3,
+            ],
         ]);
 
         DB::table("utilisateur")->insert([
@@ -59,32 +87,30 @@ class IasTableSeeder extends Seeder
                 "employe_id" => 1
             ],
         ]);
-        */
 
-        /*
         DB::table('chauffeur')->insert([
             [
-                'employe_id' => '3',
+                'employe_id' => '2',
                 'permis' => 'PM544 054545 544',
                 'expiration_c' => null,
                 'expiration_d' => null,
                 'expiration_e' => null,
             ],
             [
-                'employe_id' => '4',
+                'employe_id' => '3',
                 'permis' => 'PM987 018780 545',
                 'expiration_c' => '2019-05-26',
                 'expiration_d' => '2019-05-26',
                 'expiration_e' => '2019-05-26',
             ],
             [
-                'employe_id' => '5',
+                'employe_id' => '4',
                 'permis' => 'PM987 87802521 545',
                 'expiration_c' => '2019-05-26',
                 'expiration_d' => '2019-05-26',
                 'expiration_e' => '2019-05-26',
             ],
-        ]); */
+        ]);
 
         DB::table('genre')->insert([
             ['libelle' => '4x4 Pick Up'],
@@ -98,7 +124,6 @@ class IasTableSeeder extends Seeder
             ['libelle' => 'Véhicule utilitaire'],
         ]);
 
-        /*
         DB::table('partenaire')->insert([
             [
                 'raisonsociale' => 'Glamo Group',
@@ -121,13 +146,11 @@ class IasTableSeeder extends Seeder
                 'isclient' => true,
                 'contact' => '[{"titre_c":"Touré Amadou","type_c":"MOB","valeur_c":"78996302"},{"titre_c":"Touré Amadou","type_c":"EMA","valeur_c":"glamolondon@live.fr"}]',
             ]
-        ]); */
+        ]);
 
-        /*
         DB::table('famille')->insert([
             ['libelle' => 'Non définie']
         ]);
-        */
 
         DB::table('moyenreglement')->insert([
             ['libelle' => 'Espèce'],
@@ -996,7 +1019,7 @@ class IasTableSeeder extends Seeder
             ]
         ]);
 
-        /*
+
         DB::table('produit')->insert([
             [
                 "reference" => "000004",
@@ -1132,7 +1155,7 @@ class IasTableSeeder extends Seeder
             ],
         ]);
 
-        */
+
     }
 }
 /*

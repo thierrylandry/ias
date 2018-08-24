@@ -92,7 +92,11 @@
                         @foreach($interventions as $intervention)
                         <tr>
                             <td></td>
-                            <td>{{ $intervention->vehicule->marque }} {{ $intervention->vehicule->typecommercial }} ({{ $intervention->vehicule->immatriculation }})</td>
+                            <td>
+                                <a href="{{ route('vehicule.details',["immatriculation" => $intervention->vehicule->immatriculation]) }}">
+                                    {{ $intervention->vehicule->marque }} {{ $intervention->vehicule->typecommercial }} ({{ $intervention->vehicule->immatriculation }})
+                                </a>
+                            </td>
                             <td>{{ (new \Carbon\Carbon($intervention->debut))->format("d/m/Y") }}</td>
                             <td>{{ (new \Carbon\Carbon($intervention->fin))->format("d/m/Y") }}</td>
                             <td>{{ (new \Carbon\Carbon($intervention->fin))->diffInDays(new \Carbon\Carbon($intervention->debut)) }}</td>
