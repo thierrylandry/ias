@@ -68,10 +68,11 @@
                                 <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
-                                        <option value="{{ $commercializable->id }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{!! $commercializable->detailsForCommande() !!}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {!! $commercializable->detailsForCommande() !!}</option>
+                                        <option value="{{ $commercializable->id }}" data-stock="{{ $commercializable->stock ?? 0 }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{!! $commercializable->detailsForCommande() !!}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {!! $commercializable->detailsForCommande() !!}</option>
                                     @endforeach
                                 </select>
                                 <button id="addProduct" title="Ajouter un produit" class="btn bg-teal btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i> </button>
+                                <span id="infoProduct" class="new badge blue"></span>
                             </div>
                         </div>
 
@@ -333,6 +334,11 @@
      * */
     $("#produits").change(function (e) {
         $("#price").val($("#produits option:selected").data("price")) ;
+
+        var stock = $("#produits option:selected").data("stock");
+        if(stock != 'no'){
+            $("#infoProduct").text( stock +" produit(s) en stock");
+        }
     });
 
     $("#btnajouter").click(function (e) {
@@ -446,7 +452,7 @@
 
     function refreshFromNewProduct(produit) {
         console.log(produit);
-        var option = '<option value="'+produit.id+'" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+'</option>';
+        var option = '<option value="'+produit.id+'" data-stock="0" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+'</option>';
         console.log(option);
 
         $("#produits").selectpicker('deselectAll');

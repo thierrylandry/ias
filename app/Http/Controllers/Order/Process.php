@@ -62,7 +62,7 @@ trait Process
             "lignes.*.id" => "required|numeric",
             "lignes.*.designation" => "required",
             "lignes.*.quantite" => "required|numeric|min:1",
-            "lignes.*.prixunitaire" => "required|numeric|min:50",
+            "lignes.*.prixunitaire" => "required|numeric|min:5",
             "lignes.*.modele" => "required",
             "lignes.*.modele_id" => "required|numeric|min:1",
             "partenaire_id" => "required|exists:partenaire,id",

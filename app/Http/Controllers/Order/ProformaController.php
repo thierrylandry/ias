@@ -63,27 +63,43 @@ class ProformaController extends Controller
         return view('order.proforma', compact("commercializables", "partenaires", "lignes", "proforma"));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Throwable
+	 */
     public function ajouter(Request $request)
     {
         $validator = $this->validateProformaRequest($request);
 
         if($validator->fails()){
+
             return response()->json(["code" => 0, "message" => "La validation de la pro forma a échouée"],400);
+
         }
 
-        $paretenaire = new Partenaire(['id' => $request->input("partenaire_id")]);
+        try{
 
-        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $paretenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
+	        $paretenaire = new Partenaire(['id' => $request->input("partenaire_id")]);
 
-        $this->addLineToPieceComptable($piececomptable,$request->input("lignes"));
+	        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $paretenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
 
-        $notification = new Notifications();
-        $notification->add(Notifications::SUCCESS,"Votre proforma n° $piececomptable->referenceproforma a été prise en compte.");
+	        $this->addLineToPieceComptable($piececomptable,$request->input("lignes"));
 
-        return response()->json([
-            "code" => 1,
-            "message" => "Nouvelle pro forma référence $piececomptable->referenceproforma enregistrée avec succès !",
-            "action" => route("facturation.envoie.emailchoice",["reference" => urlencode($piececomptable->referenceproforma)])
-        ],200, [],JSON_UNESCAPED_UNICODE);
+	        $notification = new Notifications();
+	        $notification->add(Notifications::SUCCESS,"Votre proforma n° $piececomptable->referenceproforma a été prise en compte.");
+
+	        return response()->json([
+		        "code" => 1,
+		        "message" => "Nouvelle pro forma référence $piececomptable->referenceproforma enregistrée avec succès !",
+		        "action" => route("facturation.envoie.emailchoice",["reference" => urlencode($piececomptable->referenceproforma)])
+	        ],200, [],JSON_UNESCAPED_UNICODE);
+
+        }catch(\Exception $e){
+
+	        return response()->json(["code" => 0, "message" => $e->getMessage() ],400);
+
+        }
     }
 }
