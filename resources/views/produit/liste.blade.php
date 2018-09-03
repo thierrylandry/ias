@@ -27,7 +27,7 @@
                                     <b>Référence ou nom de produit</b>
                                     <div class="input-group">
                                         <div class="form-line">
-                                            <input name="keyword" type="text" class="form-control datepicker" placeholder="Reference ou produit" value="{{ request()->query("keyword") }}">
+                                            <input name="keyword" type="text" class="form-control" placeholder="Reference ou produit" value="{{ request()->query("keyword") }}">
                                         </div>
                                         <span class="input-group-addon">
                                             <i class="material-icons">search</i>
@@ -56,6 +56,7 @@
                             <th>REFERENCE</th>
                             <th>FAMILLE</th>
                             <th>LIBELLE</th>
+                            <th>STOCK</th>
                             <th>PRIX UNITAIRE</th>
                         </tr>
                         </thead>
@@ -73,6 +74,7 @@
                             <td>{!! str_replace(strtoupper(request()->query("keyword")),'<span class="bg-teal">'.request()->query("keyword").'</span>' ,strtoupper($produit->reference) ) !!}</td>
                             <td>{{ $produit->famille->libelle }}</td>
                             <td>{!! str_replace(strtoupper(request()->query("keyword")),'<span class="bg-teal">'.request()->query("keyword").'</span>' ,strtoupper($produit->libelle) ) !!}</td>
+                            <td class="text-right">{{ number_format($produit->stock,0,","," ") }}</td>
                             <td class="text-right">{{ number_format($produit->prixunitaire,0,","," ") }} F CFA</td>
                         </tr>
                         @endforeach

@@ -211,7 +211,17 @@ class CreateDatabaseIas extends Migration
             $table->unsignedInteger('piececomptable_id');
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
         });
-        Schema::create("lignebrouillard", function (Blueprint $table){
+        Schema::create("compte", function (Blueprint $table){
+        	$table->bigIncrements('id');
+        	$table->string('libelle');
+        	$table->string('slug')->unique();
+        	$table->dateTime('datecreation');
+	        $table->string('commentaire')->nullable();
+	        $table->unsignedInteger("employe_id")->nullable();
+	        $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
+	        $table->softDeletes();
+        });
+        Schema::create("lignecompte", function (Blueprint $table){
             $table->bigIncrements('id');
             $table->date("dateecriture");
             $table->dateTime("dateaction");
@@ -220,7 +230,9 @@ class CreateDatabaseIas extends Migration
             $table->integer('balance');
             $table->string('observation')->nullable();
             $table->unsignedInteger("employe_id");
+            $table->unsignedInteger("compte_id");
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
+            $table->foreign('compte_id')->references('id')->on('compte');
             $table->softDeletes();
         });
         Schema::create("piecefournisseur", function (Blueprint $table){

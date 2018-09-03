@@ -9,7 +9,7 @@
     <div class="col-md-12 col-sm-12">
         <div class="card">
             <div class="header">
-                <h3>Brouillard de caisse | solde : <b class="bg-green">{{ number_format($solde, 0,',',' ') }} FCFA </b></h3>
+                <h3>Sous compte : {{ $souscompte->libelle }} | solde : <b class="bg-green">{{ number_format($solde, 0,',',' ') }} FCFA </b></h3>
                 <hr/>
                 <form action="" method="get">
                     <div class="row clearfix">
@@ -87,7 +87,7 @@
                                         </div>
                                     </td>
                                     <td>{{ (new \Carbon\Carbon($ligne->dateaction))->format('d/m/Y H:i:s') }}</td>
-                                    <td>{{ (new \Carbon\Carbon($ligne->dateecriture))->format('d/m/Y') }}</td>
+                                    <td>{{ (new \Carbon\Carbon($ligne->dateoperation))->format('d/m/Y') }}</td>
                                     <td>{{ $ligne->objet }}</td>
                                     <td><a title="{{ $ligne->observation }}">{{ number_format($ligne->montant, 0, ',',' ') }}</a></td>
                                     <td>{{ number_format($ligne->balance, 0, ',',' ') }}</td>
@@ -120,7 +120,7 @@
                         <div class="col-md-8 col-xs-12 ">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="dateecriture" id="dateecriture" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateecriture',\Carbon\Carbon::now()->format("d/m/Y")) }}">
+                                    <input type="text" required name="dateoperation" id="dateoperation" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateoperation',\Carbon\Carbon::now()->format("d/m/Y")) }}">
                                 </div>
                             </div>
                         </div>
@@ -174,6 +174,9 @@
                                 <textarea maxlength="255" id="observation" name="observation" class="form-control" placeholder="Note sur le mouvement">{{ old('observation') }}</textarea>
                             </div>
                         </div>
+                        <div class="">
+                            <input type="hidden" name="compte_id" id="compte_id" value="{{ $souscompte->id }}">
+                        </div>
                     </div>
 
                     <hr/>
@@ -192,7 +195,7 @@
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form class="form-line" action="{{ route('brouillard.modifier') }}" method="post">
+        <form class="form-line" action="" method="post">
             <div class="modal-content">
                 <div class="modal-header bg-light-green">
                     <h4 class="modal-title" id="editModalLabel">Modification mouvement de caisse</h4>
@@ -207,7 +210,7 @@
                         <div class="col-md-8 col-xs-12 ">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required name="dateecriture" id="md-dateecriture" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateecriture',\Carbon\Carbon::now()->format("d/m/Y")) }}">
+                                    <input type="text" required name="dateoperation" id="md-dateoperation" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('dateecriture',\Carbon\Carbon::now()->format("d/m/Y")) }}">
                                 </div>
                             </div>
                         </div>
@@ -260,7 +263,7 @@
 
         function edit(id, dateEcriture, objet) {
             $('#md-id').val(id);
-            $('#md-dateecriture').val(dateEcriture);
+            $('#md-dateoperation').val(dateEcriture);
             $('#md-objet').val(objet);
             $('#editModal').modal('show');
         }

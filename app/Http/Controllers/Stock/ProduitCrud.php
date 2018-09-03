@@ -15,10 +15,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 trait ProduitCrud
 {
-    /**
-     * @param array $data
-     * @return Produit
-     */
+	/**
+	 * @param array $data
+	 * @param Produit|null $produit
+	 *
+	 * @return Produit
+	 * @throws \Throwable
+	 */
     protected function persitProduct(array $data, Produit $produit = null)
     {
         if(!$produit){
@@ -47,11 +50,12 @@ trait ProduitCrud
         }
     }
 
-    /**
-     * @param int $id
-     * @return bool|null
-     * @throws ModelNotFoundException
-     */
+	/**
+	 * @param int $id
+	 *
+	 * @return bool|null
+	 * @throws \Exception
+	 */
     protected function delete (int $id){
 
         $produit = Produit::find($id);

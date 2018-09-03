@@ -69,6 +69,7 @@ class ProduitController extends Controller
         $keyword = null;
 
         $familles = Famille::orderBy("libelle")->get();
+
         $produits = Produit::with("famille")
             ->orderBy("reference", 'asc');
 

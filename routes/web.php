@@ -100,11 +100,13 @@ Route::prefix("versement")->middleware("auth")->group(function (){
     Route::post('facture/partenaire/fournisseur','Money\ReglementController@reglementFournisseur')->name('versement.facture.fournisseur');
 });
 
-//Brouillard
-Route::prefix('brouillard')->middleware('auth')->group(function (){
-   Route::get('registre.html','Money\BrouillardController@registre')->name('brouillard.registre');
-   Route::post('registre.html','Money\BrouillardController@addNewLine');
-   Route::post('modifier.html','Money\BrouillardController@updateLine')->name('brouillard.modifier');
+//Compte
+Route::prefix('compte')->middleware('auth')->group(function (){
+    Route::get('livre.html','Money\CompteController@registre')->name('compte.registre');
+	Route::post('livre.html','Money\CompteController@addNewSousCompte');
+    Route::get('sous-compte/{slug}/registre.html','Money\CompteController@detailsSousCompte')->name('compte.souscompte');
+	Route::post('sous-compte/{slug}/registre.html','Money\CompteController@addNewLine');
+    Route::post('sous-compte/{slug}/modifier.html','Money\CompteController@updateLine')->name('compte.modifier');
 });
 
 //PDF
@@ -129,9 +131,11 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
 
 //Stock
 Route::prefix('stock')->middleware('auth')->group(function (){
+	Route::get("mouvements.html","Stock\MouvementController@index")->name("stock.produit.mouvement");
     Route::get("produit/nouveau.html","Stock\ProduitController@ajouter")->name('stock.produit.ajouter');
     Route::post("produit/nouveau.html","Stock\ProduitController@addProduct");
-    Route::get("produits/liste.html","Stock\ProduitController@liste")->name('stock.produit.liste');
+    Route::get("produits/inventaire.html","Stock\ProduitController@liste")->name('stock.produit.liste');
+    Route::get("produits","Stock\ProduitController@liste");
     Route::get("produits/{reference}/modifier.html","Stock\ProduitController@modifier")->name("stock.produit.modifier");
     Route::post("produits/{reference}/modifier.html","Stock\ProduitController@update");
 
