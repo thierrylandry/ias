@@ -64,7 +64,7 @@ trait Process
             "lignes.*.quantite" => "required|numeric|min:1",
             "lignes.*.prixunitaire" => "required|numeric|min:5",
             "lignes.*.modele" => "required",
-            "lignes.*.modele_id" => "required|numeric|min:1",
+            "lignes.*.modele_id" => "required|numeric",
             "partenaire_id" => "required|exists:partenaire,id",
             "montantht" => "required|numeric",
             "isexonere" => "required|boolean",
@@ -72,7 +72,7 @@ trait Process
             "validite" => "required",
             "objet" => "required",
             "delailivraison" => "required",
-        ]);
+        ])->validate();
     }
 
     /**

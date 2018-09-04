@@ -55,6 +55,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="genre_id">Chauffeur</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field">
+                                        @foreach($chauffeurs as $chauffeur)
+                                            <option value="{{ $chauffeur->id }}" @if(old('chauffeur_id') == $vehicule->chauffeur_id) selected @endif> {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row clearfix">

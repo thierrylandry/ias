@@ -12,6 +12,9 @@
             <span>Missions</span>
         </a>
     </li>
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+        \App\Service::GESTIONNAIRE_PL, \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
+    )
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">drive_eta</i>
@@ -30,6 +33,10 @@
             </li>
         </ul>
     </li>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">people</i>
@@ -48,6 +55,10 @@
             </li>
         </ul>
     </li>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">monetization_on</i>
@@ -76,12 +87,16 @@
             </li>
         </ul>
     </li>
+    @endif
     <li>
         <a href="{{ route('compte.registre') }}" class="">
             <i class="material-icons">local_atm </i>
             <span>Trésorerie</span>
         </a>
     </li>
+
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    \App\Service::ADMINISTRATION, \App\Service::LOGISTIQUE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">redeem</i>
@@ -99,6 +114,8 @@
             </li>
         </ul>
     </li>
+    @endif
+
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">settings</i>
@@ -109,11 +126,13 @@
                 <a href="{{ route('admin.employe.liste') }}">Employes</a>
             </li>
             <li>
-                <a href="{{ route("admin.utilisateur.liste") }}">Utilisateurs</a>
-            </li>
-            <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>
             </li>
+            @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE))
+            <li>
+                <a href="{{ route("admin.utilisateur.liste") }}">Utilisateurs</a>
+            </li>
+            @endif
         </ul>
     </li>
 </ul>

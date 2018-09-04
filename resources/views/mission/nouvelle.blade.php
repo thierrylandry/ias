@@ -135,7 +135,7 @@
                                 <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field" data-live-search="true" required>
                                     <option value="-1">Aucun chauffeur</option>
                                     @foreach($chauffeurs as $chauffeur)
-                                        <option value="{{ $chauffeur->employe_id }}" @if(old('chauffeur_id') == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
+                                        <option id="chauff_{{$chauffeur->employe_id}}" value="{{ $chauffeur->employe_id }}" @if(old('chauffeur_id') == $chauffeur->id) selected @endif>{{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -149,7 +149,7 @@
                                 <select type="text" name="vehicule_id" id="vehicule_id" class="form-control input-field" data-live-search="true" required>
                                     <option value="-1">Véhicule du sous-traitant</option>
                                     @foreach($vehicules as $vehicule)
-                                        <option value="{{ $vehicule->id }}" @if(old('vehicule_id') == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
+                                        <option data-chauffeur="{{ $vehicule->chauffeur_id ?? 0 }}" value="{{ $vehicule->id }}" @if(old('vehicule_id') == $vehicule->id) selected @endif>{{ $vehicule->marque }} {{ $vehicule->typecommercial }} ({{ $vehicule->immatriculation }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -267,6 +267,8 @@
     var txtfin = document.getElementById('finprogramme');
     var txtperdiem = document.getElementById('perdiem');
     var txtmontant = document.getElementById('montantjour');
+    var selChauffeur = document.getElementById('chauffeur_id');
+    var selVehicule = document.getElementById('vehicule_id');
 
     function calculDureeMission()
     {
@@ -302,5 +304,12 @@
         calculMontantHT();
     });
 
+    selVehicule.addEventListener('change', function (e) {
+        var id = $("#vehicule_id option:selected").data('chauffeur');
+        $("#chauffeur_id option:selected").removeAttr("selected");
+        console.log($("#chauffeur_id option:selected"));
+        $("#chauff_"+id).attr("selected","selected");
+        console.log($("#chauff_"+id));
+    })
 </script>
 @endsection

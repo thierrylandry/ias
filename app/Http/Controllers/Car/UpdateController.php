@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Car;
 
+use App\Chauffeur;
 use App\Genre;
 use App\Metier\Processing\VehiculeManager;
 use App\Vehicule;
@@ -15,13 +16,16 @@ class UpdateController extends Controller
     public function modifier(string $immatriculation)
     {
         $vehicule =  Vehicule::with("genre")
-            ->where("immatriculation",$immatriculation)
-        ->firstOrFail();
+                    ->where("immatriculation",$immatriculation)
+                    ->firstOrFail();
 
         if($vehicule != null)
         {
             $genres = Genre::all();
-            return view("car.modification", compact("genres","vehicule"));
+
+	        $chauffeurs = Chauffeur::with('employe')->get();
+
+            return view("car.modification", compact("genres","vehicule", "chauffeurs"));
         }
 
         return back()->withErrors("Véhicule introuvable");

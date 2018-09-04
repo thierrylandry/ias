@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Car;
 
+use App\Chauffeur;
 use App\Genre;
 use App\Metier\Processing\VehiculeManager;
 use App\Vehicule;
@@ -23,6 +24,8 @@ class RegisterController extends Controller
     {
         $genres = Genre::all();
 
-        return view('car.nouveau', compact('genres'));
+        $chauffeurs = Chauffeur::with('employe')->get();
+
+        return view('car.nouveau', compact('genres', 'chauffeurs'));
     }
 }

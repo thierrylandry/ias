@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Metier\Behavior\Gates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -11,7 +12,7 @@ class Utilisateur extends Authenticatable
     protected $table = 'utilisateur';
     protected $primaryKey = 'employe_id';
 
-    use Notifiable;
+    use Notifiable, Gates;
 
     /**
      * The attributes that are mass assignable.

@@ -29,6 +29,9 @@ class IasTableSeeder extends Seeder
             [ "code" => "INFO", "libelle" => "Informatique" ],
             [ "code" => "COMPT","libelle" => "Comptabilité" ],
             [ "code" => "LOGIS","libelle" => "Logistique" ],
+            [ "code" => "ADMIN","libelle" => "Administration" ],
+            [ "code" => "GESPL","libelle" => "Gestionnaire PL" ],
+            [ "code" => "GESVL","libelle" => "Gestionnaire VL" ],
         ]);
 
         DB::table("typeintervention")->insert([

@@ -10,9 +10,8 @@ class Service extends Model
 	const COMPTABILITE = 'COMPT';
 	const LOGISTIQUE = 'LOGIS';
 	const ADMINISTRATION = 'ADMIN';
-	const GESTIONNAIRE_PL = 'GESTPL';
-	const GESTIONNAIRE_VL = 'GESTVL';
-
+	const GESTIONNAIRE_PL = 'GESPL';
+	const GESTIONNAIRE_VL = 'GESVL';
 
     public $timestamps = false;
     protected $table = "service";

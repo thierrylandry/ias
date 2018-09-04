@@ -16,15 +16,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CompteController extends Controller
 {
-    public function registre(){
+	use Tresorerie;
 
-        $comptes = Compte::with('utilisateur')
-                         ->with(['lignecompte' => function ($query){
-                         	$query->latest('dateaction')->first();
-                         }])->get();
+    public function registre()
+    {
+        $comptes = $this->getListCompteByUser();
 
         $utilisateurs = Utilisateur::with('employe')->get();
-		//dd($comptes);
+
         return view('compte.registre', compact("comptes", "utilisateurs"));
     }
 
@@ -55,24 +54,6 @@ class CompteController extends Controller
     }
 
 	/**
-	 * @param int $value
-	 *
-	 * @return bool
-	 */
-    private function checkExistUser(int $value)
-    {
-    	if(is_numeric($value) && $value != -1 ){
-    		try{
-    			Utilisateur::findOrFail($value);
-    			return true;
-		    }catch (\Exception $e){
-    			return false;
-		    }
-	    }
-	    return false;
-    }
-
-	/**
 	 * @param string $slug
 	 * @param Request $request
 	 *
@@ -91,7 +72,8 @@ class CompteController extends Controller
         $solde = $last != null ? $last->balance : 0;
 
         $lignes = LigneCompte::with('utilisateur')
-                     ->orderBy('dateaction', 'desc');
+	                ->where('compte_id','=', $souscompte->id)
+	                ->orderBy('dateaction', 'desc');
 
         $lignes = $this->extracData($lignes, $request, $debut, $fin);
 

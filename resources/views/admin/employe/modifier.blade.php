@@ -131,7 +131,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" name="datesortie" id="datesortie" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('datesortie', (new \Carbon\Carbon($employe->datesortie))->format('d/m/Y')) }}">
+                                        <input type="text" name="datesortie" id="datesortie" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('datesortie', null) }}">
                                     </div>
                                 </div>
                             </div>

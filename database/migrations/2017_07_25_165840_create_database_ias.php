@@ -67,6 +67,7 @@ class CreateDatabaseIas extends Migration
         Schema::create("genre",function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle');
+            $table->string('categorie',2)->default('VL'); //VL et PL
         });
         Schema::create("vehicule",function (Blueprint $table){
             $table->increments("id");
@@ -83,6 +84,8 @@ class CreateDatabaseIas extends Migration
             $table->integer('nbreplace')->default(5);
             $table->integer('puissancefiscale')->nullable();
             $table->unsignedInteger('genre_id');
+	        $table->unsignedInteger('chauffeur_id')->nullable();
+	        $table->foreign('chauffeur_id')->references('employe_id')->on('chauffeur');
             $table->foreign("genre_id")->references("id")->on("genre");
         });
         Schema::create("intervention",function (Blueprint $table){

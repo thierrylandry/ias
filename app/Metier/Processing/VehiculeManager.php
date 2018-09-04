@@ -37,7 +37,7 @@ trait VehiculeManager
             $vehicule = new Vehicule($request->except('_token'));
         }
 
-        $vehicule->visite = Carbon::createFromFormat('d/m/Y',$request->input("visite"))->toDateString();
+        $vehicule->visite    = Carbon::createFromFormat('d/m/Y',$request->input("visite")   )->toDateString();
         $vehicule->assurance = Carbon::createFromFormat('d/m/Y',$request->input("assurance"))->toDateString();
         $vehicule->dateachat = Carbon::createFromFormat('d/m/Y',$request->input("dateachat"))->toDateString();
 
@@ -72,7 +72,7 @@ trait VehiculeManager
     {
         $rules = [
             'immatriculation' =>'required|regex:/([0-9]{1,4}) ([A-Z]{2}) ([0-3]{2})/',
-            'genre_id' => 'required|numeric',
+            'genre_id' => 'required|numeric|exists:genre,id',
             'cartegrise' => 'required',
             'marque' => 'required',
             'typecommercial' => 'present',
@@ -81,7 +81,8 @@ trait VehiculeManager
             'nbreplace' => 'required|numeric',
             'puissancefiscale' => 'present',
             'dateachat' => "required|date_format:d/m/Y",
-            'coutachat' => "required|numeric"
+            'coutachat' => "required|numeric",
+            'chauffeur_id' => "required|exists:chauffeur,employe_id",
         ];
 
         if($withID){

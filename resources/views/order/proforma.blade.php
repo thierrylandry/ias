@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
+                                <select @if(request()->query('from') == 'mission') disabled @endif class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
                                         <option value="{{ $commercializable->id }}" data-stock="{{ $commercializable->stock ?? 0 }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{!! $commercializable->detailsForCommande() !!}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {!! $commercializable->detailsForCommande() !!}</option>
@@ -287,7 +287,7 @@
                 '"partenaire_id":' +$("#client").val() +
                 '}';
 
-        //console.log(dataString);
+        console.log(dataString);
         sendDataPost(JSON.parse(dataString));
     }
 
@@ -380,10 +380,15 @@
         $product = $("#produits option:selected");
         $quantity = $('#quantity');
 
+        var id = $product.data('id') == undefined ? 0 : $product.data('id');
+        var modele = $product.data("modele") == undefined ? '{{ \App\Mission::class }}' : $product.data("modele");
+        var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
+        var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
+
         $("#piece tbody").fadeIn().append("<tr>\n" +
-            "<th data-id=\""+$product.data('id')+"\" data-modele=\""+ $product.data("modele") +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
-            "<td>"+ $product.data("reference") +"</td>\n" +
-            "<td>"+ $product.data("libelle")+ " "+ $("#complement").val() +"</td>\n" +
+            "<th data-id=\""+ id +"\" data-modele=\""+ modele +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
+            "<td>"+ reference +"</td>\n" +
+            "<td>"+ libelle + " "+ $("#complement").val() +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
             "<td class='price'>"+ $("#price").val() +"</td>\n" +
             "<td class='amount'>"+ parseInt($("#price").val()) * parseInt($quantity.val()) +"</td>\n" +
@@ -422,10 +427,11 @@
         $("#montantHT").text(montantHT);
         $("#montantTVA").text(Math.ceil(montantHT * 0.18));
 
-        if($("#isexonere").is(":checked"))
+        if($("#isexonere").is(":checked")){
             $("#montantTTC").text(montantHT);
-        else
+        }else{
             $("#montantTTC").text(Math.ceil(montantHT * 1.18));
+        }
     }
 
     function editQty(arg)

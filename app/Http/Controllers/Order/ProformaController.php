@@ -21,18 +21,7 @@ class ProformaController extends Controller
         $commercializables = null;
         $proforma = null;
 
-        //Si une mission est passée en session
-        if( $request->query("from") == Notifications::MISSION_OBJECT )
-        {
-            $commercializables = $request->session()->get(Notifications::MISSION_OBJECT);
-
-            if(!is_array($commercializables)){
-                $commercializables = collect([$commercializables]);
-            }
-
-            $lignes = $commercializables;
-
-        }elseif($request->query("from") == Notifications::CREATE_FROM_PROFORMA){
+       if($request->query("from") == Notifications::CREATE_FROM_PROFORMA){
 
 			$proforma = $this->getPieceComptableFromReference($request->query('ID'));
 
@@ -48,8 +37,6 @@ class ProformaController extends Controller
 				$produit->id = $item->modele_id; //ID du produit et non de la ligne
 		        $lignes->push($produit);
 	        });
-
-	        //dd($lignes);
         }
 
         if($commercializables == null){ //Facture sans intention préalable
@@ -71,13 +58,7 @@ class ProformaController extends Controller
 	 */
     public function ajouter(Request $request)
     {
-        $validator = $this->validateProformaRequest($request);
-
-        if($validator->fails()){
-
-            return response()->json(["code" => 0, "message" => "La validation de la pro forma a échouée"],400);
-
-        }
+        $this->validateProformaRequest($request);
 
         try{
 
