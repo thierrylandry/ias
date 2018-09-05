@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Employe;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
+use App\Service;
 use App\Statut;
 use App\Utilisateur;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,14 +16,24 @@ use Illuminate\Support\Facades\Lang;
 
 class UtilisateurController extends Controller
 {
+	/**
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function index()
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION]));
         $utilisateurs = Utilisateur::with("employe.service")->get();
         return view("admin.utilisateur.liste", compact("utilisateurs"));
     }
 
+	/**
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function ajouter()
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION]));
         $employes = Employe::orderBy('nom','asc')
             ->whereNotIn('id',Utilisateur::select(['employe_id'])->get()->toArray())
             ->orderBy('prenoms', 'asc')
@@ -30,8 +42,15 @@ class UtilisateurController extends Controller
         return view("admin.utilisateur.ajouter", compact("employes"));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function register(Request $request)
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION]));
         $this->validate($request, [
             "employe_id" => "required|exists:employe,id",
             "login" => "required",

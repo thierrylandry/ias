@@ -74,9 +74,7 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::post('utilisateur/ajouter.html', 'Admin\UtilisateurController@register');
 });
 
-Route::get('/pdf.html',function (){
-    echo \App\Metier\Finance\NombreToLettre::getLetter(3357200);
-});
+Route::get('/test.html','Mission\MissionController@reminder');
 
 //Facturation
 Route::prefix('factures')->middleware('auth')->group(function (){

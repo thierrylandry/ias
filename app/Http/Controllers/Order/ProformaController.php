@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Order;
 
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Mission;
 use App\Partenaire;
 use App\PieceComptable;
 use App\Produit;
+use App\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
@@ -15,8 +17,16 @@ class ProformaController extends Controller
 {
     use Process;
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function nouvelle(Request $request)
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
         $lignes = new Collection();
         $commercializables = null;
         $proforma = null;
@@ -58,6 +68,8 @@ class ProformaController extends Controller
 	 */
     public function ajouter(Request $request)
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
         $this->validateProformaRequest($request);
 
         try{

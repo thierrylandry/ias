@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Chauffeur;
 use App\Employe;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Mission;
+use App\Service;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -16,9 +18,17 @@ use Illuminate\Support\Facades\Log;
 
 class ChauffeurController extends Controller
 {
+	/**
+	 * @param $matricule
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function situation($matricule)
     {
-        $chauffeur = Chauffeur::where("matricule",$matricule)
+    	$this->authorize(Actions::READ, [Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]);
+
+    	$chauffeur = Chauffeur::where("matricule",$matricule)
             ->join("employe","employe_id","employe.id")
             ->first();
 
@@ -82,16 +92,17 @@ class ChauffeurController extends Controller
             'permis' => $data['permis'],
         ];
 
-        if(array_key_exists('expiration_c',$data) && !empty($data['expiration_c']))
-            $raw['expiration_c'] = Carbon::createFromFormat('d/m/Y',$data['expiration_c']);
+        if(array_key_exists('expiration_c',$data) && !empty($data['expiration_c'])){
+	        $raw['expiration_c'] = Carbon::createFromFormat('d/m/Y',$data['expiration_c']);
+        }
 
+        if(array_key_exists('expiration_d',$data) && !empty($data['expiration_d'])) {
+	        $raw['expiration_d'] = Carbon::createFromFormat( 'd/m/Y', $data['expiration_d'] );
+        }
 
-        if(array_key_exists('expiration_d',$data) && !empty($data['expiration_d']))
-            $raw['expiration_d'] = Carbon::createFromFormat('d/m/Y',$data['expiration_d']);
-
-
-        if(array_key_exists('expiration_e',$data) && !empty($data['expiration_e']))
-            $raw['expiration_e'] = Carbon::createFromFormat('d/m/Y',$data['expiration_e']);
+        if(array_key_exists('expiration_e',$data) && !empty($data['expiration_e'])) {
+	        $raw['expiration_e'] = Carbon::createFromFormat( 'd/m/Y', $data['expiration_e'] );
+        }
 
         return Chauffeur::create($raw);
     }

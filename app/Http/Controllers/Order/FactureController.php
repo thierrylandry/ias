@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\PieceComptable;
+use App\Service;
 use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,7 +15,17 @@ class FactureController extends Controller
 {
     use Process;
 
-    public function listeProforma(Request $request)
+	/**
+	 * FactureController constructor.
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+    public function __construct()
+    {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+    	parent::__construct();
+    }
+
+	public function listeProforma(Request $request)
     {
         return $this->liste($request, PieceComptable::PRO_FORMA);
     }

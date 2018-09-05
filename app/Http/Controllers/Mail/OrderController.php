@@ -27,9 +27,6 @@ class OrderController extends Controller
         {
             $collection->push(["email" => $email]);
         }
-        //return view("mail.proforma", compact("piece"));
-
-        //dd($collection);
 
         try{
             Mail::to($collection->toArray())

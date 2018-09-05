@@ -3,15 +3,25 @@
 namespace App\Http\Controllers\Car;
 
 use App\Intervention;
+use App\Metier\Security\Actions;
 use App\Mission;
+use App\Service;
 use App\Vehicule;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
 class FicheController extends Controller
 {
+	/**
+	 * @param $immatriculation
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function details($immatriculation)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
+
         $vehicule = Vehicule::with("genre")
             ->where("immatriculation", $immatriculation)
             ->first();

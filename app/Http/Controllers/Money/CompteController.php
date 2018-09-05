@@ -6,6 +6,8 @@ use App\Brouillard;
 use App\Compte;
 use App\LigneCompte;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
+use App\Service;
 use App\Utilisateur;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,8 +29,16 @@ class CompteController extends Controller
         return view('compte.registre', compact("comptes", "utilisateurs"));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function addNewSousCompte(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
     	$this->validate($request, [
     		"libelle" => "required",
     		"employe_id" => "required",

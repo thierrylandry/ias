@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Employe;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Service;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,8 +15,14 @@ use Illuminate\Support\Facades\Storage;
 
 class EmployeController extends Controller
 {
+	/**
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function liste()
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
         $employes = Employe::orderBy('nom')->orderBy('prenoms')
             ->with('service')
             ->paginate(15);
@@ -23,15 +30,29 @@ class EmployeController extends Controller
         return view('admin.employe.liste',compact('employes'));
     }
 
+	/**
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function ajouter()
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
         $services = Service::orderBy('libelle')->get();
         return view('admin.employe.ajouter',compact('services'));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 * @throws \Throwable
+	 */
     public function register(Request $request)
     {
-        $this->validate($request, [
+    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
+    	$this->validate($request, [
             "service_id" => "required|exists:service,id",
             "datesortie" => "present",
             "dateembauche" => "required|date_format:d/m/Y",
@@ -49,6 +70,11 @@ class EmployeController extends Controller
         return redirect()->route("admin.employe.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @throws \Throwable
+	 */
     private function addEmploye(Request $request)
     {
         $employe = new Employe($request->except("_token"));
@@ -62,8 +88,15 @@ class EmployeController extends Controller
         $employe->saveOrFail();
     }
 
+	/**
+	 * @param $matricule
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function fiche($matricule)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
         try{
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
             return view("admin.employe.fiche",compact("employe"));
@@ -72,8 +105,16 @@ class EmployeController extends Controller
         }
     }
 
+	/**
+	 * @param $matricule
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function modifier($matricule)
     {
+	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
         try{
             $services = Service::orderBy('libelle')->get();
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
@@ -83,9 +124,18 @@ class EmployeController extends Controller
         }
     }
 
+	/**
+	 * @param Request $request
+	 * @param $matricule
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function update(Request $request, $matricule)
     {
-        try {
+    	$this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+
+    	try {
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
             $update = $request->except("_token");
 
