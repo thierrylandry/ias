@@ -254,21 +254,6 @@ class CreateDatabaseIas extends Migration
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
         });
-        /*
-        Schema::create("versementfournisseur", function (Blueprint $table){
-            $table->bigIncrements('id');
-            $table->date("datepaiement");
-            $table->dateTime("dateenregistrement");
-            $table->string("objet");
-            $table->integer('montant')->default(0);
-            $table->string('observation')->nullable();
-            $table->unsignedInteger("employe_id");
-            $table->unsignedInteger("piecefournisseur_id");
-            $table->unsignedInteger("moyenpaiement_id");
-            $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
-            $table->foreign('piecefournisseur_id')->references('id')->on('piecefournisseur');
-            $table->foreign('moyenpaiement_id')->references('id')->on('moyenreglement');
-        }); */
     }
 
     /**
@@ -279,11 +264,11 @@ class CreateDatabaseIas extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('versementfournisseur');
         Schema::dropIfExists('piecefournisseur');
-        Schema::dropIfExists('lignebrouillard');
-        Schema::dropIfExists('application');
+        Schema::dropIfExists('lignecompte');
+        Schema::dropIfExists('compte');
         Schema::dropIfExists('lignepiece');
+        Schema::dropIfExists('versement');
         Schema::dropIfExists('mission');
         Schema::dropIfExists('piececomptable');
         Schema::dropIfExists('produit');
@@ -292,7 +277,6 @@ class CreateDatabaseIas extends Migration
         Schema::dropIfExists('partenaire');
         Schema::dropIfExists('moyenreglement');
         Schema::dropIfExists('intervention');
-        Schema::dropIfExists('typeintervention');
         Schema::dropIfExists('vehicule');
         Schema::dropIfExists('genre');
         Schema::dropIfExists('typeintervention');
@@ -300,5 +284,6 @@ class CreateDatabaseIas extends Migration
         Schema::dropIfExists('utilisateur');
         Schema::dropIfExists('employe');
         Schema::dropIfExists('service');
+	    Schema::dropIfExists('application');
     }
 }
