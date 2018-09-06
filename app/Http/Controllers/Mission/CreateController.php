@@ -46,7 +46,7 @@ class CreateController extends Controller
 
         $request->session()->put(Notifications::MISSION_OBJECT, $mission);
 
-        return redirect()->route("facturation.proforma.nouvelle", ["from" => InvoiceFrom::mission()])->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+        return redirect()->route("mission.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**

@@ -28,16 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        /*
-        Gate::before(function (Utilisateur $user, $serviceAllow){
+/*
+        Gate::before(function (Utilisateur $user, Collection $serviceAllow){
 	        if($user->employe->service->code == Service::INFORMATIQUE){
 		        return true;
 	        }
         });
-        */
-
-        Gate::define(Actions::CREATE, function (Utilisateur $user, array $serviceAllow){
+*/
+        Gate::define(Actions::CREATE, function (Utilisateur $user, Collection $serviceAllow){
 	        foreach ($serviceAllow as $service)
 	        {
 		        if ($user->employe->service->code == $service){
@@ -47,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
 	        return false;
         });
 
-        Gate::define(Actions::UPDATE, function (Utilisateur $user, array $serviceAllow){
+        Gate::define(Actions::UPDATE, function (Utilisateur $user, Collection $serviceAllow){
 	        foreach ($serviceAllow as $service)
 	        {
 		        if ($user->employe->service->code == $service){
@@ -67,7 +65,7 @@ class AuthServiceProvider extends ServiceProvider
 	        return false;
         });
 
-        Gate::define(Actions::DELETE, function (Utilisateur $user, array $serviceAllow){
+        Gate::define(Actions::DELETE, function (Utilisateur $user, Collection $serviceAllow){
 	        foreach ($serviceAllow as $service)
 	        {
 		        if($user->employe->service->code == $service){

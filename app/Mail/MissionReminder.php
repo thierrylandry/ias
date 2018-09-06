@@ -30,6 +30,7 @@ class MissionReminder extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.mission', [ "missions" => $this->missions ]);
+        return $this->view('mail.mission', [ "missions" => $this->missions ])
+                    ->subject("Rappel de mission");
     }
 }

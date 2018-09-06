@@ -44,9 +44,9 @@ class MissionController extends Controller
 
         $status = collect([
            Statut::MISSION_COMMANDEE => Statut::getStatut(Statut::MISSION_COMMANDEE),
-           Statut::MISSION_EN_COURS => Statut::getStatut(Statut::MISSION_EN_COURS),
-           Statut::MISSION_TERMINEE => Statut::getStatut(Statut::MISSION_TERMINEE),
-           Statut::MISSION_ANNULEE => Statut::getStatut(Statut::MISSION_ANNULEE),
+           Statut::MISSION_EN_COURS  => Statut::getStatut(Statut::MISSION_EN_COURS),
+           Statut::MISSION_TERMINEE  => Statut::getStatut(Statut::MISSION_TERMINEE),
+           Statut::MISSION_ANNULEE   => Statut::getStatut(Statut::MISSION_ANNULEE),
         ]);
 
         return view("mission.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
@@ -87,8 +87,12 @@ class MissionController extends Controller
 	    $senders = $this->sortEmail($utilisateurs);
 
 	    $missions = Mission::with('chauffeur.employe','vehicule','clientPartenaire')
-	                       ->whereRaw('datediff(creationproforma, sysdate()) > 0')
-	                       ->whereRaw('datediff(creationproforma, sysdate()) < '.env('APP_MISSION_REMINDER',5));
+	                       ->whereRaw('datediff(debuteffectif, sysdate()) > 0')
+	                       ->whereRaw('datediff(debuteffectif, sysdate()) <= '.env('APP_MISSION_REMINDER',5))
+		                   ->get();
+
+	    //return view('mail.mission', compact("missions"));
+
 	    try{
 	    	if($missions->count() <= 1 )
 		    {
@@ -97,7 +101,7 @@ class MissionController extends Controller
 			        ->send(new MissionReminder($missions ));
 		    }
 		}catch (\Exception $e){
-			    Log::error($e->getMessage()."\r\n".$e->getTraceAsString());
+			Log::error($e->getMessage()."\r\n".$e->getTraceAsString());
 	    }
     }
 

@@ -306,9 +306,9 @@
 
     selVehicule.addEventListener('change', function (e) {
         var id = $("#vehicule_id option:selected").data('chauffeur');
-        $("#chauffeur_id option:selected").removeAttr("selected");
+        //$("#chauffeur_id option:selected").removeAttr("selected");
         console.log($("#chauffeur_id option:selected"));
-        $("#chauff_"+id).attr("selected","selected");
+        //$("#chauff_"+id).attr("selected","selected");
         console.log($("#chauff_"+id));
     })
 </script>

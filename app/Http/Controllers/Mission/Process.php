@@ -33,7 +33,7 @@ trait Process
     public function validateMission()
     {
         return [
-            "code" => "present",
+            "code" => "present|unique:mission",
             "destination" => "required",
             "debutprogramme" => "required",
             "finprogramme" => "required|date_format:d/m/Y",
