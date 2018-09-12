@@ -23,7 +23,7 @@ class UpdateController extends Controller
 	 */
     public function modifier(string $immatriculation)
     {
-	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::COMPTABILITE]));
 
         $vehicule =  Vehicule::with("genre")
                     ->where("immatriculation",$immatriculation)

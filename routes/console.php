@@ -17,6 +17,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('update-db', function () {
+	//
+})->describe('Update DB');
+
 Artisan::command('mission:reminder', function () {
 	$reminder = new \App\Http\Controllers\Mission\MissionController();
 	$reminder->reminder();

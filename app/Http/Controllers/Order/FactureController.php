@@ -21,7 +21,7 @@ class FactureController extends Controller
 	 */
     public function __construct()
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
     	parent::__construct();
     }
 

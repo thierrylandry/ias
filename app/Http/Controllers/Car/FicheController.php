@@ -20,7 +20,7 @@ class FicheController extends Controller
 	 */
     public function details($immatriculation)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
 
         $vehicule = Vehicule::with("genre")
             ->where("immatriculation", $immatriculation)

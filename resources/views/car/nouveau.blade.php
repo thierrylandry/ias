@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                                 <div class="form-group">
-                                    <select type="text" name="genre_id" id="genre_id" class="form-control input-field">
+                                    <select name="genre_id" id="genre_id" class="form-control input-field">
                                     @foreach($genres as $genre)
                                         <option value="{{ $genre->id }}" @if(old('genre_id') == $genre->id) selected @endif> {{ $genre->libelle }}</option>
                                     @endforeach
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
                                 <div class="form-group">
-                                    <select type="text" name="chauffeur_id" id="chauffeur_id" class="form-control input-field">
+                                    <select name="chauffeur_id" id="chauffeur_id" class="form-control input-field">
                                     @foreach($chauffeurs as $chauffeur)
                                         <option value="{{ $chauffeur->id }}" @if(old('chauffeur_id') == $chauffeur->id) selected @endif> {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach

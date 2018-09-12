@@ -254,6 +254,22 @@ class CreateDatabaseIas extends Migration
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
         });
+        Schema::create("salaire", function (Blueprint $table){
+			$table->integer('mois');
+			$table->integer('annee');
+			$table->smallInteger('statut');
+			$table->primary(['mois','annee']);
+        });
+        Schema::create("bulletin", function (Blueprint $table){
+	        $table->string('libelle');
+	        $table->integer('base');
+	        $table->float('taux');
+	        $table->integer('mois');
+	        $table->integer('annee');
+	        $table->unsignedInteger('employe_id');
+	        $table->primary(['mois','annee','employe_id']);
+	        $table->foreign('employe_id')->references('id')->on('employe');
+        });
     }
 
     /**
@@ -264,6 +280,8 @@ class CreateDatabaseIas extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('bulletin');
+        Schema::dropIfExists('salaire');
         Schema::dropIfExists('piecefournisseur');
         Schema::dropIfExists('lignecompte');
         Schema::dropIfExists('compte');

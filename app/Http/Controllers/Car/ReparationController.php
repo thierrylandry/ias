@@ -22,7 +22,7 @@ class ReparationController extends Controller
 	 */
     public function index(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
 
         $debut = Carbon::now()->firstOfMonth();
         $fin = Carbon::now();
@@ -58,7 +58,7 @@ class ReparationController extends Controller
 	 */
     public function nouvelle()
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
         $vehicules = Vehicule::all();
         $types = TypeIntervention::all();
@@ -74,7 +74,7 @@ class ReparationController extends Controller
 	 */
     public function ajouter(Request $request)
     {
-    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
 	    $this->validate($request, $this->validateRules()[0], $this->validateRules()[1]);
         $intervention = new Intervention($request->except("_token", "vehicule"));

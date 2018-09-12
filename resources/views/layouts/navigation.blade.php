@@ -116,10 +116,12 @@
     </li>
     @endif
 
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
-            <i class="material-icons">settings</i>
-            <span>Administration</span>
+            <i class="material-icons">assignment_ind</i>
+            <span>Personnel</span>
         </a>
         <ul class="ml-menu">
             <li>
@@ -128,11 +130,21 @@
             <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>
             </li>
-            @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE))
+        </ul>
+    </li>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE))
+    <li>
+        <a href="javascript:void(0);" class="menu-toggle">
+            <i class="material-icons">settings</i>
+            <span>Administration</span>
+        </a>
+        <ul class="ml-menu">
             <li>
                 <a href="{{ route("admin.utilisateur.liste") }}">Utilisateurs</a>
             </li>
-            @endif
         </ul>
     </li>
+    @endif
 </ul>

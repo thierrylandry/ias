@@ -21,7 +21,7 @@ class EmployeController extends Controller
 	 */
     public function liste()
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
         $employes = Employe::orderBy('nom')->orderBy('prenoms')
             ->with('service')

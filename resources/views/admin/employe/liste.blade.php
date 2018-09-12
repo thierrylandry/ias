@@ -12,7 +12,14 @@
                                 Liste des employés
                             </h2>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-xs-12">
+                            <div class="align-right">
+                                <div class="btn-toolbar">
+                                    <div class="btn-group">
+                                        <a href="" class="btn bg-light-green waves-effect"><i class="material-icons">person_add</i> Bulletins</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4 col-xs-12">
                             <div class="align-right">
@@ -46,6 +53,7 @@
                                         <div class="btn-group btn-group-xs" role="group">
                                             <a class="btn bg-blue-grey waves-effect" href="{{ route("admin.employe.fiche", ["matricule" => $employe->matricule]) }}" title="Fiche d'employé"><i class="material-icons">person_outline</i></a>
                                             <a class="btn bg-orange waves-effect" href="{{ route("admin.employe.modifier", ["matricule" => $employe->matricule]) }}" title="Modifier"><i class="material-icons">mode_edit</i></a>
+                                            <a class="btn bg-light-green waves-effect" href="{{ route("rh.paie", ["matricule" => $employe->matricule]) }}" title="Salaire"><i class="material-icons">assignment</i></a>
                                         </div>
                                     </div>
                                 </td>

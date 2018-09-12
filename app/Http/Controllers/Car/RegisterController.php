@@ -21,7 +21,7 @@ class RegisterController extends Controller
 	 */
     public function index()
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
         $vehicules = Vehicule::with('genre')->get();
 
@@ -34,7 +34,7 @@ class RegisterController extends Controller
 	 */
     public function showNewFormView()
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
         $genres = Genre::all();
 

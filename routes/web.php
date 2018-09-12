@@ -74,6 +74,10 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::post('utilisateur/ajouter.html', 'Admin\UtilisateurController@register');
 });
 
+Route::prefix('rh')->middleware('auth')->group(function (){
+	Route::get('bulletin-paie/{matricule}/fiche.html','RH\PaieController@fichePaie')->name('rh.paie');
+});
+
 Route::get('/test.html','Mission\MissionController@reminder');
 
 //Facturation
