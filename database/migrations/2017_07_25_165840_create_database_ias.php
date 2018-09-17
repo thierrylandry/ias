@@ -41,6 +41,8 @@ class CreateDatabaseIas extends Migration
             $table->date("datesortie")->nullable();
             $table->integer("basesalaire");
             $table->string("pieceidentite");
+            $table->string("rib")->nullable();
+            $table->string("cnps",100)->nullable();
             $table->integer("service_id",false,true);
             $table->foreign("service_id")->references("id")->on("service");
         });
@@ -267,7 +269,7 @@ class CreateDatabaseIas extends Migration
 	        $table->integer('mois');
 	        $table->integer('annee');
 	        $table->unsignedInteger('employe_id');
-	        $table->primary(['mois','annee','employe_id']);
+	        $table->index(['mois','annee'],null,'DESC');
 	        $table->foreign('employe_id')->references('id')->on('employe');
         });
     }

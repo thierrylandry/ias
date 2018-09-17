@@ -116,6 +116,28 @@
                         <hr/>
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="rib">RIB</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="rib" id="rib" class="form-control" placeholder="RIB" value="{{ old('rib', $employe->rib) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="cnps">N° CNPS</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="cnps" id="cnps" class="form-control" placeholder="N° de CNPS" value="{{ old('cnps', $employe->cnps) }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="dateembauche">Date d'embauche</label>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">

@@ -75,7 +75,10 @@ Route::prefix('administration')->middleware('auth')->group(function (){
 });
 
 Route::prefix('rh')->middleware('auth')->group(function (){
-	Route::get('bulletin-paie/{matricule}/fiche.html','RH\PaieController@fichePaie')->name('rh.paie');
+	Route::get('salaire/demarrer.html','RH\SalaireController@demarrage')->name('rh.salaire');
+	Route::post('salaire/demarrer.html','RH\SalaireController@start');
+	Route::get('bulletin-paie/{annee}/{mois}/fiche.html','RH\PaieController@fichePaie')->name('rh.paie');
+	Route::post('bulletin-paie/{annee}/{mois}/fiche.html','RH\PaieController@savePaie');
 });
 
 Route::get('/test.html','Mission\MissionController@reminder');

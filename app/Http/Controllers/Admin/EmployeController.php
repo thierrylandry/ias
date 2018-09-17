@@ -36,7 +36,7 @@ class EmployeController extends Controller
 	 */
     public function ajouter()
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         $services = Service::orderBy('libelle')->get();
         return view('admin.employe.ajouter',compact('services'));
     }
@@ -50,7 +50,7 @@ class EmployeController extends Controller
 	 */
     public function register(Request $request)
     {
-    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
     	$this->validate($request, [
             "service_id" => "required|exists:service,id",
@@ -61,6 +61,8 @@ class EmployeController extends Controller
             "prenoms" => "required",
             "nom" => "required",
             "matricule" => "required",
+		    "rib" => "present",
+		    "cnps" => "present",
         ]);
 
         $this->addEmploye($request);
@@ -96,7 +98,7 @@ class EmployeController extends Controller
 	 */
     public function fiche($matricule)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         try{
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
             return view("admin.employe.fiche",compact("employe"));
@@ -113,7 +115,7 @@ class EmployeController extends Controller
 	 */
     public function modifier($matricule)
     {
-	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
         try{
             $services = Service::orderBy('libelle')->get();
@@ -133,7 +135,7 @@ class EmployeController extends Controller
 	 */
     public function update(Request $request, $matricule)
     {
-    	$this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE]));
+    	$this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
     	try {
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();

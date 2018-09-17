@@ -9,41 +9,46 @@
 namespace App\Http\Controllers\RH;
 
 
+use App\Bulletin;
 use App\Employe;
 use App\Http\Controllers\Controller;
+use App\Metier\Behavior\Notifications;
 use App\Metier\Security\Actions;
 use App\Mission;
 use App\Service;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Lang;
 
 class PaieController extends Controller
 {
+	use Tools;
+
 	/**
 	 * PaieController constructor.
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-	public function fichePaie(Request $request, string $matricule)
+	public function fichePaie(int $annee, int $mois)
 	{
 		$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
-		$employe = Employe::where('matricule', '=', $matricule)->firstOrFail();
+		$employe = null;
 
-		$missions = $this->getMissionLines($employe, Carbon::now());
+		$employe = Employe::with("service")->paginate(1);
 
-		$annees = $this->getYears();
-		$months = $this->getMonths();
+		$periode = new Carbon();
+		$periode->setDate($annee, $mois, 01);
 
-		//dd($missions);
+		$missions = $this->getMissionLines($employe[0], $periode);
 
-		return view("rh.fiche", compact("employe", "missions", "annees", "months"));
+		return view("rh.fiche", compact("employe", "missions", "periode"));
 	}
 
 	private function getMissionLines(Employe $employe, Carbon $date)
 	{
 		return Mission::with('vehicule')
-			->whereRaw("month(debuteffectif) = {$date->month} or month(fineffective) = {$date->month} AND chauffeur_id = {$employe->id}")
+			->whereRaw("(month(debuteffectif) = {$date->month} or month(fineffective) = {$date->month}) AND chauffeur_id = {$employe->id}")
 			->select( DB::raw("CASE WHEN month(debuteffectif) = month(fineffective) then datediff(fineffective, debuteffectif)
 WHEN  month(debuteffectif) < month(fineffective) && month(debuteffectif) = {$date->month} THEN datediff('{$date->endOfMonth()->toDateString()}', debuteffectif)
 WHEN    month(debuteffectif) < month(fineffective) && month(debuteffectif) < {$date->month} THEN datediff(fineffective, '{$date->firstOfMonth()->toDateString()}')
@@ -51,30 +56,47 @@ END + 1 as nbre_jours ,debuteffectif , fineffective, code, destination, perdiem"
 			->get();
 	}
 
-	private function getYears()
+	/**
+	 * @param Request $request
+	 * @param $annee
+	 * @param $mois
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 * @throws \Throwable
+	 */
+	public function savePaie(Request $request, $annee, $mois)
 	{
-		$years = [];
-		for ($i = 2017; $i <= Carbon::now()->year; $i++){
-			$years[] = $i;
-		}
-		return $years;
-	}
+		$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
-	private function getMonths()
-	{
-		return [
-			(object)[ "id" =>"1", "libelle" => "Janvier" ],
-			(object)[ "id" =>"2", "libelle" => "Février" ],
-			(object)[ "id" =>"3", "libelle" => "Mars" ],
-			(object)[ "id" =>"4", "libelle" => "Avril" ],
-			(object)[ "id" =>"5", "libelle" => "Mai" ],
-			(object)[ "id" =>"6", "libelle" => "Juin" ],
-			(object)[ "id" =>"7", "libelle" => "Juillet" ],
-			(object)[ "id" =>"8", "libelle" => "Août" ],
-			(object)[ "id" =>"9", "libelle" => "Septembre" ],
-			(object)[ "id" =>"10", "libelle" => "Octobre" ],
-			(object)[ "id" =>"11", "libelle" => "Novembre" ],
-			(object)[ "id" =>"12", "libelle" => "Décembre" ],
-		];
+		$this->validate($request, [
+			"libelle" => "required|array",
+			"base" => "required|array",
+			"base.*" => "integer",
+			"taux" => "required|array",
+			"taux.*" => "integer",
+			"employe_id" => "required|exists:employe,id",
+			"url" => "present"
+		]);
+
+		for ($i=0; $i < count($request->input('libelle') ) ; $i++)
+		{
+			$bulletin = new Bulletin();
+			$bulletin->libelle = $request->input('libelle')[$i];
+			$bulletin->base = $request->input('base')[$i] ;
+			$bulletin->taux = floatval($request->input('taux')[$i]) ;
+			$bulletin->mois = $mois;
+			$bulletin->annee = $annee;
+			$bulletin->employe_id = $request->input('employe_id') ;
+			$bulletin->saveOrFail();
+		}
+
+		if($request->url){
+			return redirect()->to($request->url);
+		}else{
+			$notif = new Notifications();
+			$notif->add(Notifications::SUCCESS,Lang::get("message.rh.salaire.valide"));
+			redirect()->route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+		}
 	}
 }

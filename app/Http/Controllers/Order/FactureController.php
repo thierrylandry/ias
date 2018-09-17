@@ -19,24 +19,29 @@ class FactureController extends Controller
 	 * FactureController constructor.
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-    public function __construct()
-    {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
-    	parent::__construct();
-    }
-
 	public function listeProforma(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         return $this->liste($request, PieceComptable::PRO_FORMA);
     }
 
+	/**
+	 * FactureController constructor.
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function listeFacture(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         return $this->liste($request, PieceComptable::FACTURE);
     }
 
+	/**
+	 * FactureController constructor.
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function liste(Request $request, $type = null)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         $pieces = $this->getPiecesComptable($request, $type);
         return view("order.liste", compact("pieces"));
     }
@@ -90,15 +95,28 @@ class FactureController extends Controller
         return collect(compact("debut", "fin"));
     }
 
-
+	/**
+	 * @param $reference
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function details($reference)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         $piece = $this->getPieceComptableFromReference($reference);
         return view("order.facture", compact("piece"));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function makeNormal(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         $this->validate($request, $this->valideRulesNormalPiece(), [
             "referencefacture.required" => "La référence de la facture pré-imprimée est requise."
         ]);
@@ -112,7 +130,16 @@ class FactureController extends Controller
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }
 
-    public function annuler(string $reference, Request $request){
+	/**
+	 * @param string $reference
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+    public function annuler(string $reference, Request $request)
+    {
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         $sessionToken = $request->session()->token();
         $token = $request->query('_token');
         if (! is_string($sessionToken) || ! is_string($token) || !hash_equals($sessionToken, $token) ) {

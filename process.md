@@ -4,6 +4,7 @@
 - Filtre du menu en fonction de l'utilisateur connecté.
 - Ajout des autorisations de page et d'actions.
 - Prise en compte des emails de rappel de mission 5 jours (paramètrable) avant.
+- Ajout des reubriques CNPS et RIB dans le fichier des employés
 
 ##**Process Change**
 
@@ -12,3 +13,4 @@
 - Ajouter les services `Gestionnaire VL`, `Gestionnaire PL`, `Magasinier` dans la table "service"
 - Ajout du `chauffeur par défaut` dans les véhicules.
 - Ajout des catégories `PL` & `VL` dans le genre des véhicules. Création d'un attribut `categorie` dans la table `genre`.
+- Ajouter les tables salaire et bulletin.

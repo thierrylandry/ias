@@ -130,6 +130,9 @@
             <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>
             </li>
+            <li>
+                <a href="{{ route('rh.salaire') }}">Salaire</a>
+            </li>
         </ul>
     </li>
     @endif

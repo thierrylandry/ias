@@ -26,6 +26,10 @@ return [
     ],
     "statut" => [
         "110" => "Actif"
-        ]
-
+    ],
+	"rh" => [
+		"salaire" => [
+			"valide" => "Les salaires du mois ont été validés avec succès !",
+		]
+	]
 ];
