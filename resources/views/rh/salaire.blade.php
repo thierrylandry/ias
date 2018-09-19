@@ -4,9 +4,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>
-                    Salaire mensuel
-                </h2>
+                <h2>Salaire mensuel</h2>
             </div>
             <div class="body">
                 <form class="form-horizontal" method="post" >
@@ -42,11 +40,48 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                            <button type="submit" class="btn btn-lg bg-green m-t-15 waves-effect">Valider</button>
+                            <button type="submit" class="btn btn-lg bg-green m-t-15 waves-effect">Démarrer</button>
                             <button type="reset" class="btn btn-lg btn-default m-t-15 waves-effect">Annuler</button>
+
+                            @if(request()->has('state') && request()->query('state') == \App\Salaire::ETAT_DEMARRE)
+                            <a type="reset" href="{{ route('rh.paie',["annee" => old('annee'), "mois"=>old('mois') ,"page" => request()->query("target")]) }}" class="btn btn-lg btn-warning m-t-15 waves-effect">Continuer</a>
+                            @endif
+
+                            @if(request()->has('state') && (request()->query('state') == \App\Salaire::ETAT_DEMARRE || request()->query('state') == \App\Salaire::ETAT_VALIDE))
+                            <a type="reset" href="{{ route('rh.salaire.reset', ["annee" => old('annee'), "mois"=>old('mois')]) }}" class="btn btn-lg btn-danger m-t-15 waves-effect" onclick="return confirm('Voulez-vous vraiment recommencer les salaires ?')">Recommencer</a>
+                            @endif
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <h2>Récapitulatifs</h2>
+            </div>
+            <div class="body">
+                <div class="body table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="bg-blue-grey">
+                            <th width="20%">Actions</th>
+                            <th width="20%">Annéé</th>
+                            <th width="20%">Mois</th>
+                            <th width="40%">Statut</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($salaires as $salaire)
+                        <tr>
+                            <td></td>
+                            <td>{{ $salaire->annee }}</td>
+                            <td>{{ \App\Http\Controllers\RH\SalaireController::getMonthsById($salaire->mois) }}</td>
+                            <td>{{ \App\Salaire::getStateToString($salaire->statut) }}</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

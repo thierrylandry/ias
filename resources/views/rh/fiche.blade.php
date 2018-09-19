@@ -99,7 +99,9 @@
                             <tfoot>
                             <tr>
                                 <td colspan="3"><h4 class="text-right text-uppercase">Net à payer</h4></td>
-                                <td><input disabled type="number" value="{{ $total }}" class="form-control text-right input-field" name="total" id="total"></td>
+                                <td>
+                                    <input disabled type="number" value="{{ $total }}" class="form-control text-right input-field" name="total" id="total">
+                                </td>
                             </tr>
                             </tfoot>
                         </table>

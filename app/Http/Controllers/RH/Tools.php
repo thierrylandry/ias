@@ -39,4 +39,12 @@ trait Tools
 			(object)[ "id" =>"12", "libelle" => "Décembre" ],
 		];
 	}
+
+	public static function getMonthsById(int $id)
+	{
+		return [
+			"Janvier" , "Février" , "Mars" , "Avril" , "Mai" , "Juin",
+			"Juillet" , "Août" , "Septembre" , "Octobre", "Novembre" , "Décembre"
+		][$id-1];
+	}
 }

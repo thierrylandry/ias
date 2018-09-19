@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
 use App\Metier\Security\Actions;
 use App\Mission;
+use App\Salaire;
 use App\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -79,24 +80,45 @@ END + 1 as nbre_jours ,debuteffectif , fineffective, code, destination, perdiem"
 			"url" => "present"
 		]);
 
+		$bulletin = new Bulletin();
+		$lines = []; $nap = 0;
+
 		for ($i=0; $i < count($request->input('libelle') ) ; $i++)
 		{
-			$bulletin = new Bulletin();
-			$bulletin->libelle = $request->input('libelle')[$i];
-			$bulletin->base = $request->input('base')[$i] ;
-			$bulletin->taux = floatval($request->input('taux')[$i]) ;
-			$bulletin->mois = $mois;
-			$bulletin->annee = $annee;
-			$bulletin->employe_id = $request->input('employe_id') ;
-			$bulletin->saveOrFail();
+			$lines[] = [
+				Bulletin::LIBELLE => $request->input('libelle')[$i],
+				Bulletin::BASE => $request->input('base')[$i],
+				Bulletin::TAUX => $request->input('taux')[$i],
+			];
+
+			if($i == 0){
+				$nap = intval($request->input('base')[$i]);
+			}else{
+				$nap += intval($request->input('taux')[$i]) * intval($request->input('base')[$i]);
+			}
 		}
+
+		$bulletin->lignes = $lines;
+		$bulletin->nap = $nap;
+		$bulletin->mois = $mois;
+		$bulletin->annee = $annee;
+		$bulletin->employe_id = $request->input('employe_id') ;
+		$bulletin->saveOrFail();
 
 		if($request->url){
 			return redirect()->to($request->url);
 		}else{
+
+			$salaire = Salaire::where('annee','=',$annee)
+				->where('mois','=',$mois)
+				->first();
+
+			$salaire->statut = Salaire::ETAT_VALIDE;
+			$salaire->saveOrFail();
+
 			$notif = new Notifications();
 			$notif->add(Notifications::SUCCESS,Lang::get("message.rh.salaire.valide"));
-			redirect()->route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+			return redirect()->route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
 		}
 	}
 }

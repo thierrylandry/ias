@@ -263,13 +263,12 @@ class CreateDatabaseIas extends Migration
 			$table->primary(['mois','annee']);
         });
         Schema::create("bulletin", function (Blueprint $table){
-	        $table->string('libelle');
-	        $table->integer('base');
-	        $table->float('taux');
+	        $table->text('lignes');
+	        $table->integer('nap')->default(0);
 	        $table->integer('mois');
 	        $table->integer('annee');
 	        $table->unsignedInteger('employe_id');
-	        $table->index(['mois','annee'],null,'DESC');
+	        $table->primary(['mois','annee','employe_id']);
 	        $table->foreign('employe_id')->references('id')->on('employe');
         });
     }

@@ -13,4 +13,14 @@ class Salaire extends Model
 	public $timestamps = false;
 	protected $table = "salaire";
 	protected $primaryKey = "mois";
+
+	public static function getStateToString(int $state)
+	{
+		switch ($state){
+			case self::ETAT_DEMARRE : return "Démarré";
+			case self::ETAT_VALIDE : return "Validé";
+			case self::ETAT_CLOTURE : return "Clôturé";
+		}
+		return null;
+	}
 }
