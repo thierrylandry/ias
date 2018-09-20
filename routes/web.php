@@ -78,6 +78,8 @@ Route::prefix('rh')->middleware('auth')->group(function (){
 	Route::get('salaire/demarrer.html','RH\SalaireController@demarrage')->name('rh.salaire');
 	Route::post('salaire/demarrer.html','RH\SalaireController@start');
 	Route::get('salaire/{annee}/{mois}/reset','RH\SalaireController@reset')->name('rh.salaire.reset');
+	Route::get('salaire/{annee}/{mois}/confirm.html','RH\SalaireController@confirm')->name('rh.salaire.confirm');
+	Route::post('salaire/{annee}/{mois}/confirm.html','RH\SalaireController@cloturer');
 	Route::get('bulletin-paie/{annee}/{mois}/fiche.html','RH\PaieController@fichePaie')->name('rh.paie');
 	Route::post('bulletin-paie/{annee}/{mois}/fiche.html','RH\PaieController@savePaie');
 });

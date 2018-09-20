@@ -73,7 +73,14 @@
                         <tbody>
                         @foreach($salaires as $salaire)
                         <tr>
-                            <td></td>
+                            <td>
+                                <div class="btn-toolbar" role="toolbar">
+                                    <div class="btn-group btn-group-xs" role="group">
+                                        <a href="#" class="btn bg-blue waves-effect" title="Consulter les salaires du mois"><i class="material-icons">description</i></a>
+                                        <a href="{{ route("rh.salaire.confirm",["annee"=> $salaire->annee, "mois"=>$salaire->mois]) }}" class="btn bg-green waves-effect" title="Clôturer les salaires du mois"><i class="material-icons">check</i></a>
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ $salaire->annee }}</td>
                             <td>{{ \App\Http\Controllers\RH\SalaireController::getMonthsById($salaire->mois) }}</td>
                             <td>{{ \App\Salaire::getStateToString($salaire->statut) }}</td>

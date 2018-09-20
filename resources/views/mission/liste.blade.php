@@ -75,9 +75,7 @@
             <div class="card">
                 <div class="header">
                     <div class="col-md-4">
-                        <h2>
-                            Mission
-                        </h2>
+                        <h2>Mission</h2>
                     </div>
                     <div class="col-md-4">
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\RH;
 
 use App\Bulletin;
+use App\Employe;
+use App\Metier\Behavior\Notifications;
 use App\Metier\Security\Actions;
 use App\Salaire;
 use App\Service;
@@ -60,9 +62,7 @@ class SalaireController extends Controller
 
 	private function handleSalaireError(Request $request)
 	{
-		$salaire = Salaire::where('mois', '=', $request->input('mois'))
-		                  ->where('annee', '=', $request->input('annee'))
-		                  ->firstOrFail();
+		$salaire = $this->getSalaire($request->input('annee'), $request->input('mois'));
 
 		$pageId = $this->getLastEmployePage($request->input('annee'), $request->input('mois'));
 
@@ -83,6 +83,19 @@ class SalaireController extends Controller
 	 * @param int $annee
 	 * @param int $mois
 	 *
+	 * @return Salaire
+	 */
+	private function getSalaire(int $annee, int $mois)
+	{
+		return Salaire::where('mois', '=', $mois)
+		              ->where('annee', '=', $annee)
+		              ->firstOrFail();
+	}
+
+	/**
+	 * @param int $annee
+	 * @param int $mois
+	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 * @throws \Exception
 	 */
@@ -93,5 +106,42 @@ class SalaireController extends Controller
 			->delete();
 
 		return redirect()->route('rh.paie', compact("annee", "mois") );
+	}
+
+	public function confirm(int $annee, int $mois)
+	{
+
+		$salaire = $this->getSalaire($annee, $mois);
+		$bulletins = Bulletin::where("annee",'=', $annee)
+			->where("mois",'=', $mois)
+			->selectRaw("count(employe_id) as total, sum(nap) as somme")
+			->firstOrFail();
+
+		$personnel = Employe::count();
+
+		//dd($personnel, $salaire, $bulletins);
+
+		return view("rh.confirm",compact("salaire", "bulletins", "personnel"));
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @throws \Throwable
+	 */
+	public function cloturer(Request $request)
+	{
+		$this->validate($request, [
+			"annee" => "numeric",
+			"mois" => "numeric",
+		]);
+
+		$salaire = $this->getSalaire($request->input('annee'), $request->input('mois'));
+		$salaire->statut = Salaire::ETAT_CLOTURE;
+		$salaire->saveOrFail();
+
+		$notif = new Notifications();
+		$notif->add(Notifications::SUCCESS,sprintf("La paie du mois de ".PaieController::getMonthsById($salaire->mois)." ".$salaire->annee." a été clôturée avec succès"));
+		return route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
 	}
 }

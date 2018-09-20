@@ -34,7 +34,6 @@
         </ul>
     </li>
     @endif
-
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
     \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
@@ -56,7 +55,6 @@
         </ul>
     </li>
     @endif
-
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
     \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
@@ -94,7 +92,6 @@
             <span>Trésorerie</span>
         </a>
     </li>
-
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
     \App\Service::ADMINISTRATION, \App\Service::LOGISTIQUE))
     <li>
@@ -115,7 +112,6 @@
         </ul>
     </li>
     @endif
-
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
     \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
@@ -136,7 +132,6 @@
         </ul>
     </li>
     @endif
-
     @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
