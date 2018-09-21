@@ -127,6 +127,7 @@ class SalaireController extends Controller
 	/**
 	 * @param Request $request
 	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
 	 * @throws \Throwable
 	 */
 	public function cloturer(Request $request)
@@ -136,12 +137,17 @@ class SalaireController extends Controller
 			"mois" => "numeric",
 		]);
 
+		if($request->input('total') != $request->input("payes"))
+		{
+			return back()->withErrors("Impossible de cloturer cette paie. Veuillez terminer le la paie de tous les employés.");
+		}
+
 		$salaire = $this->getSalaire($request->input('annee'), $request->input('mois'));
 		$salaire->statut = Salaire::ETAT_CLOTURE;
 		$salaire->saveOrFail();
 
 		$notif = new Notifications();
 		$notif->add(Notifications::SUCCESS,sprintf("La paie du mois de ".PaieController::getMonthsById($salaire->mois)." ".$salaire->annee." a été clôturée avec succès"));
-		return route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+		return redirect()->route('rh.salaire')->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
 	}
 }

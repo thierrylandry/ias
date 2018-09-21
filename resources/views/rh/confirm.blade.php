@@ -49,10 +49,10 @@
                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                         <input type="hidden" name="annee" value="{{ $salaire->annee }}" />
                         <input type="hidden" name="mois" value="{{ $salaire->mois }}" />
-                        <input type="hidden" name="total" value="{{ $bulletins->total }}" />
-                        <input type="hidden" name="payes" value="{{ $personnel }}" />
+                        <input type="hidden" name="payes" value="{{ $bulletins->total }}" />
+                        <input type="hidden" name="total" value="{{ $personnel }}" />
                         <button type="submit" class="btn btn-lg bg-green m-t-15 waves-effect">Clôturer</button>
-                        <button type="reset" class="btn btn-lg bg-red m-t-15 waves-effect">Annuler</button>
+                        <a href="{{ back()->getTargetUrl() }}" class="btn btn-lg bg-red m-t-15 waves-effect">Annuler</a>
                     </div>
                 </div>
                 </form>

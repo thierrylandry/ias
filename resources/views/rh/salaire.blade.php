@@ -77,7 +77,9 @@
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a href="#" class="btn bg-blue waves-effect" title="Consulter les salaires du mois"><i class="material-icons">description</i></a>
+                                        @if($salaire->statut == \App\Salaire::ETAT_VALIDE)
                                         <a href="{{ route("rh.salaire.confirm",["annee"=> $salaire->annee, "mois"=>$salaire->mois]) }}" class="btn bg-green waves-effect" title="Clôturer les salaires du mois"><i class="material-icons">check</i></a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
