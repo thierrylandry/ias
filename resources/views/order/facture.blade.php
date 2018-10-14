@@ -14,10 +14,10 @@
                 <div class="body">
                     <div class="row clearfix">
                         @if($piece->etat != \App\Statut::PIECE_COMPTABLE_FACTURE_ANNULEE)
-                            @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <a href="{{ route("facturation.proforma.nouvelle",["from" => App\Metier\Behavior\Notifications::CREATE_FROM_PROFORMA, "ID" => $piece->referenceproforma]) }}" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">refresh</i> Créer à partir</a>
                             </div>
+                            @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
                             <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
                                 <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">loop</i> Transformer en facture</button>
                             </div>
@@ -31,6 +31,9 @@
                             </div>
 
                             @if($piece->etat == \App\Statut::PIECE_COMPTABLE_PRO_FORMA)
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <a href="{{ route('facturation.envoie.emailchoice',['reference' =>$piece->referenceproforma]) }}" class="btn btn-flat waves-effect bg-light-green"><i class="material-icons">email</i> Envoyer la facture</a>
+                            </div>
                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <a href="{{ route('facturation.switch.annuler',['reference' =>$piece->referenceproforma, '_token' => csrf_token() ]) }}" onclick="return confirm('Voulez-vous vraiment annuler cette facture ?')" class="btn btn-flat waves-effect bg-red"><i class="material-icons">cancel</i> Annuler la facture</a>
                             </div>
