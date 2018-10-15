@@ -9,7 +9,7 @@
 <div>
     @yield("content")
 </div>
-<hr>
+<hr>pont
 <footer class="clearfix">
     <div>
         <div id="logo">

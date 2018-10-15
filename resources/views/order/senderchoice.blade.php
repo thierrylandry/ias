@@ -38,7 +38,9 @@
                         <br/>
                         @endif
                     @endforeach
+                        <!-- Nothing -->
                     @else
+                    @endif
                     <div class="row clearfix">
                         <div class="col-lg-1 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="objet">Email</label>
@@ -51,7 +53,6 @@
                             </div>
                         </div>
                     </div>
-                    @endif
                     <hr/>
 
                     <div class="row clearfix">
