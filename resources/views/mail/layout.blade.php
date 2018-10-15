@@ -6,16 +6,16 @@
     <link rel="stylesheet" type="text/css" href="{{asset('mail/mail.css')}}" media="all" />
 </head>
 <body>
-<header class="clearfix">
+<div>
+    @yield("content")
+</div>
+<hr>
+<footer class="clearfix">
     <div>
         <div id="logo">
             <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
         </div>
     </div>
-</header>
-<div>
-    @yield("content")
-</div>
-
+</footer>
 </body>
 </html>
