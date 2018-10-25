@@ -223,7 +223,7 @@
 @section("script")
 <!-- Moment Plugin Js -->
 <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
+<!-- <script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script> -->
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
 <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
@@ -247,6 +247,16 @@
     });
 </script>
 <script type="application/ecmascript">
+    var facture = {
+        lines : [],
+        isexonere: null,
+        montantht: null,
+        conditions: null,
+        validite: null,
+        delailivraison: null,
+        objet: null,
+        partenaire_id: null
+    };
 
     $("#validOrder").click(function (e) {
         swal({
@@ -268,27 +278,20 @@
         if($lines.length !== 0)
         {
             $.each($lines, function (key, value) {
-
-                if(dataString !== "[") { dataString += ", "; }
-
-                dataString += getJsonFromTr(value);
+                facture.lines.push(getJsonFromTr(value));
             });
         }
-        dataString += "]";
 
-        //Ajout des champs de la facture
-        dataString = '{"lignes": ' + dataString + ', '+
-                '"isexonere":' + ($("#isexonere").is(":checked") ? 1 : 0) + ','+
-                '"montantht":' + $("#montantHT").text()+ ','+
-                '"conditions": "' + $("#conditions").val()+ '",'+
-                '"validite": "' + $("#validite").val()+ '",'+
-                '"delailivraison": "' + $("#delailivraison").val()+ '",'+
-                '"objet": "' + $("#objet").val()+ '",'+
-                '"partenaire_id":' +$("#client").val() +
-                '}';
+        facture.isexonere = ($("#isexonere").is(":checked") ? 1 : 0);
+        facture.montantht = $("#montantHT").text();
+        facture.conditions = $("#conditions").val();
+        facture.validite = $("#validite").val();
+        facture.delailivraison = $("#delailivraison").val();
+        facture.objet = $("#objet").val();
+        facture.partenaire_id = $("#client").val();
 
-        console.log(dataString);
-        sendDataPost(JSON.parse(dataString));
+        console.log(facture);
+        sendDataPost(facture);
     }
 
     function sendDataPost(data){
@@ -307,7 +310,6 @@
                     swal("Pro forma enregistré!",data.message,"success");
                     document.location.href = data.action;
                 }
-
             },
             error : function (data, status, xhr) {
                 swal("Echec d'enregistrement !", data.message, "error");
@@ -317,7 +319,17 @@
     
     function getJsonFromTr(tr) {
         var $td = $(tr).children();
+        return {
+                id: 0,
+                reference: $($td[1]).text(),
+                designation: $($td[2]).text(),
+                quantite: $($($td[3]).children()).val(),
+                prixunitaire: $($td[4]).text(),
+                modele: $($td[0]).data("modele"),
+            modele_id: $($td[0]).data("id")
+        };
 
+        /*
         return '{"id":0,'+
             '"reference": "' + $($td[1]).text() +'",' +
             '"designation": "' + $($td[2]).text() +'",' +
@@ -325,7 +337,7 @@
             '"prixunitaire": ' + $($td[4]).text() + ',' +
             '"modele": "' + $($td[0]).data("modele").replace(/\\/g, "\\\\") + '",' +
             '"modele_id": ' + $($td[0]).data("id") +
-            '}';
+            '}'; */
     }
     
     /**

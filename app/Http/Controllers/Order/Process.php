@@ -59,12 +59,12 @@ trait Process
     private function validateProformaRequest(Request $request)
     {
         return Validator::make($request->input(),[
-            "lignes.*.id" => "required|numeric",
-            "lignes.*.designation" => "required",
-            "lignes.*.quantite" => "required|numeric|min:1",
-            "lignes.*.prixunitaire" => "required|numeric|min:5",
-            "lignes.*.modele" => "required",
-            "lignes.*.modele_id" => "required|numeric",
+            "lines.*.id" => "required|numeric",
+            "lines.*.designation" => "required",
+            "lines.*.quantite" => "required|numeric|min:1",
+            "lines.*.prixunitaire" => "required|numeric|min:5",
+            "lines.*.modele" => "required",
+            "lines.*.modele_id" => "required|numeric",
             "partenaire_id" => "required|exists:partenaire,id",
             "montantht" => "required|numeric",
             "isexonere" => "required|boolean",

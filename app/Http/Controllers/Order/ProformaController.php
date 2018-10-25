@@ -78,7 +78,7 @@ class ProformaController extends Controller
 
 	        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $paretenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
 
-	        $this->addLineToPieceComptable($piececomptable,$request->input("lignes"));
+	        $this->addLineToPieceComptable($piececomptable,$request->input("lines"));
 
 	        $notification = new Notifications();
 	        $notification->add(Notifications::SUCCESS,"Votre proforma n° $piececomptable->referenceproforma a été prise en compte.");
