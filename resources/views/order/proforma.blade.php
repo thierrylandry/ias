@@ -277,6 +277,7 @@
 
         if($lines.length !== 0)
         {
+            facture.lines = [];
             $.each($lines, function (key, value) {
                 facture.lines.push(getJsonFromTr(value));
             });
@@ -328,16 +329,6 @@
                 modele: $($td[0]).data("modele"),
             modele_id: $($td[0]).data("id")
         };
-
-        /*
-        return '{"id":0,'+
-            '"reference": "' + $($td[1]).text() +'",' +
-            '"designation": "' + $($td[2]).text() +'",' +
-            '"quantite": ' + $($($td[3]).children()).val()+',' +
-            '"prixunitaire": ' + $($td[4]).text() + ',' +
-            '"modele": "' + $($td[0]).data("modele").replace(/\\/g, "\\\\") + '",' +
-            '"modele_id": ' + $($td[0]).data("id") +
-            '}'; */
     }
     
     /**
