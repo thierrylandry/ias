@@ -265,7 +265,7 @@
             type: "info",
             showCancelButton: true,
             closeOnConfirm: false,
-            showLoaderOnConfirm: true,
+            showLoaderOnConfirm: true
         }, function () {
             saveProForma();
         });
@@ -291,7 +291,6 @@
         facture.objet = $("#objet").val();
         facture.partenaire_id = $("#client").val();
 
-        console.log(facture);
         sendDataPost(facture);
     }
 
@@ -307,13 +306,26 @@
                 if(data.code === 0)
                 {
                     swal("Echec d'enregistrement !", data.message, "error");
+                    console.log(data);
                 }else{
                     swal("Pro forma enregistré!",data.message,"success");
                     document.location.href = data.action;
                 }
             },
             error : function (data, status, xhr) {
-                swal("Echec d'enregistrement !", data.message, "error");
+
+                var $msg = '';
+                for(var obj in data.responseJSON )
+                {
+                    $msg += data.responseJSON[obj][0]+'<br/>';
+                }
+
+                var data ={
+                    title: $msg,
+                    type: "error",
+                    html: $msg
+                };
+                swal(data);
             }
         });
     }

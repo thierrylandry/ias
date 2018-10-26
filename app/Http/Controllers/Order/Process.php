@@ -72,6 +72,11 @@ trait Process
             "validite" => "required",
             "objet" => "required",
             "delailivraison" => "required",
+        ],[
+	        "conditions.required" => "Veuillez saisir les conditions SVP.",
+	        "validite.required" => "Veuillez saisir la validité de l'offre.",
+	        "objet.required" => "Veuillez saisir l'objet de l'offre.",
+	        "delailivraison.required" => "Veuillez saisir le délai de livraison.",
         ])->validate();
     }
 
