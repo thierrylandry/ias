@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="header">
                     <div class="col-md-12">
-                        <h2> Facture Pro forma  @if($proforma != null)(copié de la pro forma n° {{$proforma->referenceproforma}} ) @endif</h2>
+                        <h2> @if($updateUrl != null ) Modification @endif Facture Pro forma  @if(request()->query("from") == \App\Metier\Behavior\Notifications::CREATE_FROM_PROFORMA )(copié de la pro forma n° {{$proforma->referenceproforma}} ) @endif</h2>
                     </div>
                 </div>
                 <div class="body table-responsive">
@@ -209,6 +209,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                            <input type="hidden" name="IDfacture" id="IDfacture" value="{{ $proforma->id ?? 0 }}">
                             <button type="button"id="validOrder" class="btn btn-primary m-t-15 waves-effect">Enregistrer</button>
                             <button type="reset" class="btn btn-default m-t-15 waves-effect">Retour</button>
                         </div>
@@ -255,7 +256,9 @@
         validite: null,
         delailivraison: null,
         objet: null,
-        partenaire_id: null
+        partenaire_id: null,
+        id: null,
+        _token: '{{ csrf_token() }}'
     };
 
     $("#validOrder").click(function (e) {
@@ -290,6 +293,7 @@
         facture.delailivraison = $("#delailivraison").val();
         facture.objet = $("#objet").val();
         facture.partenaire_id = $("#client").val();
+        facture.id = $("#IDfacture").val();
 
         sendDataPost(facture);
     }
@@ -297,7 +301,7 @@
     function sendDataPost(data){
         $.ajax({
             type:'post',
-            url: '{{ route("facturation.proforma.nouvelle") }}',
+            url: '{{ $updateUrl ? route("facturation.proforma.modifier") : route("facturation.proforma.nouvelle")  }}',
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             traditional: true,
@@ -463,6 +467,9 @@
        addNewProduit();
     });
 
+    /**
+     * Appelé par la fenêtre fille qui ouvre le popup d'ajout de produit
+     */
     function addNewProduit() {
         var hauteur = 600;
         var largeur = 500;

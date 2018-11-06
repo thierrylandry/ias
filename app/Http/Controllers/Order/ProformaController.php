@@ -31,7 +31,7 @@ class ProformaController extends Controller
         $commercializables = null;
         $proforma = null;
 
-       if($request->query("from") == Notifications::CREATE_FROM_PROFORMA){
+       if($request->query(Notifications::SOURCE) == Notifications::CREATE_FROM_PROFORMA || $request->query(Notifications::SOURCE) == Notifications::UPDATE_FROM_PROFORMA) {
 
 			$proforma = $this->getPieceComptableFromReference($request->query('ID'));
 
@@ -54,10 +54,14 @@ class ProformaController extends Controller
             $commercializables = $this->getCommercializableList($request);
         }
 
+	    $updateUrl = null;
+        if($request->query(Notifications::SOURCE) == Notifications::UPDATE_FROM_PROFORMA ){
+       	    $updateUrl = route("facturation.proforma.modifier");
+        }
 
         $partenaires = $this->getPartenaireList($request);
 
-        return view('order.proforma', compact("commercializables", "partenaires", "lignes", "proforma"));
+        return view('order.proforma', compact("commercializables", "partenaires", "lignes", "proforma", "updateUrl"));
     }
 
 	/**
@@ -78,7 +82,7 @@ class ProformaController extends Controller
 
 	        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $paretenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
 
-	        $this->addLineToPieceComptable($piececomptable,$request->input("lines"));
+	        $this->addLineToPieceComptable($piececomptable, $request->input("lines"));
 
 	        $notification = new Notifications();
 	        $notification->add(Notifications::SUCCESS,"Votre proforma n° $piececomptable->referenceproforma a été prise en compte.");

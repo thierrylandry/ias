@@ -105,6 +105,18 @@ trait Process
         return true;
     }
 
+	/**
+	 * @param PieceComptable $pieceComptable
+	 *
+	 * @return bool|null
+	 * @throws \Exception
+	 */
+    private function deleteAllLines(PieceComptable $pieceComptable)
+    {
+    	return LignePieceComptable::where("piececomptable_id","=", $pieceComptable->id)
+		    ->delete();
+    }
+
     /**
      * @param $type
      * @param Partenaire $partenaire
@@ -141,6 +153,30 @@ trait Process
         return $piececomptable;
     }
 
+	/**
+	 * @param PieceComptable $piececomptable
+	 * @param Collection $data
+	 *
+	 * @return bool
+	 * @throws \Throwable
+	 */
+    private function updatePieceComptable(PieceComptable $piececomptable, Collection $data)
+    {
+	    $piececomptable->montantht = $data->get("montantht");
+	    $piececomptable->isexonere = $data->get("isexonere");
+	    $piececomptable->conditions = $data->get("conditions");
+	    $piececomptable->validite = $data->get("validite");
+	    $piececomptable->objet = $data->get("objet");
+	    $piececomptable->delailivraison = $data->get("delailivraison");
+
+	    $piececomptable->utilisateur_id = Auth::id();
+	    $piececomptable->tva = PieceComptable::TVA;
+
+	    $piececomptable->saveOrFail();
+
+	    return true;
+    }
+
     /**
      * @param $reference
      * @return \Illuminate\Database\Eloquent\Model|null|PieceComptable
@@ -151,6 +187,18 @@ trait Process
             ->where("referenceproforma",$reference)
             ->orWhere("referencefacture",$reference)
             ->firstOrFail();
+    }
+
+	/**
+	 * @param $id
+	 *
+	 * @return \Illuminate\Database\Eloquent\Model|static|PieceComptable
+	 */
+    private function getPieceComptableFromId($id)
+    {
+	    return PieceComptable::with('partenaire','lignes','utilisateur')
+	                         ->where("id",'=',$id)
+	                         ->firstOrFail();
     }
 
     private function switchToNormal(PieceComptable &$pieceComptable, $numeroPreImprime, $referenceBonCommande = null)

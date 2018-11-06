@@ -22,7 +22,7 @@ class UtilisateurController extends Controller
 	 */
     public function index()
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::INFORMATIQUE]));
         $utilisateurs = Utilisateur::with("employe.service")->get();
         return view("admin.utilisateur.liste", compact("utilisateurs"));
     }
@@ -33,7 +33,7 @@ class UtilisateurController extends Controller
 	 */
     public function ajouter()
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION,  Service::INFORMATIQUE]));
         $employes = Employe::orderBy('nom','asc')
             ->whereNotIn('id',Utilisateur::select(['employe_id'])->get()->toArray())
             ->orderBy('prenoms', 'asc')
@@ -47,11 +47,13 @@ class UtilisateurController extends Controller
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 * @throws \Throwable
 	 */
     public function register(Request $request)
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION]));
-        $this->validate($request, [
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE]));
+
+	    $this->validate($request, [
             "employe_id" => "required|exists:employe,id",
             "login" => "required",
             "password" => "required|confirmed",
@@ -64,8 +66,16 @@ class UtilisateurController extends Controller
         return redirect()->route("admin.utilisateur.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 * @throws \Throwable
+	 */
     private function addUser(Request $request)
     {
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE]));
+
         try{
             $user = new Utilisateur($request->except("_token", "password_confirmation"));
             $user->password = bcrypt($request->input("password"));

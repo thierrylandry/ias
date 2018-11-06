@@ -17,6 +17,8 @@ class Notifications extends MessageBag
     const MISSION_OBJECT = 'missions';
     const NOTIFICATION_KEYS_ERROR = 'errors';
     const CREATE_FROM_PROFORMA = 'proforma';
+    const UPDATE_FROM_PROFORMA = 'update_pro';
+    const SOURCE = "from";
 
     const WARNING = 'bg-orange';
     const ERROR = 'bg-red';

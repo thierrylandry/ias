@@ -60,7 +60,6 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('chauffeurs/ajouter.html','Admin\ChauffeurController@ajouter')->name('admin.chauffeur.ajouter');
     Route::post('chauffeurs/ajouter.html','Admin\ChauffeurController@register');
     Route::get('chauffeurs/{matricule}/situation.html','Admin\ChauffeurController@situation')->name("admin.chauffeur.situation");
-
     //Employé
     Route::get('employes.html','Admin\EmployeController@liste')->name('admin.employe.liste');
     Route::get('employes/ajouter.html','Admin\EmployeController@ajouter')->name('admin.employe.ajouter');
@@ -93,6 +92,7 @@ Route::prefix('factures')->middleware('auth')->group(function (){
     Route::get("proforma/liste.html","Order\FactureController@listeProforma")->name("facturation.liste.proforma");
     Route::get("proforma/nouvelle.html","Order\ProformaController@nouvelle")->name("facturation.proforma.nouvelle");
     Route::post("proforma/nouvelle.html","Order\ProformaController@ajouter");
+    Route::post("proforma/update","Order\UpdateProforma@modifier")->name("facturation.proforma.modifier");
     Route::post("normale/make","Order\FactureController@makeNormal")->name("facturation.switch.normal");
     Route::get("{reference}/annuler","Order\FactureController@annuler")->name("facturation.switch.annuler");
     Route::get("{id}/livraison/make","Order\BonLivraisonController@makeBonLivraison")->name("facturation.switch.livraison");
