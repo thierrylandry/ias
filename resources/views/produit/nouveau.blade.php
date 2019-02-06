@@ -75,15 +75,10 @@
 @endsection
 
 @section("script")
-@if(request()->session()->has("produit"))
+@if(request()->has("from") && request()->query("from") == "newOrder")
 <script type="application/javascript">
-    //document.write(window.opener.document.URL);
-    if(window.opener.document.URL.replace("#","") == '{{ route('facturation.proforma.nouvelle') }}')
-    {
-        window.opener.refreshFromNewProduct(JSON.parse('{!! request()->session()->get("produit","{}") !!}'));
-        window.close();
-    }
+    window.opener.refreshFromNewProduct(JSON.parse('{!! request()->session()->get("produit","{}") !!}'));
+    window.close();
 </script>
 @endif
 @endsection
-

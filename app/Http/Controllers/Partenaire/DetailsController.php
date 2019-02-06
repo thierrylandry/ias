@@ -28,6 +28,7 @@ class DetailsController extends Controller
     {
         $partenaire = Partenaire::find($id);
         $pieces = PieceFournisseur::with('utilisateur','moyenPaiement')
+	        ->where("partenaire_id", $partenaire->id)
             ->orderBy('datereglement')
             ->get();
 

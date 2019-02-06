@@ -2,7 +2,7 @@
     text-align: right;
 }
 table tbody td.amount:after, .devise:after{
-    content: " FCFA";
+    /* content: " FCFA"; */
 }
 .clearfix{
     clear: both;

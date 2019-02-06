@@ -98,10 +98,10 @@ $totalPeriode = 0;
                     </tbody>
                     <tfoot>
                     <tr class="bg-teal">
-                        <td>Nombre</td>
+                        <td></td>
                         <td colspan="3"></td>
                         <td colspan="2" class="text-right">Total</td>
-                        <td class="amount">{{ number_format($totalPeriode, 0,",", " ") }} FCFA</td>
+                        <td class="amount">{{ number_format($totalPeriode, 0,",", " ") }}</td>
                     </tr>
                     </tfoot>
                 </table>

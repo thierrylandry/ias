@@ -17,7 +17,7 @@ class SecureHttp
     {
         if(config('app.env') == 'production' && !$request->secure())
         {
-            return redirect()->secure($request->path());
+            //return redirect()->secure($request->path());
         }
         return $next($request);
     }

@@ -25,7 +25,7 @@ class ProformaController extends Controller
 	 */
     public function nouvelle(Request $request)
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
 
         $lignes = new Collection();
         $commercializables = null;
@@ -72,7 +72,7 @@ class ProformaController extends Controller
 	 */
     public function ajouter(Request $request)
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
 
         $this->validateProformaRequest($request);
 

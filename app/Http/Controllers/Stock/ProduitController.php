@@ -41,14 +41,12 @@ class ProduitController extends Controller
                 "reference" => $produit->getReference(),
             ],JSON_UNESCAPED_UNICODE);
 
-            $request->session()->flash("produit", str_replace("\\\\","\\",$json));
-        }else{
-            //
+            $request->session()->flash("produit", str_replace("'","\'",str_replace("\\\\","\\", $json) ));
         }
 
         $notification = new Notifications();
         $notification->add(Notifications::SUCCESS,"Produit ajouté avec succès !");
-        return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+        return redirect()->route("stock.produit.ajouter",["from" => "newOrder"])->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**

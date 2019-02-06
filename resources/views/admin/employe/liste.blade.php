@@ -47,7 +47,7 @@
                             </thead>
                             <tbody>
                             @foreach($employes as $employe)
-                            <tr @if($employe->datesortie != null) class="bg-deep-orange" @endif>
+                            <tr @if(!empty($employe->datesortie)) class="bg-deep-orange" @endif>
                                 <td>
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">

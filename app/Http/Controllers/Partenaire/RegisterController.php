@@ -33,13 +33,16 @@ class RegisterController extends Controller
 
         $this->validatePartner($request);
 
-        for($i = 0; $i <= count($request->input("titre_c"))-1; $i++ )
+        if($request->has("titre_c"))
         {
-            $contact = new Contact();
-            $contact->titre_c = $request->input("titre_c")[$i];
-            $contact->type_c = $request->input("type_c")[$i];
-            $contact->valeur_c = $request->input("valeur_c")[$i];
-            $contacts->add($contact);
+	        for($i = 0; $i <= count($request->input("titre_c"))-1; $i++ )
+	        {
+		        $contact = new Contact();
+		        $contact->titre_c = $request->input("titre_c")[$i];
+		        $contact->type_c = $request->input("type_c")[$i];
+		        $contact->valeur_c = $request->input("valeur_c")[$i];
+		        $contacts->add($contact);
+	        }
         }
 
         $raw = $request->except("_token", "valeur_c", "type_c", "titre_c");

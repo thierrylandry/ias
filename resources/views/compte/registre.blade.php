@@ -9,9 +9,13 @@
             </div>
             <div class="body">
                 <div class="row clearfix">
+                    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(
+                        \App\Service::INFORMATIQUE, \App\Service::ADMINISTRATION)
+                    )
                     <div class="col-md-2 col-sm-6">
                         <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">add</i> Nouveau compte</button>
                     </div>
+                    @endif
                 </div>
                 <div class="row clearfix">
                     <div class="body table-responsive">

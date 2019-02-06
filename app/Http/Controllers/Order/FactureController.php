@@ -21,7 +21,7 @@ class FactureController extends Controller
 	 */
 	public function listeProforma(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         return $this->liste($request, PieceComptable::PRO_FORMA);
     }
 
@@ -31,7 +31,7 @@ class FactureController extends Controller
 	 */
     public function listeFacture(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         return $this->liste($request, PieceComptable::FACTURE);
     }
 
@@ -41,7 +41,7 @@ class FactureController extends Controller
 	 */
     public function liste(Request $request, $type = null)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         $pieces = $this->getPiecesComptable($request, $type);
         return view("order.liste", compact("pieces"));
     }
@@ -103,7 +103,7 @@ class FactureController extends Controller
 	 */
     public function details($reference)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         $piece = $this->getPieceComptableFromReference($reference);
         return view("order.facture", compact("piece"));
     }
@@ -116,7 +116,7 @@ class FactureController extends Controller
 	 */
     public function makeNormal(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         $this->validate($request, $this->valideRulesNormalPiece(), [
             "referencefacture.required" => "La référence de la facture pré-imprimée est requise."
         ]);

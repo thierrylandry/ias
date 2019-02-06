@@ -21,7 +21,7 @@ class UpdateProforma extends Controller
 	 */
     public function modifier(Request $request)
     {
-	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+	    $this->authorize(Actions::UPDATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
 
 	    $this->validateProformaRequest($request);
 

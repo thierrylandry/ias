@@ -6,15 +6,15 @@
             <span>Tableau de bord</span>
         </a>
     </li>
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+        \App\Service::GESTIONNAIRE_PL, \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
+    )
     <li>
         <a href="{{ route("mission.liste") }}">
             <i class="material-icons">business_center</i>
             <span>Missions</span>
         </a>
     </li>
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
-        \App\Service::GESTIONNAIRE_PL, \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
-    )
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">drive_eta</i>
@@ -56,7 +56,7 @@
     </li>
     @endif
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
-    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
+    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE, \App\Service::LOGISTIQUE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">monetization_on</i>
@@ -113,7 +113,7 @@
     </li>
     @endif
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
-    \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
+    \App\Service::ADMINISTRATION))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">assignment_ind</i>

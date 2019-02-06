@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <select name="chauffeur_id" id="chauffeur_id" class="form-control input-field">
                                     @foreach($chauffeurs as $chauffeur)
-                                        <option value="{{ $chauffeur->id }}" @if(old('chauffeur_id') == $chauffeur->id) selected @endif> {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
+                                        <option value="{{ $chauffeur->employe_id }}" @if(old('chauffeur_id') == $chauffeur->id) selected @endif> {{ $chauffeur->employe->nom }} {{ $chauffeur->employe->prenoms }}</option>
                                     @endforeach
                                     </select>
                                 </div>

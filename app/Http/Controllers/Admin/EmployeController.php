@@ -60,7 +60,9 @@ class EmployeController extends Controller
             "contact" => "required",
             "prenoms" => "required",
             "nom" => "required",
+            "pieceidentite" => "required",
             "matricule" => "required",
+		    "basesalaire" => "required",
 		    "rib" => "present",
 		    "cnps" => "present",
         ]);
@@ -83,7 +85,7 @@ class EmployeController extends Controller
         $employe->datenaissance = Carbon::createFromFormat("d/m/Y", $request->input("datenaissance"))->toDateString();
         $employe->dateembauche = Carbon::createFromFormat("d/m/Y", $request->input("dateembauche"))->toDateString();
 
-        if($request->input("datesortie") != null){
+        if(!empty($request->input("datesortie"))){
             $employe->datesortie = Carbon::createFromFormat("d/m/Y", $request->input("datesortie"))->toDateString();
         }
 
