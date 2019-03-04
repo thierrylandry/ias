@@ -39,4 +39,9 @@ interface Commercializable
      * @return int
      */
     public function getQuantity();
+
+	/**
+	 * @return float
+	 */
+    public function getRemise();
 }

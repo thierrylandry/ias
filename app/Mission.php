@@ -118,4 +118,11 @@ class Mission extends Model implements Commercializable, IAmortissement
     {
         return 0;
     }
+
+	/**
+	 * @return float
+	 */
+	public function getRemise() {
+		return 0;
+	}
 }

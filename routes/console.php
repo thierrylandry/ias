@@ -18,7 +18,11 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('update-db', function () {
-	//
+	\Illuminate\Support\Facades\Schema::table('lignepiece', function (\Illuminate\Database\Schema\Blueprint $table){
+		$table->float('remise',7,4)
+		      ->default(0.0)
+		      ->after('prixunitaire');
+	});
 })->describe('Update DB');
 
 Artisan::command('mission:reminder', function () {

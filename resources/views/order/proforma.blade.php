@@ -63,7 +63,7 @@
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                             <label for="client">Produits</label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                        <div class="col-lg-7 col-md-7 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <select @if(request()->query('from') == 'mission') disabled @endif class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
@@ -75,7 +75,9 @@
                                 <span id="infoProduct" class="new badge blue"></span>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row clearfix">
                         <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                             <label for="price">Prix</label>
                         </div>
@@ -85,6 +87,18 @@
                                     <input name="price" id="price" type="number" class="form-control">
                                 </div>
                                 <span class="input-group-addon">F CFA</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                            <label for="remise">Remise</label>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input name="remise" id="remise" type="number" class="form-control">
+                                </div>
+                                <span class="input-group-addon">%</span>
                             </div>
                         </div>
 
@@ -121,9 +135,10 @@
                             <th width="5%">#</th>
                             <th width="10%">Référence</th>
                             <th>Description</th>
-                            <th width="8%">Quantité</th>
-                            <th width="10%">Prix Unitaire</th>
-                            <th width="15%">Montant HT</th>
+                            <th class="text-right" width="8%">Quantité</th>
+                            <th class="text-right" width="10%">Prix Unitaire</th>
+                            <th class="text-right" width="6%">Remise %</th>
+                            <th class="text-right" width="15%">Montant HT</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -134,7 +149,8 @@
                             <td>{{ $ligne->detailsForCommande() }}</td>
                             <td><input type="number" class="form-control quantite" value="{{ $ligne->getQuantity() }}"></td>
                             <td class="price text-right">{{ $ligne->getPrice() }}</td>
-                            <td class="amount text-right">{{ $ligne->getPrice() * $ligne->getQuantity() }}</td>
+                            <td class="remise text-right">{{ $ligne->getRemise() * 100 }}</td>
+                            <td class="amount text-right">{{ ($ligne->getPrice() * $ligne->getQuantity()) - ceil($ligne->getRemise() * $ligne->getPrice() * $ligne->getQuantity()) }}</td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -294,7 +310,7 @@
         facture.objet = $("#objet").val();
         facture.partenaire_id = $("#client").val();
         facture.id = $("#IDfacture").val();
-
+        //console.log(facture);
         sendDataPost(facture);
     }
 
@@ -342,8 +358,9 @@
                 designation: $($td[2]).text(),
                 quantite: $($($td[3]).children()).val(),
                 prixunitaire: $($td[4]).text(),
+                remise: parseFloat($($td[5]).text())/100,
                 modele: $($td[0]).data("modele"),
-            modele_id: $($td[0]).data("id")
+                modele_id: $($td[0]).data("id")
         };
     }
     
@@ -374,6 +391,7 @@
         calculAmount();
 
         $q.val(1);
+        $("#remise").val(0.0);
     });
 
     $('#isexonere').click(function (e) {
@@ -403,14 +421,17 @@
         var modele = $product.data("modele") == undefined ? '{{ \App\Mission::class }}' : $product.data("modele");
         var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
         var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
+        var remise = parseFloat($("#remise").val());
+        var amount = (parseInt($("#price").val()) * parseInt($quantity.val())) -  Math.round(parseInt($("#price").val()) * parseInt($quantity.val()) * (remise/100));
 
         $("#piece tbody").fadeIn().append("<tr>\n" +
             "<th data-id=\""+ id +"\" data-modele=\""+ modele +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
             "<td>"+ reference +"</td>\n" +
             "<td>"+ libelle + " "+ $("#complement").val() +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
-            "<td class='price'>"+ $("#price").val() +"</td>\n" +
-            "<td class='amount'>"+ parseInt($("#price").val()) * parseInt($quantity.val()) +"</td>\n" +
+            "<td class='price text-right'>"+ $("#price").val() +"</td>\n" +
+            "<td class='remise text-right'>"+ $("#remise").val() +"</td>\n" +
+            "<td class='amount text-right'>"+ amount +"</td>\n" +
             "</tr>");
     }
 
@@ -458,7 +479,9 @@
         var qty = parseInt($(arg).val());
         var $td = $(arg).parent();
         var $price = $($td).siblings(".price");
-        $($($td).siblings(".amount")).text( parseInt($($price).text()) * qty );
+        var $remise = $($td).siblings(".remise");
+        var $amount = (parseInt($($price).text()) * qty) - (parseInt($($price).text()) * qty * (parseFloat($($remise).text())/100));
+        $($($td).siblings(".amount")).text( $amount );
 
         calculAmount();
     }
@@ -481,7 +504,7 @@
     function refreshFromNewProduct(produit) {
         console.log(produit);
         var option = '<option value="'+produit.id+'" data-stock="0" data-modele="'+produit.modele+'" data-id="'+produit.id+'" data-price="'+produit.price+'" data-libelle="'+produit.libelle+'" data-reference="'+produit.reference+'">'+produit.reference+' '+produit.libelle+'</option>';
-        console.log(option);
+        //console.log(option);
 
         $("#produits").selectpicker('deselectAll');
         $("#produits").append(option);
@@ -492,5 +515,10 @@
 
         //window.location.reload(false);
     }
+
+    @if(request()->has('from') && request('from') == \App\Metier\Behavior\Notifications::UPDATE_FROM_PROFORMA)
+    //En cas de modification de la pro forma
+    calculAmount();
+    @endif
 </script>
 @endsection

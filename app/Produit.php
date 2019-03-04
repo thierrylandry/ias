@@ -61,4 +61,11 @@ class Produit extends Model implements Commercializable
     {
         return $this->quantite;
     }
+
+	/**
+	 * @return float
+	 */
+	public function getRemise() {
+		return $this->remise;
+	}
 }

@@ -105,10 +105,11 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr class="bg-light-green">
-                                        <th width="7%">Référence</th>
+                                        <th width="10%">Référence</th>
                                         <th width="55%">Désignation</th>
                                         <th width="12%" class="amount">P.U HT</th>
                                         <th class="quantity text-center">Quantité</th>
+                                        <th class="text-right" width="6%">Remise %</th>
                                         <th width="15%" class="amount">Total</th>
                                     </tr>
                                 </thead>
@@ -119,7 +120,8 @@
                                         <td class="">{{ $ligne->designation }}</td>
                                         <td class="amount">{{ number_format($ligne->prixunitaire,0,',',' ') }}</td>
                                         <td class="quantity text-center">{{ number_format($ligne->quantite,0,',',' ') }}</td>
-                                        <td class="amount">{{ number_format($ligne->prixunitaire * $ligne->quantite,0,',',' ') }}</td>
+                                        <td class="remise text-right">{{ $ligne->remise * 100 }} %</td>
+                                        <td class="amount">{{ number_format(($ligne->prixunitaire * $ligne->quantite) - ceil($ligne->prixunitaire * $ligne->quantite * $ligne->remise),0,',',' ') }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -127,17 +129,17 @@
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2" class="amount font-bold">Montant HT</td>
-                                    <td class="amount font-bold">{{ number_format($piece->montantht,0,','," ") }} FCFA</td>
+                                    <td colspan="2" class="amount font-bold">{{ number_format($piece->montantht,0,','," ") }} FCFA</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2" class="amount font-bold">TVA 18% @if($piece->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-                                    <td class="amount font-bold">{{ number_format(($piece->montantht * $piece->tva),0,','," ") }} FCFA</td>
+                                    <td colspan="2" class="amount font-bold">{{ number_format(($piece->montantht * $piece->tva),0,','," ") }} FCFA</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2" class="amount font-bold">Montant TTC</td>
-                                    <td class="amount font-bold">{{ number_format(($piece->montantht * ($piece->isexonere ? 1 : (1 + $piece->tva) )),0,','," ") }} FCFA</td>
+                                    <td colspan="2" class="amount font-bold">{{ number_format(($piece->montantht * ($piece->isexonere ? 1 : (1 + $piece->tva) )),0,','," ") }} FCFA</td>
                                 </tr>
                                 </tfoot>
                             </table>

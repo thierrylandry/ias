@@ -65,6 +65,7 @@ trait Process
             "lines.*.prixunitaire" => "required|numeric|min:5",
             "lines.*.modele" => "required",
             "lines.*.modele_id" => "required|numeric",
+            "lines.*.remise" => "present",
             "partenaire_id" => "required|exists:partenaire,id",
             "montantht" => "required|numeric",
             "isexonere" => "required|boolean",
