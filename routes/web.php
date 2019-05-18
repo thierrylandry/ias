@@ -30,7 +30,7 @@ Route::get('/accueil.html', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
 Route::get('/checking', 'HomeController@checkState')->name('rappel');
 Route::get('/maj', function (){
-	$cmd = env("APP_UPDATE_CMD");
+	$cmd = env("APP_UPDATE_CMD", null);
 	if (substr(php_uname(), 0, 7) == "Windows"){
 		pclose(popen("start /B ". $cmd, "r"));
 	}
