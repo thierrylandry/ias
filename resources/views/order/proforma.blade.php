@@ -96,7 +96,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-8 col-xs-7">
                             <div class="input-group">
                                 <div class="form-line">
-                                    <input name="remise" id="remise" type="number" class="form-control">
+                                    <input name="remise" id="remise" type="number" value="0" class="form-control">
                                 </div>
                                 <span class="input-group-addon">%</span>
                             </div>
@@ -333,10 +333,8 @@
                 }
             },
             error : function (data, status, xhr) {
-
                 var $msg = '';
-                for(var obj in data.responseJSON )
-                {
+                for(var obj in data.responseJSON ){
                     $msg += data.responseJSON[obj][0]+'<br/>';
                 }
 
@@ -370,7 +368,6 @@
      * */
     $("#produits").change(function (e) {
         $("#price").val($("#produits option:selected").data("price")) ;
-
         var stock = $("#produits option:selected").data("stock");
         if(stock != 'no'){
             $("#infoProduct").text( stock +" produit(s) en stock");
@@ -381,8 +378,7 @@
         $q = $("#quantity");
         $p = $("#price");
 
-        if($q.val() === "" || $q.val() <= 0 || $p.val() === "" || $p.val() <= 0 )
-        {
+        if($q.val() === "" || $q.val() <= 0 || $p.val() === "" || $p.val() <= 0 ){
             swal("Erreur","Veuillez saisir la quantité et le prix de l'article SVP","warning");
             return null;
         }
@@ -412,8 +408,7 @@
         editQty(e.target);
     });
 
-    function addLine()
-    {
+    function addLine() {
         $product = $("#produits option:selected");
         $quantity = $('#quantity');
 
@@ -421,7 +416,7 @@
         var modele = $product.data("modele") == undefined ? '{{ \App\Mission::class }}' : $product.data("modele");
         var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
         var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
-        var remise = parseFloat($("#remise").val());
+        var remise = parseFloat($("#remise").val() != NaN ? $("#remise").val() : 0);
         var amount = (parseInt($("#price").val()) * parseInt($quantity.val())) -  Math.round(parseInt($("#price").val()) * parseInt($quantity.val()) * (remise/100));
 
         $("#piece tbody").fadeIn().append("<tr>\n" +
@@ -435,8 +430,7 @@
             "</tr>");
     }
 
-    function delLine(arg)
-    {
+    function delLine(arg) {
         swal({
                 title: "Suppression de ligne",
                 text: "Voulez-vous vraiment supprimer cette ligne ?",
@@ -457,8 +451,7 @@
             });
     }
 
-    function calculAmount()
-    {
+    function calculAmount() {
         var montantHT = 0;
         $.each($(".amount"),function (key, value) {
             montantHT = montantHT + parseInt($(value).text());
@@ -474,8 +467,7 @@
         }
     }
 
-    function editQty(arg)
-    {
+    function editQty(arg) {
         var qty = parseInt($(arg).val());
         var $td = $(arg).parent();
         var $price = $($td).siblings(".price");
