@@ -29,6 +29,16 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/accueil.html', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
 Route::get('/checking', 'HomeController@checkState')->name('rappel');
+Route::get('/maj', function (){
+	$cmd = env("APP_UPDATE_CMD");
+	if (substr(php_uname(), 0, 7) == "Windows"){
+		pclose(popen("start /B ". $cmd, "r"));
+	}
+	else {
+		exec($cmd . " > /dev/null &");
+	}
+	return back();
+})->name('maj');
 
 //Véhicules
 Route::prefix('vehicules')->middleware('auth')->group(function (){
