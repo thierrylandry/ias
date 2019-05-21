@@ -135,6 +135,7 @@ class CreateDatabaseIas extends Migration
             $table->string('libelle');
             $table->integer("prixunitaire")->default(0);
             $table->integer('stock')->default(0);
+            $table->boolean('isdisponible')->default(true);
             $table->unsignedInteger('famille_id');
             $table->foreign('famille_id')->references('id')->on('famille');
         });

@@ -109,6 +109,9 @@
             <li>
                 <a href="{{ route("stock.produit.famille") }}">Famille</a>
             </li>
+            <li>
+                <a href="{{ route("stock.produit.ratio") }}">Ratio</a>
+            </li>
         </ul>
     </li>
     @endif

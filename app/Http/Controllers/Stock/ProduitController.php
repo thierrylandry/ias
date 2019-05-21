@@ -6,6 +6,7 @@ use App\Famille;
 use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
 use App\Produit;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -20,6 +21,12 @@ class ProduitController extends Controller
         return view("produit.nouveau", compact("familles"));
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse|null
+	 * @throws \Throwable
+	 */
     public function addProduct(Request $request)
     {
         $this->valideRequest($request);
@@ -30,7 +37,7 @@ class ProduitController extends Controller
                 ->withInput();
         }
 
-        $produit = $this->persitProduct($request->input());
+	    $produit = $this->persitProduct($request->input());
 
         if($request->query("from") == "proforma"){ //On provient du popup de la fenêtre de nouvelle pro forma
             $json = json_encode([
@@ -42,11 +49,13 @@ class ProduitController extends Controller
             ],JSON_UNESCAPED_UNICODE);
 
             $request->session()->flash("produit", str_replace("'","\'",str_replace("\\\\","\\", $json) ));
+            return null;
+        }else{
+	        $notification = new Notifications();
+	        $notification->add(Notifications::SUCCESS,"Produit ajouté avec succès !");
+	        return redirect()->route("stock.produit.ajouter",["from" => "newOrder"])->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
         }
 
-        $notification = new Notifications();
-        $notification->add(Notifications::SUCCESS,"Produit ajouté avec succès !");
-        return redirect()->route("stock.produit.ajouter",["from" => "newOrder"])->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**
@@ -76,6 +85,12 @@ class ProduitController extends Controller
         $produits = $produits->paginate(25);
 
         return view("produit.liste", compact("produits","familles"));
+    }
+
+    public function classProduct(Request $request){
+	    $familles = Famille::orderBy("libelle")->get();
+	    $produits = $this->getProduitRatio(Carbon::now()->setDate(2019,01,01), Carbon::now());
+	    return view("produit.ratio", compact("produits","familles"));
     }
 
     private function filter(Builder &$builder, Request $request)

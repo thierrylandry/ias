@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produit extends Model implements Commercializable
 {
+	const DISPONIBLE = "1";
+	const INDISPONIBLE = "0";
+
     protected $table = "produit";
     public $timestamps = false;
     public $quantite = 1;

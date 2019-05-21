@@ -36,6 +36,15 @@
                         </div>
 
                         <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 form-control-label">
+                                <div class="demo-switch-title">Est disponible</div>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked name="isdisponible" value="1" id="isdisponible" @if(old("isdisponible")) checked @endif><span class="lever switch-col-light-blue"></span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
                             <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
                                 <label for="libelle">Libelle</label>
                             </div>

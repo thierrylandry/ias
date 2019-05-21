@@ -85,7 +85,7 @@ class CompteController extends Controller
 	                ->where('compte_id','=', $souscompte->id)
 	                ->orderBy('dateaction', 'desc');
 
-        $lignes = $this->extracData($lignes, $request, $debut, $fin);
+        $lignes = $this->extractData($lignes, $request, $debut, $fin);
 
         $lignes = $lignes->paginate(30);
 
@@ -162,7 +162,7 @@ class CompteController extends Controller
      * @param $au
      * @return Builder
      */
-    private function extracData(Builder $builder, Request $request, &$du, $au)
+    private function extractData(Builder $builder, Request $request, &$du, $au)
     {
         if($request->query('objet'))
         {
