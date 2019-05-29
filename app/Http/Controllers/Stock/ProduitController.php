@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Stock;
 use App\Famille;
 use App\Http\Controllers\Controller;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Produit;
+use App\Service;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,7 +17,15 @@ class ProduitController extends Controller
 {
     use ProduitCrud;
 
-    public function ajouter()
+	/**
+	 * ProduitController constructor.
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+    public function __construct() {
+	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE]));
+    }
+
+	public function ajouter()
     {
         $familles = Famille::orderBy("libelle")->get();
         return view("produit.nouveau", compact("familles"));

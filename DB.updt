@@ -1,2 +1,3 @@
 ALTER TABLE produit ADD isdisponible BOOLEAN DEFAULT TRUE NULL;
 ALTER TABLE produit MODIFY COLUMN isdisponible BOOLEAN DEFAULT TRUE AFTER reference;
+INSERT INTO service (code, libelle) VALUE ('DIRG', 'Directeur Général');

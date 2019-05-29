@@ -32,6 +32,7 @@ class IasTableSeeder extends Seeder
             [ "code" => "ADMIN","libelle" => "Administration" ],
             [ "code" => "GESPL","libelle" => "Gestionnaire PL" ],
             [ "code" => "GESVL","libelle" => "Gestionnaire VL" ],
+            [ "code" => "DIRG","libelle" => "Directeur Général" ],
         ]);
 
         DB::table("typeintervention")->insert([

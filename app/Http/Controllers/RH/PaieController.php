@@ -32,7 +32,7 @@ class PaieController extends Controller
 	 */
 	public function fichePaie(int $annee, int $mois)
 	{
-		$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+		$this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
 		$employe = null;
 
@@ -68,7 +68,7 @@ END + 1 as nbre_jours ,debuteffectif , fineffective, code, destination, perdiem"
 	 */
 	public function savePaie(Request $request, $annee, $mois)
 	{
-		$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
+		$this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
 
 		$this->validate($request, [
 			"libelle" => "required|array",

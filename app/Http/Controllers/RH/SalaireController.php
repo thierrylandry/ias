@@ -22,7 +22,7 @@ class SalaireController extends Controller
 	 */
     public function demarrage()
     {
-    	$this->authorize(Actions::CREATE, collect([Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
+    	$this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
 	    $annees = $this->getYears();
 	    $months = $this->getMonths();
 
@@ -41,7 +41,7 @@ class SalaireController extends Controller
 	 */
     public function start(Request $request)
     {
-	    $this->authorize(Actions::CREATE, collect([Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
 
 	    $salaire = new Salaire();
 	    $salaire->mois = $request->input('mois');

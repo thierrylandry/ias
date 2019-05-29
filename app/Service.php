@@ -12,6 +12,7 @@ class Service extends Model
 	const ADMINISTRATION = 'ADMIN';
 	const GESTIONNAIRE_PL = 'GESPL';
 	const GESTIONNAIRE_VL = 'GESVL';
+	const DG = 'DIRG';
 
     public $timestamps = false;
     protected $table = "service";

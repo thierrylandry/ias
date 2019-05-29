@@ -74,7 +74,7 @@ class ReparationController extends Controller
 	 */
     public function ajouter(Request $request)
     {
-    	$this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+    	$this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
 	    $this->validate($request, $this->validateRules()[0], $this->validateRules()[1]);
         $intervention = new Intervention($request->except("_token", "vehicule"));

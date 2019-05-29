@@ -6,7 +6,7 @@
             <span>Tableau de bord</span>
         </a>
     </li>
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE,
         \App\Service::GESTIONNAIRE_PL, \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
     )
     <li>
@@ -34,7 +34,7 @@
         </ul>
     </li>
     @endif
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
     \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -55,7 +55,7 @@
         </ul>
     </li>
     @endif
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
     \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE, \App\Service::LOGISTIQUE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -92,7 +92,7 @@
             <span>Trésorerie</span>
         </a>
     </li>
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
     \App\Service::ADMINISTRATION, \App\Service::LOGISTIQUE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -115,7 +115,7 @@
         </ul>
     </li>
     @endif
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
     \App\Service::ADMINISTRATION))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -135,7 +135,7 @@
         </ul>
     </li>
     @endif
-    @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE))
+    @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE, \App\Service::DG))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">settings</i>

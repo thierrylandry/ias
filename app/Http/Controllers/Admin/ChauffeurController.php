@@ -26,7 +26,7 @@ class ChauffeurController extends Controller
 	 */
     public function situation($matricule)
     {
-    	$this->authorize(Actions::READ, [Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]);
+    	$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::ADMINISTRATION, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
     	$chauffeur = Chauffeur::where("matricule",$matricule)
             ->join("employe","employe_id","employe.id")

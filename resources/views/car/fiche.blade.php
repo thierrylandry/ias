@@ -43,9 +43,8 @@
                     </tbody>
                     <tfoot>
                     <tr class="bg-light-green">
-                        <td colspan="2">Total</td>
-                        <td class="amount devise">{{ number_format($totalDebit, 0, ","," " ) }}</td>
-                        <td class="amount devise">{{ number_format($totalCredit, 0, ","," " ) }}</td>
+                        <td colspan="3">Solde</td>
+                        <td class="amount devise">{{ number_format($totalCredit-$totalDebit, 0, ","," " ) }}</td>
                     </tr>
                     </tfoot>
                 </table>
