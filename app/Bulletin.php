@@ -21,4 +21,8 @@ class Bulletin extends Model
 	public function employe(){
 		return $this->belongsTo(Employe::class,"employe_id");
 	}
+
+	public function salaire(){
+		return $this->belongsTo(Salaire::class, "mois");
+	}
 }

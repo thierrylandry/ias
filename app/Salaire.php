@@ -14,13 +14,17 @@ class Salaire extends Model
 	protected $table = "salaire";
 	protected $primaryKey = "mois";
 
-	public static function getStateToString(int $state)
-	{
+	public static function getStateToString(int $state){
 		switch ($state){
 			case self::ETAT_DEMARRE : return "Démarré";
 			case self::ETAT_VALIDE : return "Validé";
 			case self::ETAT_CLOTURE : return "Clôturé";
 		}
 		return null;
+	}
+
+	public function bulletins(){
+		return $this->hasMany(Bulletin::class,"mois")
+			->where("annee", $this->annee);
 	}
 }

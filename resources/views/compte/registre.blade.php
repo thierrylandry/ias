@@ -10,7 +10,7 @@
             <div class="body">
                 <div class="row clearfix">
                     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(
-                        \App\Service::INFORMATIQUE, \App\Service::ADMINISTRATION)
+                        \App\Service::INFORMATIQUE, \App\Service::ADMINISTRATION, \App\Service::DG)
                     )
                     <div class="col-md-2 col-sm-6">
                         <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">add</i> Nouveau compte</button>
@@ -31,6 +31,11 @@
                             </thead>
                             <tbody class="table-hover">
                             @foreach($comptes as $compte)
+                                @if(
+                                $compte->utilisateur
+                                && ($compte->utilisateur->service->code == \App\Service::DG &&
+                                \Illuminate\Support\Facades\Auth::user()->employe->service->code == \App\Service::DG)
+                                )
                                 <tr>
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
@@ -45,6 +50,7 @@
                                     <td class="align-right">{{ number_format(count($compte->lignecompte) != 0 ? $compte->lignecompte->first()->balance : 0, 0, ',',' ') }}</td>
                                     <td>{{ $compte->utilisateur->nom ?? 'N/D' }} {{ $compte->utilisateur->prenoms ?? null }}</td>
                                 </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Bulletin;
 use App\Employe;
+use App\Http\Controllers\RH\Tools;
 use App\Metier\Behavior\Notifications;
 use App\Metier\Security\Actions;
+use App\Mission;
+use App\Salaire;
 use App\Service;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -100,10 +104,25 @@ class EmployeController extends Controller
 	 */
     public function fiche($matricule)
     {
+	    $missions = null;
 	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE]));
         try{
             $employe = Employe::with("chauffeur","service")->where("matricule",$matricule)->firstOrFail();
-            return view("admin.employe.fiche",compact("employe"));
+            if($employe->chauffeur){
+	            $missions = Mission::with("vehicule")->where("chauffeur_id","=",$employe->id)
+		            ->orderBy("debuteffectif", "desc")
+		            ->limit(10)
+	                ->get();
+            }
+
+            $bulletins = Bulletin::with(["salaire","employe"])
+	            ->where("employe_id","=",$employe->id)
+	            ->orderBy("annee", "desc")
+	            ->orderBy("mois", "desc")
+	            ->limit(12)
+	            ->get();
+
+            return view("admin.employe.fiche",compact("employe", "missions", "bulletins"));
         }catch (ModelNotFoundException $e){
             return back()->withErrors("Employé non trouvé");
         }
