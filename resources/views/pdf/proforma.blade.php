@@ -53,9 +53,9 @@
             <th width="15%">Référence</th>
             <th width="40%">Désignation</th>
             <th width="10%" class="amount">P.U HT</th>
-            <th class="quantity">Quantité</th>
+            <th class="quantity">Qté</th>
             <th class="amount" width="5%">Remise</th>
-            <th width="15%" class="amount">Total</th>
+            <th width="20%" class="amount">Total</th>
         </tr>
         </thead>
         <tbody>
@@ -74,17 +74,17 @@
             <tr>
                 <td colspan="2"></td>
                 <td colspan="2" class="amount h3">Montant HT</td>
-                <td colspan="2" class="amount h3">{{ number_format($pieceComptable->montantht,0,','," ") }} FCFA</td>
+                <td colspan="2" class="amount h3">{{ number_format($pieceComptable->montantht,0,','," ") }} </td>
             </tr>
             <tr>
                 <td colspan="2"></td>
                 <td colspan="2" class="amount h3">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-                <td colspan="2" class="amount h3">{{ number_format(ceil($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} FCFA</td>
+                <td colspan="2" class="amount h3">{{ number_format(ceil($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} </td>
             </tr>
             <tr>
                 <td colspan="2"></td>
                 <td colspan="2" class="amount h3">Montant TTC</td>
-                <td colspan="2" class="amount h3">{{ number_format(ceil($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} FCFA</td>
+                <td colspan="2" class="amount h3">{{ number_format(ceil($pieceComptable->montantht * ($pieceComptable->isexonere ? 1 : (1 + $pieceComptable->tva) )),0,','," ") }} </td>
             </tr>
         </tfoot>
     </table>
