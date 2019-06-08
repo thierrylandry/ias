@@ -51,7 +51,7 @@
         <thead>
         <tr class="">
             <th width="15%">Référence</th>
-            <th width="40%">Désignation</th>
+            <th width="35%">Désignation</th>
             <th width="10%" class="amount">P.U HT</th>
             <th class="quantity">Qté</th>
             <th class="amount" width="5%">Remise</th>
