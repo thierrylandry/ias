@@ -73,13 +73,13 @@
         <tfoot>
             <tr>
                 <td colspan="2"></td>
-                <td colspan="2" class="amount h3">Montant HT</td>
-                <td colspan="2" class="amount h3">{{ number_format($pieceComptable->montantht,0,','," ") }} </td>
+                <td colspan="2" class="amount h4">Montant HT</td>
+                <td colspan="2" class="amount h4">{{ number_format($pieceComptable->montantht,0,','," ") }} </td>
             </tr>
             <tr>
                 <td colspan="2"></td>
-                <td colspan="2" class="amount h3">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
-                <td colspan="2" class="amount h3">{{ number_format(ceil($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} </td>
+                <td colspan="2" class="amount h4">TVA 18% @if($pieceComptable->isexonere)<small>(Exonéré de TVA)</small> @endif</td>
+                <td colspan="2" class="amount h4">{{ number_format(ceil($pieceComptable->montantht * $pieceComptable->tva),0,','," ") }} </td>
             </tr>
             <tr>
                 <td colspan="2"></td>
