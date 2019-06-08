@@ -131,7 +131,7 @@
                                     {{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }}
                                     ({{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }})
                                 </td>
-                                <td>{{ (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)) }}</td>
+                                <td>{{ (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif))+1 }}</td>
                                 <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
                                 <td>{{ $mission->destination }}</td>
                                 <td>{{ \App\Statut::getStatut($mission->status) }}</td>

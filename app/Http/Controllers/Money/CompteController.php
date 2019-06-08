@@ -37,7 +37,7 @@ class CompteController extends Controller
 	 */
     public function addNewSousCompte(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::COMPTABILITE]));
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
 
     	$this->validate($request, [
     		"libelle" => "required",

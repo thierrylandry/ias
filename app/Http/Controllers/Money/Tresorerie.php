@@ -38,7 +38,7 @@ trait Tresorerie
 	{
 		$comptes = Compte::with('utilisateur');
 
-		if(!in_array(Auth::user()->employe->service->code, [Service::ADMINISTRATION, Service::INFORMATIQUE])){
+		if(!in_array(Auth::user()->employe->service->code, [Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE])){
 			$comptes = $comptes->where('employe_id','=',Auth::id());
 		}
 

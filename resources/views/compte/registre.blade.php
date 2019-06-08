@@ -31,11 +31,6 @@
                             </thead>
                             <tbody class="table-hover">
                             @foreach($comptes as $compte)
-                                @if(
-                                $compte->utilisateur
-                                && ($compte->utilisateur->service->code == \App\Service::DG &&
-                                \Illuminate\Support\Facades\Auth::user()->employe->service->code == \App\Service::DG)
-                                )
                                 <tr>
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
@@ -50,7 +45,6 @@
                                     <td class="align-right">{{ number_format(count($compte->lignecompte) != 0 ? $compte->lignecompte->first()->balance : 0, 0, ',',' ') }}</td>
                                     <td>{{ $compte->utilisateur->nom ?? 'N/D' }} {{ $compte->utilisateur->prenoms ?? null }}</td>
                                 </tr>
-                                @endif
                             @endforeach
                             </tbody>
                         </table>
