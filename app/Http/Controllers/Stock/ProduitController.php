@@ -17,14 +17,6 @@ class ProduitController extends Controller
 {
     use ProduitCrud;
 
-	/**
-	 * ProduitController constructor.
-	 * @throws \Illuminate\Auth\Access\AuthorizationException
-	 */
-    public function __construct() {
-	    //
-    }
-
 	public function ajouter()
     {
         $familles = Famille::orderBy("libelle")->get();
