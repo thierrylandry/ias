@@ -11,8 +11,19 @@ namespace App\Http\Controllers\Stock;
 
 use App\Famille;
 use App\Http\Controllers\Controller;
+use App\Metier\Security\Actions;
+use App\Service;
 
 class MouvementController extends Controller {
+
+
+	/**
+	 * ProduitController constructor.
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+	public function __construct() {
+		$this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE, Service::ADMINISTRATION]));
+	}
 
 	public function index()
 	{

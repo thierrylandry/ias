@@ -22,7 +22,7 @@ class ProduitController extends Controller
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
     public function __construct() {
-	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE]));
+	    //
     }
 
 	public function ajouter()
@@ -39,7 +39,9 @@ class ProduitController extends Controller
 	 */
     public function addProduct(Request $request)
     {
-        $this->valideRequest($request);
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE, Service::ADMINISTRATION]));
+
+	    $this->valideRequest($request);
 
         //On vérifie la que la référence n'est pas utilisée par un autre produit
         if($this->checkReferenceExist($request->input("reference"))){
@@ -81,9 +83,17 @@ class ProduitController extends Controller
         ]);
     }
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function liste(Request $request)
     {
-        $keyword = null;
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE, Service::ADMINISTRATION]));
+
+	    $keyword = null;
 
         $familles = Famille::orderBy("libelle")->get();
 
@@ -117,8 +127,17 @@ class ProduitController extends Controller
         }
     }
 
+
+	/**
+	 * @param $reference
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function modifier($reference)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE, Service::ADMINISTRATION]));
+
         $familles = Famille::orderBy("libelle")->get();
         try{
             $produit = Produit::with("famille")->where("reference", $reference)->firstOrFail();
