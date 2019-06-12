@@ -16,19 +16,14 @@ use App\Service;
 
 class MouvementController extends Controller {
 
-
 	/**
 	 * ProduitController constructor.
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-	public function __construct() {
+	public function index() {
 		$this->authorize(Actions::CREATE, collect([Service::DG, Service::INFORMATIQUE, Service::COMPTABILITE, Service::LOGISTIQUE, Service::ADMINISTRATION]));
-	}
 
-	public function index()
-	{
 		$familles = Famille::orderBy("libelle")->get();
-
 		return view('produit.mouvement', compact("familles"));
 	}
 }
