@@ -135,7 +135,7 @@
                                 <select class="form-control selectpicker" id="sens" name="sens" required>
                                     <option @if(old('sens') == '-1') selected @endif value="-1" >Sortie caisse</option>
                                     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
-                                        \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
+                                        \App\Service::DG, \App\Service::COMPTABILITE))
                                     <option @if(old('sens') == '1') selected @endif value="1" >Approvisionnement</option>
                                     @endif
                                 </select>
