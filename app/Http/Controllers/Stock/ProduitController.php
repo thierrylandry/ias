@@ -53,7 +53,7 @@ class ProduitController extends Controller
             ],JSON_UNESCAPED_UNICODE);
 
             $request->session()->flash("produit", str_replace("'","\'",str_replace("\\\\","\\", $json) ));
-            return null;
+            return redirect()->route("stock.produit.ajouter", ["product" => "added"]);
         }else{
 	        $notification = new Notifications();
 	        $notification->add(Notifications::SUCCESS,"Produit ajouté avec succès !");

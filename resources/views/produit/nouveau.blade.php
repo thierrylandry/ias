@@ -84,7 +84,7 @@
 @endsection
 
 @section("script")
-@if(request()->has("from") && request()->query("from") == "newOrder")
+@if(request()->has("product") && request()->query("product") == "added")
 <script type="application/javascript">
     window.opener.refreshFromNewProduct(JSON.parse('{!! request()->session()->get("produit","{}") !!}'));
     window.close();

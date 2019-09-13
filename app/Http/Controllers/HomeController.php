@@ -18,9 +18,10 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        /*
         $user = Utilisateur::where('login',"=","ahmed.kone@ivoireautoservices.net")->first();
         $user->password = bcrypt("azerty");
-        $user->save();
+        $user->save(); */
     }
 
     /**
