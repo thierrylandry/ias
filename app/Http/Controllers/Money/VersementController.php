@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Money;
 
 use App\Http\Controllers\Mission\Process;
 use App\Metier\Behavior\Notifications;
+use App\Mission;
 use App\MoyenReglement;
 use App\Statut;
 use App\Versement;
@@ -41,14 +42,16 @@ class VersementController extends Controller
             "commentaires" => "present"
         ]);
 
+        $mission = Mission::find($request->input("mission_id"));
+
         $versement = new Versement($request->except("_token"));
-        $versement->employe_id = Auth::id();
+        $versement->employe_id = $mission->chauffeur_id;
         $versement->dateversement = Carbon::createFromFormat("d/m/Y H:i", $request->input("dateversement"))->toDateTimeString();
 
         $versement->saveOrFail();
 
         $notif = new Notifications();
-        $notif->add(Notifications::SUCCESS,"Nouveau versement effecctué avec succès !");
+        $notif->add(Notifications::SUCCESS,"Nouveau versement effectué avec succès !");
 
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
     }

@@ -22,7 +22,7 @@ class ReparationController extends Controller
 	 */
     public function index(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
 
         $debut = Carbon::now()->firstOfMonth();
         $fin = Carbon::now();
@@ -58,7 +58,7 @@ class ReparationController extends Controller
 	 */
     public function nouvelle()
     {
-	    $this->authorize(Actions::CREATE, collect([Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
+	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
         $vehicules = Vehicule::all();
         $types = TypeIntervention::all();

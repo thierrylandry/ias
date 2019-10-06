@@ -50,6 +50,23 @@ $totalPeriode = 0;
                             </div>
                         </div>
 
+                        @if($statuts)
+                        <div class="col-md-3 col-sm-6">
+                            <b>Statut</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">dvr</i>
+                                </span>
+                                <select class="form-control selectpicker" id="status" name="status" data-live-search="true" required>
+                                    <option value="all">Tous les statuts</option>
+                                    @foreach($statuts as $statut)
+                                        <option @if(request()->input("status") == $statut) selected @endif>{{ \App\Statut::getStatut($statut) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="col-md-1">
                             <br/>
                             <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>

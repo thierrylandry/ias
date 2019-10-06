@@ -32,18 +32,23 @@ class FactureController extends Controller
     public function listeFacture(Request $request)
     {
 	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
-        return $this->liste($request, PieceComptable::FACTURE);
+	    $statuts = [
+	     Statut::PIECE_COMPTABLE_FACTURE_ANNULEE , Statut::PIECE_COMPTABLE_FACTURE_PAYEE ,
+	     Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL , Statut::PIECE_COMPTABLE_FACTURE_SANS_BL
+	    ];
+
+        return $this->liste($request, PieceComptable::FACTURE, $statuts);
     }
 
 	/**
 	 * FactureController constructor.
 	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-    public function liste(Request $request, $type = null)
+    public function liste(Request $request, $type = null, $statuts = null)
     {
 	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::COMPTABILITE, Service::INFORMATIQUE, Service::LOGISTIQUE]));
         $pieces = $this->getPiecesComptable($request, $type);
-        return view("order.liste", compact("pieces"));
+        return view("order.liste", compact("pieces", "statuts"));
     }
 
     /**
@@ -55,8 +60,14 @@ class FactureController extends Controller
     {
         $periode = $this->getPeriode($request);
 
-        $raw = PieceComptable::with("partenaire","lignes")
-            ->whereBetween("creationproforma", [$periode->get("debut")->toDateString().' 00:00:00', $periode->get("fin")->toDateTimeString().' 23:59:59']);
+        $raw = PieceComptable::with("partenaire","lignes");
+
+        if($periode->get("debut") && $periode->get("fin")){
+        	$raw = $raw->whereBetween("creationproforma", [
+        		$periode->get("debut")->toDateString().' 00:00:00',
+		        $periode->get("fin")->toDateTimeString().' 23:59:59']
+	        );
+        }
 
         if(!empty($request->query('reference'))){
             $raw->whereRaw("( referencebc like '%{$request->query('reference')}%' OR referenceproforma like '%{$request->query('reference')}%' 
@@ -72,6 +83,10 @@ class FactureController extends Controller
             };
         }
 
+        if($request->has("status") && $request->input("status") != "all"){
+        	$raw = $raw->where("etat","=", $request->input("status"));
+        }
+
         $raw->orderBy("creationproforma","desc");
 
         return $raw->paginate(30);
@@ -83,8 +98,8 @@ class FactureController extends Controller
      */
     private function getPeriode(Request $request)
     {
-        $debut = Carbon::now()->firstOfMonth();
-        $fin = Carbon::now();
+        $debut = null;
+        $fin = null;
 
         if($request->has("debut"))
             $debut = Carbon::createFromFormat("d/m/Y", $request->input("debut"));

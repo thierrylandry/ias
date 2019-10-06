@@ -43,6 +43,36 @@ class UtilisateurController extends Controller
     }
 
 	/**
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+    public function reinitialiser()
+    {
+	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE]));
+        $employes = Employe::orderBy('nom','asc')
+            ->orderBy('prenoms', 'asc')
+            ->get();
+
+        return view("admin.utilisateur.resetpassword", compact("employes"));
+    }
+
+    public function reset(Request $request){
+
+    	$this->validate($request, [
+    		"employe_id" => "required|exists:employe,id",
+		    "password" => "required|confirmed"
+	    ]);
+
+    	$user = Utilisateur::find($request->input("employe_id"))->first();
+    	$user->password = bcrypt($request->input("password"));
+    	$user->saveOrFail();
+
+	    $notif = new Notifications();
+	    $notif->add(Notifications::SUCCESS, Lang::get("message.admin.utilisateur.preset"));
+	    return redirect()->route("admin.utilisateur.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notif);
+    }
+
+	/**
 	 * @param Request $request
 	 *
 	 * @return \Illuminate\Http\RedirectResponse

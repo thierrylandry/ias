@@ -71,8 +71,8 @@ class CompteController extends Controller
 	 */
     public function detailsSousCompte(string $slug, Request $request)
     {
-        $debut = Carbon::now()->firstOfMonth()->toDateTimeString();
-        $fin = Carbon::now()->toDateTimeString();
+	    $debut = null;
+	    $fin = null;
 
         $souscompte = $this->getSousCompteFromSlug($slug);
 
@@ -164,16 +164,20 @@ class CompteController extends Controller
      */
     private function extractData(Builder $builder, Request $request, &$du, $au)
     {
+    	if($request->has("debut") && $request->has("fin")){
+		    $du = Carbon::createFromFormat('d/m/Y', $request->query('debut'))->setTime(0,0,0)->toDateTimeString();
+		    $au = Carbon::createFromFormat('d/m/Y', $request->query('fin'))->setTime(23,59,59)->toDateTimeString();
+	    }
+
         if($request->query('objet'))
         {
-            $du = Carbon::createFromFormat('d/m/Y', $request->query('debut'))->setTime(0,0,0)->toDateTimeString();
-            $au = Carbon::createFromFormat('d/m/Y', $request->query('fin'))->setTime(23,59,59)->toDateTimeString();
-
             $objet = $request->query('objet');
             $builder->where('objet','like',"%$objet%");
         }
 
-        $builder->whereBetween('dateaction', [$du, $au]);
+	    if($du && $au){
+		    $builder->whereBetween('dateaction', [$du, $au]);
+	    }
 
         return $builder;
     }

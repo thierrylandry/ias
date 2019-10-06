@@ -82,6 +82,8 @@ Route::prefix('administration')->middleware('auth')->group(function (){
     Route::get('utilisateurs.html', 'Admin\UtilisateurController@index')->name('admin.utilisateur.liste');
     Route::get('utilisateur/ajouter.html', 'Admin\UtilisateurController@ajouter')->name('admin.utilisateur.ajouter');
     Route::post('utilisateur/ajouter.html', 'Admin\UtilisateurController@register');
+    Route::get('utilisateur/password/reset.html', 'Admin\UtilisateurController@reinitialiser')->name('admin.utilisateur.reset');
+    Route::post('utilisateur/password/reset.html', 'Admin\UtilisateurController@reset');
 });
 
 Route::prefix('rh')->middleware('auth')->group(function (){

@@ -21,7 +21,8 @@ return [
             "modifier" => "la fiche de l'employé :nom a été modifiée.",
         ],
         "utilisateur" => [
-            "ajout" => "Nouvel utilisateur créé."
+            "ajout" => "Nouvel utilisateur créé.",
+	        "preset" => "Mot de passe modifié avec succès."
         ]
     ],
     "statut" => [

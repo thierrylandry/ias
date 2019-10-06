@@ -33,12 +33,22 @@ class MissionController extends Controller
     {
         $this->getPeriode($request);
 
-        $debut = $this->debut_periode->format("d/m/Y");
-        $fin = $this->fin_periode->format("d/m/Y");
+        if($this->debut_periode && $this->fin_periode){
+	        $debut = $this->debut_periode->format("d/m/Y");
+	        $fin = $this->fin_periode->format("d/m/Y");
+        }else{
+        	$debut = Carbon::now()->firstOfMonth()->format("d/m/Y");
+        	$fin = Carbon::now()->format("d/m/Y");
+        }
 
-        $missions = $this->missionBuilder()
-            ->whereBetween("debuteffectif",[$this->debut_periode->toDateString(), $this->fin_periode->toDateString()])
-            ->paginate(30);
+
+        $missions = $this->missionBuilder();
+        if($this->debut_periode && $this->fin_periode){
+	        $missions = $missions->whereBetween("debuteffectif",[$this->debut_periode->toDateString(), $this->fin_periode->toDateString()]);
+        }
+
+
+        $missions = $missions->paginate(30);
 
         $chauffeurs = Chauffeur::with("employe")->get();
 
@@ -54,8 +64,8 @@ class MissionController extends Controller
 
     private function getPeriode(Request $request)
     {
-        $debut = Carbon::now()->firstOfMonth(); //début du mois
-        $fin = Carbon::now();
+        $debut = null;
+        $fin = null;
 
         if($request->has(["debut","fin"]))
         {

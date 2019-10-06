@@ -41,7 +41,7 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-md-offset-2 col-md-4 col-sm-6">
-                            <b>Total per diem à payer</b>
+                            <b>Total per diem</b>
                             <div class="form-group">
                                 <div class="form-line">
                                     <h4>{{ number_format(($mission->perdiem * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif))),0,","," ") }} </h4>

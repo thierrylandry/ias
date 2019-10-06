@@ -192,7 +192,7 @@
                         <div class="row clearfix">
                             <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                                 <button type="submit" class="btn btn-primary m-t-15 waves-effect">Modifier</button>
-                                <button type="reset" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                                <a href="javascript:history.back();" class="btn btn-default m-t-15 waves-effect">Annuler</a>
                             </div>
                         </div>
                     </form>

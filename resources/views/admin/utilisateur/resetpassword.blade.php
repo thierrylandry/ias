@@ -1,6 +1,5 @@
-@extends("layouts.main")
-
-@section("content")
+@extends('layouts.main')
+@section('content')
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
@@ -25,22 +24,7 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                <label for="login">Adresse email *</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                                <div class="input-group">
-                                    <div class="form-line">
-                                        <input type="text" required name="login" id="login" class="form-control" placeholder="xxxxxxxx" value="{{ old('login') }}">
-                                    </div>
-                                    <span class="input-group-addon">
-                                        <b>@ivoireautoservices.net</b>
-                                    </span>
-                                </div>
-                            </div>
                         </div>
-
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="password">Mot de passe *</label>
@@ -63,11 +47,10 @@
                                 </div>
                             </div>
                         </div>
-
                         <hr/>
                         <div class="row clearfix">
                             <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
+                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Réninitialiser</button>
                                 <a href="javascript:history.back();" class="btn btn-default m-t-15 waves-effect">Annuler</a>
                             </div>
                         </div>

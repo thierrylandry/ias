@@ -38,7 +38,9 @@
                             <tbody>
                             @foreach($utilisateurs as $utilisateur)
                                 <tr>
-                                    <td></td>
+                                    <td>
+                                        <a class="btn bg-green waves-effect" href="{{ route('admin.utilisateur.reset',["u" => $utilisateur->employe->matricule]) }}" title="Modifier le mot de passe"><i class="material-icons">edit</i></a>
+                                    </td>
                                     <td><a href="{{ route('admin.employe.fiche', ["matricule" => $utilisateur->employe->matricule]) }}" >{{ $utilisateur->employe->nom }} {{ $utilisateur->employe->prenoms }}</a></td>
                                     <td>{{ $utilisateur->employe->service->libelle }}</td>
                                     <td>{{ $utilisateur->login }}</td>

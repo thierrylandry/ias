@@ -218,7 +218,7 @@ class CreateDatabaseIas extends Migration
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
         });
         Schema::create("compte", function (Blueprint $table){
-        	$table->bigIncrements('id');
+        	$table->increments('id');
         	$table->string('libelle');
         	$table->string('slug')->unique();
         	$table->dateTime('datecreation');
