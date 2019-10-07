@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Money;
 
-use App\Brouillard;
 use App\Compte;
 use App\LigneCompte;
 use App\Metier\Behavior\Notifications;
@@ -10,7 +9,6 @@ use App\Metier\Security\Actions;
 use App\Service;
 use App\Utilisateur;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,11 +75,12 @@ class CompteController extends Controller
         $souscompte = $this->getSousCompteFromSlug($slug);
 
         $last = LigneCompte::where('compte_id','=', $souscompte->id)
-                          ->latest('dateaction')->first();
+	        ->where("deleted_at", null)
+	        ->latest('dateaction')->first();
 
         $solde = $last != null ? $last->balance : 0;
 
-        $lignes = LigneCompte::with('utilisateur')
+        $lignes = LigneCompte::with('utilisateur.employe')
 	                ->where('compte_id','=', $souscompte->id)
 	                ->orderBy('dateaction', 'desc');
 
@@ -94,19 +93,78 @@ class CompteController extends Controller
 
 	/**
 	 * @param string $slug
-	 * @throws ModelNotFoundException
-	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-    private function getSousCompteFromSlug(string $slug, $lazy = false)
+    public function showReset(string  $slug){
+
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE]));
+
+	    $souscompte = $this->getSousCompteFromSlug($slug);
+
+	    $last = LigneCompte::where('compte_id','=', $souscompte->id)
+		    ->where("deleted_at", null)
+           ->latest('dateaction')->first();
+
+	    $solde = $last != null ? $last->balance : 0;
+
+	    return view("compte.reset", compact("souscompte", "solde"));
+    }
+
+	/**
+	 * @param string $slug
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+    public function modifier(string $slug){
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE, Service::ADMINISTRATION, Service::COMPTABILITE]));
+
+	    $souscompte = $this->getSousCompteFromSlug($slug);
+	    $utilisateurs = Utilisateur::with('employe')->get();
+	    return view("compte.modifier", compact("souscompte", "utilisateurs"));
+    }
+
+    public function updateCompte(string $slug, Request $request){
+
+	    $souscompte = $this->getSousCompteFromSlug($slug);
+
+		$souscompte->libelle = $request->input("libelle");
+		$souscompte->slug = strtolower(str_slug($request->input("libelle"),'-'));
+		$souscompte->commentaire = $request->input("commentaire");
+
+	    if($this->checkExistUser($request->input('employe_id'))){
+		    $souscompte->employe_id = $request->input('employe_id');
+	    }
+
+	    $souscompte->save();
+
+	    $notification = new Notifications();
+	    $notification->add(Notifications::SUCCESS,"Sous-compte modifié avec succès !");
+	    return redirect()->route("compte.registre")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+    }
+
+	/**
+	 * @param string $slug
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Exception
+	 */
+    public function reset(string $slug, Request $request)
     {
-    	 $query = Compte::where('slug','=' ,$slug);
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE]));
+	    $souscompte = $this->getSousCompteFromSlug($slug);
+	    $souscompte->lignecompte()->delete();
 
-    	 if($lazy === true)
-	     {
-		     $query = $query->with('lignecompte','utilisateur.employe');
-	     }
+	    if($request->has("delete_account")){
+	    	$souscompte->delete();
+	    }
 
-	    return $query->firstOrFail();
+	    $notification = new Notifications();
+	    $notification->add(Notifications::SUCCESS,"Sous-compte remis à zéro !");
+	    return redirect()->route("compte.registre")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
 	/**
@@ -118,6 +176,7 @@ class CompteController extends Controller
         $this->validRequest($request);
 
 	    $last = LigneCompte::where('compte_id','=', $request->input("compte_id"))
+	                       ->where("deleted_at", null)
 	                       ->latest('dateaction')->first();
 
         $line = new LigneCompte($request->except('_token', 'sens', 'montant'));
@@ -155,41 +214,5 @@ class CompteController extends Controller
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
-    /**
-     * @param Builder $builder
-     * @param Request $request
-     * @param $du
-     * @param $au
-     * @return Builder
-     */
-    private function extractData(Builder $builder, Request $request, &$du, $au)
-    {
-    	if($request->has("debut") && $request->has("fin")){
-		    $du = Carbon::createFromFormat('d/m/Y', $request->query('debut'))->setTime(0,0,0)->toDateTimeString();
-		    $au = Carbon::createFromFormat('d/m/Y', $request->query('fin'))->setTime(23,59,59)->toDateTimeString();
-	    }
 
-        if($request->query('objet'))
-        {
-            $objet = $request->query('objet');
-            $builder->where('objet','like',"%$objet%");
-        }
-
-	    if($du && $au){
-		    $builder->whereBetween('dateaction', [$du, $au]);
-	    }
-
-        return $builder;
-    }
-
-    private function validRequest(Request $request){
-        $this->validate($request, [
-            'dateoperation' => 'required|date_format:d/m/Y',
-            'objet' => 'required',
-            'montant' => 'required|integer',
-            'observation' => 'present',
-            'sens' => 'required|in:1,-1',
-	        'compte_id' => 'required|exists:compte,id'
-        ]);
-    }
 }

@@ -61,6 +61,11 @@
                     <div class="col-md-2 col-sm-6">
                         <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">add</i> Nouveau mouvement</button>
                     </div>
+                    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE))
+                    <div class="col-md-2 col-sm-6">
+                            <a href="{{ route('compte.reset', ["slug" => $souscompte->slug]) }}" class="btn bg-red waves-button waves-effect">Remettre à zéro</a>
+                    </div>
+                    @endif
                 </div>
                 <div class="row clearfix">
                     <div class="body table-responsive">
@@ -91,7 +96,7 @@
                                     <td>{{ $ligne->objet }}</td>
                                     <td><a title="{{ $ligne->observation }}">{{ number_format($ligne->montant, 0, ',',' ') }}</a></td>
                                     <td>{{ number_format($ligne->balance, 0, ',',' ') }}</td>
-                                    <td>{{ $ligne->utilisateur->nom }} {{ $ligne->utilisateur->prenoms }}</td>
+                                    <td>{{ $ligne->utilisateur->employe->nom }} {{ $ligne->utilisateur->employe->prenoms }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

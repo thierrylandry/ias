@@ -35,7 +35,7 @@
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
                                             <div class="btn-group btn-group-xs" role="group">
-                                                <a class="btn bg-orange waves-effect" href="javascript:void(0);" onclick="edit('{{ $compte->id }}','{{ (new \Carbon\Carbon($compte->datecreation))->format('d/m/Y') }}','{{ $compte->libelle }}');" title="Modifier"><i class="material-icons">edit</i></a>
+                                                <a class="btn bg-orange waves-effect" href="{{ route("compte.update", ['slug' => $compte->slug]) }}"><i class="material-icons">edit</i></a>
                                                 <a class="btn bg-teal waves-effect" href="{{ route('compte.souscompte', ['slug' => $compte->slug]) }}" title="Détails"><i class="material-icons">description</i></a>
                                             </div>
                                         </div>

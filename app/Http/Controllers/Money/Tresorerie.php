@@ -12,7 +12,11 @@ namespace App\Http\Controllers\Money;
 use App\Compte;
 use App\Service;
 use App\Utilisateur;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 trait Tresorerie
 {
@@ -38,7 +42,7 @@ trait Tresorerie
 	{
 		$comptes = Compte::with('utilisateur');
 
-		if(!in_array(Auth::user()->employe->service->code, [Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE])){
+		if(!in_array(Auth::user()->employe->service->code, [Service::DG, Service::COMPTABILITE, Service::INFORMATIQUE])){
 			$comptes = $comptes->where('employe_id','=',Auth::id());
 		}
 
@@ -46,5 +50,60 @@ trait Tresorerie
 								$query->orderBy('dateaction','desc');
 								//Peut y avoir des problèmes de performances
 						}])->get();
+	}
+
+	/**
+	 * @param Builder $builder
+	 * @param Request $request
+	 * @param $du
+	 * @param $au
+	 * @return Builder
+	 */
+	private function extractData(Builder $builder, Request $request, &$du, $au)
+	{
+		if($request->has("debut") && $request->has("fin")){
+			$du = Carbon::createFromFormat('d/m/Y', $request->query('debut'))->setTime(0,0,0)->toDateTimeString();
+			$au = Carbon::createFromFormat('d/m/Y', $request->query('fin'))->setTime(23,59,59)->toDateTimeString();
+		}
+
+		if($request->query('objet'))
+		{
+			$objet = $request->query('objet');
+			$builder->where('objet','like',"%$objet%");
+		}
+
+		if($du && $au){
+			$builder->whereBetween('dateaction', [$du, $au]);
+		}
+
+		return $builder;
+	}
+
+	private function validRequest(Request $request){
+		$this->validate($request, [
+			'dateoperation' => 'required|date_format:d/m/Y',
+			'objet' => 'required',
+			'montant' => 'required|integer',
+			'observation' => 'present',
+			'sens' => 'required|in:1,-1',
+			'compte_id' => 'required|exists:compte,id'
+		]);
+	}
+
+	/**
+	 * @param string $slug
+	 * @throws ModelNotFoundException
+	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|Compte
+	 */
+	private function getSousCompteFromSlug(string $slug, $lazy = false)
+	{
+		$query = Compte::where('slug','=' ,$slug);
+
+		if($lazy === true)
+		{
+			$query = $query->with('lignecompte','utilisateur.employe');
+		}
+
+		return $query->firstOrFail();
 	}
 }

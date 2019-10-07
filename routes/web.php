@@ -127,7 +127,11 @@ Route::prefix('compte')->middleware('auth')->group(function (){
 	Route::post('livre.html','Money\CompteController@addNewSousCompte');
     Route::get('sous-compte/{slug}/registre.html','Money\CompteController@detailsSousCompte')->name('compte.souscompte');
 	Route::post('sous-compte/{slug}/registre.html','Money\CompteController@addNewLine');
-    Route::post('sous-compte/{slug}/modifier.html','Money\CompteController@updateLine')->name('compte.modifier');
+    Route::post('sous-compte/{slug}/modifier-line.html','Money\CompteController@updateLine')->name('compte.modifier');
+    Route::get('sous-compte/{slug}/reset.html','Money\CompteController@showReset')->name('compte.reset');
+    Route::post('sous-compte/{slug}/reset.html','Money\CompteController@reset');
+    Route::get('sous-compte/{slug}/modifier.html','Money\CompteController@modifier')->name("compte.update");
+    Route::post('sous-compte/{slug}/modifier.html','Money\CompteController@updateCompte');
 });
 
 //PDF
