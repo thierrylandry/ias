@@ -75,6 +75,13 @@ class Mission extends Model implements Commercializable, IAmortissement
         return $txt;
     }
 
+	/**
+	 * @return int
+	 */
+    public function getDuree(){
+	    return (new Carbon($this->fineffective))->diffInDays(new Carbon($this->debuteffectif)) + 1;
+    }
+
     /**
      * @return string
      */

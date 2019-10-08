@@ -68,7 +68,7 @@
                             </tbody>
                         </table>
 
-                        {{ $employes->links() }}
+                        {{ $employes->appends(request()->except([]))->links() }}
                     </div>
                 </div>
             </div>

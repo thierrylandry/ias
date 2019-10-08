@@ -56,16 +56,17 @@ class UtilisateurController extends Controller
         return view("admin.utilisateur.resetpassword", compact("employes"));
     }
 
-    public function reset(Request $request){
-
+    public function reset(Request $request)
+    {
     	$this->validate($request, [
     		"employe_id" => "required|exists:employe,id",
 		    "password" => "required|confirmed"
 	    ]);
 
-    	$user = Utilisateur::find($request->input("employe_id"))->first();
+    	$user = Utilisateur::find($request->input("employe_id"));
     	$user->password = bcrypt($request->input("password"));
-    	$user->saveOrFail();
+
+    	$user->save();
 
 	    $notif = new Notifications();
 	    $notif->add(Notifications::SUCCESS, Lang::get("message.admin.utilisateur.preset"));

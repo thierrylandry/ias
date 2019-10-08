@@ -122,7 +122,7 @@ $totalPeriode = 0;
                     </tr>
                     </tfoot>
                 </table>
-                {{ $pieces->links() }}
+                {{ $pieces->appends(request()->except([]))->links() }}
             </div>
         </div>
     </div>

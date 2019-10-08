@@ -46,6 +46,7 @@ class VersementController extends Controller
 
         $versement = new Versement($request->except("_token"));
         $versement->employe_id = $mission->chauffeur_id;
+        $versement->operateur_id = Auth::id();
         $versement->dateversement = Carbon::createFromFormat("d/m/Y H:i", $request->input("dateversement"))->toDateTimeString();
 
         $versement->saveOrFail();

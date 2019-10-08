@@ -77,6 +77,42 @@
                         </div>
                     </div>
                 </form>
+                <hr>
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-4">
+                        <h3 class="text-center">Nombre de vente sur les mois de l'année {{ date('Y') }}</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover ">
+                                <thead>
+                                <tr class="bg-green">
+                                    <th>Mois</th>
+                                    <th>Quantité</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @for($i=1; $i <= 12; $i++)
+                                <tr>
+                                    <td class="text-center">{{ \App\Metier\Mois::getMonthName($i) }}</td>
+                                    <td class="text-right">
+                                        @if($ventes)
+                                            @foreach($ventes as $vente)
+                                                @if($vente->mois == $i)
+                                                    {{ $vente->total }}
+                                                @else
+                                                    0
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            0
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endfor
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

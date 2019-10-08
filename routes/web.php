@@ -30,15 +30,26 @@ Route::get('/accueil.html', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
 Route::get('/checking', 'HomeController@checkState')->name('rappel');
 Route::get('/maj', function (){
-	\App\Http\Controllers\Core\IasUpdate::checkDataBaseMAJ();
+	try{
 
-	$cmd = env("APP_UPDATE_CMD", null);
-	if (substr(php_uname(), 0, 7) == "Windows"){
-		pclose(popen("start /B ". $cmd, "r"));
+		\App\Http\Controllers\Core\IasUpdate::checkDataBaseMAJ();
+
+		\Illuminate\Support\Facades\Schema::table('versement', function (\Illuminate\Database\Schema\Blueprint $table) {
+			$table->unsignedInteger('operateur_id')->nullable();
+			$table->foreign('operateur_id')->references('employe_id')->on('utilisateur');
+		});
+
+		$cmd = env("APP_UPDATE_CMD", null);
+		if (substr(php_uname(), 0, 7) == "Windows"){
+			pclose(popen("start /B ". $cmd, "r"));
+		}
+		else {
+			exec($cmd . " > /dev/null &");
+		}
+	}catch (Exception $e){
+		//
 	}
-	else {
-		exec($cmd . " > /dev/null &");
-	}
+
 	return back();
 })->name('maj');
 
@@ -61,6 +72,7 @@ Route::prefix('missions')->middleware('auth')->group(function (){
     Route::post('nouvelle.html','Mission\CreateController@ajouter');
     Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
     Route::get('{reference}/detail.html','Mission\MissionController@details')->name('mission.details');
+    Route::post('{reference}/detail.html','Mission\UpdateController@updateAfterStart');
     Route::get('{reference}/modifier.html','Mission\UpdateController@modifier')->name('mission.modifier');
     Route::post('{reference}/modifier.html','Mission\UpdateController@update');
     Route::get('{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatus')->name('mission.changer-statut');

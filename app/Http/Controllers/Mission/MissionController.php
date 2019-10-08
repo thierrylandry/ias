@@ -48,7 +48,7 @@ class MissionController extends Controller
         }
 
 
-        $missions = $missions->paginate(30);
+        $missions = $missions->orderBy("debuteffectif","desc")->paginate(30);
 
         $chauffeurs = Chauffeur::with("employe")->get();
 

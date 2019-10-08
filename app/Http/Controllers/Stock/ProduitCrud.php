@@ -41,6 +41,23 @@ trait ProduitCrud
         return $produit;
     }
 
+    protected function getVente(Produit $produit){
+
+    	$annee = date('Y');
+
+    	//creationfacture
+
+    	$sql = <<<EOD
+SELECT t2.id, month(p.creationproforma) as mois, sum(t1.quantite) as total
+FROM lignepiece t1 JOIN produit t2 ON t1.modele_id = t2.id JOIN piececomptable p ON p.id = t1.piececomptable_id
+WHERE year(p.creationproforma) = {$annee} AND t2.id = {$produit->id}
+GROUP BY 1,2;
+EOD;
+
+		return DB::select($sql);
+
+    }
+
     /**
      * @param $reference
      * @return bool
@@ -98,6 +115,8 @@ trait ProduitCrud
 
 	    $display = request()->query('display') ?? 10;
 
-    	return DB::select($sql.$complement." GROUP BY 1,2,3,4,5 ORDER BY 7 DESC LIMIT $display;");
+    	return DB::select($sql.$complement." GROUP BY 1,2,3,4,5,6 ORDER BY 7 DESC LIMIT $display;");
     }
+
+
 }

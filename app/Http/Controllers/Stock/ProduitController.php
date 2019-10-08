@@ -136,7 +136,10 @@ class ProduitController extends Controller
         }catch (ModelNotFoundException $e){
            return back()->withErrors("Le produit spécifié n'existe pas.");
         }
-        return view("produit.modifier", compact("produit","familles"));
+
+        $ventes = $this->getVente($produit);
+
+        return view("produit.modifier", compact("produit","familles", "ventes"));
     }
 
     public function update($reference, Request $request)

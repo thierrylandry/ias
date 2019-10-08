@@ -83,7 +83,7 @@
                     @if(request()->query("keyword"))
                         {{ $produits->appends(["keyword" => request()->query("keyword")])->links() }}
                     @else
-                        {{ $produits->links() }}
+                        {{ $produits->appends(request()->except([]))->links() }}
                     @endif
                 </div>
             </div>

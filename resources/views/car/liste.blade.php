@@ -13,9 +13,24 @@
                             <small>Liste de tous les véhicules IAS</small>
                         </h2>
                     </div>
-                    <div class="col-md-4">
-
+                    <form method="get">
+                    <div class="col-md-2">
+                        <b>Immatriculation</b>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">directions_car</i>
+                                <i class="material-icons">search</i>
+                            </span>
+                            <div class="form-line">
+                                <input name="immatriculation" type="text" class="form-control" placeholder="N° d'immatriculation (XXXX XX 01)" value="{{ old("immatriculation", request()->query('immatriculation')) }}">
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-md-1">
+                        <br/>
+                        <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                    </div>
+                    </form>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
                             <a href="{{ route('vehicule.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un véhicule</a>
@@ -63,6 +78,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $vehicules->appends(request()->except([]))->links() }}
                 </div>
             </div>
         </div>

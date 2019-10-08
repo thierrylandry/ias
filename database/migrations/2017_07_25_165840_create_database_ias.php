@@ -200,9 +200,11 @@ class CreateDatabaseIas extends Migration
             $table->unsignedInteger("moyenreglement_id");
             $table->integer("montant");
             $table->string("commentaires",150)->nullable();
+	        $table->unsignedInteger('operateur_id')->nullable();
             $table->foreign('mission_id')->references('id')->on('mission');
             $table->foreign('employe_id')->references('employe_id')->on('chauffeur');
             $table->foreign('moyenreglement_id')->references('id')->on('moyenreglement');
+	        $table->foreign('operateur_id')->references('employe_id')->on('utilisateur');
             $table->primary(["mission_id", "employe_id", "dateversement"]);
         });
         Schema::create("lignepiece",function (Blueprint $table){

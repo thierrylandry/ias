@@ -17,7 +17,7 @@ class RegisterController extends Controller
     {
         $partenaires = Partenaire::orderBy('raisonsociale','asc');
 
-        $partenaires = $this->triPartenaire($type, $partenaires)->paginate(30);
+        $partenaires = $this->triPartenaire($type, $partenaires)->paginate();
 
         return view('partenaire.liste', compact('partenaires'));
     }
@@ -91,7 +91,7 @@ class RegisterController extends Controller
      * @param Builder $builder
      * @return Builder
      */
-    private function triPartenaire($type,Builder $builder)
+    private function triPartenaire($type, Builder $builder)
     {
         if($type == Partenaire::FOURNISSEUR)
         {
@@ -102,6 +102,11 @@ class RegisterController extends Controller
         {
             $builder->where('isclient', true);
         }
+
+        if(\request()->has("raisonsociale") && ! empty(\request()->query("raisonsociale"))){
+            $builder->where("raisonsociale","like","%".\request()->query("raisonsociale")."%");
+        }
+
         return $builder;
     }
 
@@ -116,6 +121,15 @@ class RegisterController extends Controller
         $partenaire = Partenaire::find($id);
 
         $partenaire->fill($request->except("_token"));
+
+        if(!$request->has("isfournisseur")){
+        	$partenaire->isfournisseur = false;
+        }
+
+        if(!$request->has("isclient")){
+        	$partenaire->isclient = false;
+        }
+
         $partenaire->saveOrFail();
 
         $notification = new Notifications();

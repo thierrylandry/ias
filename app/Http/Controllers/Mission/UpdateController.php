@@ -55,8 +55,9 @@ class UpdateController extends Controller
                 ->where("code", $reference)
                 ->firstOrFail();
 
-            if(! empty($mission->piececomptable_id) || $mission->status != Statut::MISSION_COMMANDEE)
-                return back()->withErrors("Impossible de modifier la mission #{$reference}. Celle-ci a déjà fait l'objet de facture ou son statut à changé.");
+            if(! empty($mission->piececomptable_id) || $mission->status != Statut::MISSION_COMMANDEE){
+	            return back()->withErrors("Impossible de modifier la mission #{$reference}. Celle-ci a déjà fait l'objet de facture ou son statut à changé.");
+            }
 
             $this->maj($mission, $request);
 
@@ -88,5 +89,40 @@ class UpdateController extends Controller
         $data["fineffective"] = Carbon::createFromFormat("d/m/Y",$request->input("fineffective"))->toDateString();
 
         $mission->update($data);
+    }
+
+	/**
+	 * @param Request $request
+	 * @param string $reference
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Throwable
+	 */
+
+    public function updateAfterStart(Request $request, string $reference){
+    	$this->validate($request, [
+			"observation" => "present",
+		    "debuteffectif" => "required",
+		    "fineffective" => "required|date_format:d/m/Y",
+	    ]);
+
+	    try {
+		    $mission = $this->missionBuilder()
+		                    ->where( "code", $reference)
+		                    ->firstOrFail();
+
+		    $mission->debuteffectif = Carbon::createFromFormat("d/m/Y",$request->input("debuteffectif"))->toDateString();
+		    $mission->fineffective = Carbon::createFromFormat("d/m/Y",$request->input("fineffective"))->toDateString();
+		    $mission->observation = $request->input("observation");
+
+		    $mission->saveOrFail();
+
+	    }catch (ModelNotFoundException $e){
+
+	    }
+
+	    $notification = new Notifications();
+	    $notification->add(Notifications::SUCCESS,"Mission modifiée avec succès !");
+	    return redirect()->back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 }

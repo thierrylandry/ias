@@ -23,7 +23,7 @@ $rap = 0;
                             <h3>Point fournisseur : {{ $partenaire->raisonsociale }}</h3>
                         </div>
                         <div class="col-md-4 col-xs-12 align-right">
-                            <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">money</i>Reglement facture</button>
+                            <button class="btn waves-li waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons left">attach_money</i>Reglement facture</button>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@ $rap = 0;
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
-                            <button type="reset" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                            <button type="reset" class="modal-close btn btn-default m-t-15 waves-effect">Annuler</button>
                         </div>
                     </div>
                 </div>

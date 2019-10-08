@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-8 col-xs-7">
                             <div class="form-group">
-                                <select @if(request()->query('from') == 'mission') disabled @endif class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
+                                <select class="form-control selectpicker" id="produits" name="produits" data-live-search="true" required>
                                     <option >Veuillez sélectionner votre article SVP</option>
                                     @foreach($commercializables as $commercializable)
                                         <option value="{{ $commercializable->id }}" data-stock="{{ $commercializable->stock ?? 0 }}" data-modele="{{ $commercializable->getRealModele() }}" data-id="{{ $commercializable->getId() }}" data-price="{{ $commercializable->getPrice() }}" data-libelle="{!! $commercializable->detailsForCommande() !!}" data-reference="{{ $commercializable->getReference() }}">{{ $commercializable->getReference() }} {!! $commercializable->detailsForCommande() !!}</option>

@@ -19,7 +19,7 @@
                                 <div class="form-group">
                                     <select type="text" name="employe_id" id="employe_id" class="form-control input-field">
                                         @foreach($employes as $employe)
-                                            <option value="{{ $employe->id }}" @if(old('employe_id') == $employe->id) selected @endif>{{ $employe->nom }} {{ $employe->prenoms }}</option>
+                                            <option value="{{ $employe->id }}" @if(old('employe_id') == $employe->id || $employe->matricule == request()->query("u")) selected @endif>{{ $employe->nom }} {{ $employe->prenoms }}</option>
                                         @endforeach
                                     </select>
                                 </div>

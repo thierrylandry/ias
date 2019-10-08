@@ -44,7 +44,7 @@
                             <b>Total per diem</b>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <h4>{{ number_format(($mission->perdiem * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif))),0,","," ") }} </h4>
+                                    <h4>{{ number_format(($mission->perdiem * $mission->getDuree()),0,","," ") }} </h4>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                             <button type="submit" class="btn bg-teal m-t-15 waves-effect">Payer</button>
-                            <button type="reset" class="btn bg-red m-t-15 waves-effect">Annuler</button>
+                            <a href="javascript:history.back();" class="btn bg-red m-t-15 waves-effect">Annuler</a>
                         </div>
                     </div>
                 </form>

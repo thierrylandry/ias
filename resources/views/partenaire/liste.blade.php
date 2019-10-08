@@ -12,12 +12,30 @@
                             Liste des partenaires
                         </h2>
                     </div>
-                    <div class="col-md-4">
+                    <form method="get">
+                        <div class="col-md-2">
+                            <b>Raison sociale</b>
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">domain</i>
+                                <i class="material-icons">search</i>
+                            </span>
+                                <div class="form-line">
+                                    <input name="raisonsociale" type="text" class="form-control" placeholder="Raison sociale" value="{{ old("raisonsociale", request()->query('raisonsociale')) }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <br/>
+                            <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                        </div>
+                    </form>
+                    <div class="col-md-2">
                         <div class="align-right">
                             <a href="{{ route('partenaire.fournisseurs.factures') }}" class="btn bg-blue-grey waves-effect"><i class="material-icons">add</i> Facture fournisseur</a>
                         </div>
                     </div>
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-md-2 col-xs-12">
                         <div class="align-right">
                             <a href="{{ route('partenaire.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un partenaire</a>
                         </div>
@@ -61,7 +79,7 @@
                         </tbody>
                     </table>
 
-                    {{ $partenaires->links() }}
+                    {{ $partenaires->appends(request()->except([]))->links() }}
                 </div>
             </div>
         </div>
