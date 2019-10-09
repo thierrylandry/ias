@@ -34,9 +34,12 @@ Route::get('/maj', function (){
 
 		\App\Http\Controllers\Core\IasUpdate::checkDataBaseMAJ();
 
-		\Illuminate\Support\Facades\Schema::table('versement', function (\Illuminate\Database\Schema\Blueprint $table) {
-			$table->unsignedInteger('operateur_id')->nullable();
-			$table->foreign('operateur_id')->references('employe_id')->on('utilisateur');
+		\Illuminate\Support\Facades\Schema::table('vehicule', function (\Illuminate\Database\Schema\Blueprint $table) {
+			$table->smallInteger('status')->default(\App\Statut::VEHICULE_ACTIF);
+		});
+
+		\Illuminate\Support\Facades\Schema::table('employe', function (\Illuminate\Database\Schema\Blueprint $table) {
+			$table->smallInteger('status')->default(\App\Statut::PERSONNEL_ACTIF);
 		});
 
 		$cmd = env("APP_UPDATE_CMD", null);
@@ -150,6 +153,7 @@ Route::prefix('compte')->middleware('auth')->group(function (){
 //PDF
 Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("{reference}/{state}/pdf.html","Printer\PdfController@imprimerPieceComptable")->name("print.piececomptable");
+    Route::get("vehicules","Printer\PdfController@imprimerVehicule")->name("print.vehicule");
 });
 
 //Partenaires

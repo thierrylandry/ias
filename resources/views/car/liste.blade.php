@@ -34,6 +34,7 @@
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
                             <a href="{{ route('vehicule.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un véhicule</a>
+                            <a href="{{ route('print.vehicule') }}" class="btn bg-amber waves-effect">Imprimer</a>
                         </div>
                     </div>
                     <br class="clearfix"/>
@@ -56,7 +57,7 @@
                         <tbody class="table-hover">
                         @foreach($vehicules as $vehicule)
                         <tr>
-                            <th scope="row">
+                            <td scope="row">
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a class="btn bg-blue-grey waves-effect" href="{{ route("mission.nouvelle",[ 'vehicule' => $vehicule->immatriculation ]) }}" title="Démarrer une mission"><i class="material-icons">directions_car</i></a>
@@ -65,8 +66,8 @@
                                         <a class="btn bg-light-blue waves-effect" href="{{ route("reparation.nouvelle", ["vehicule" => $vehicule->immatriculation ]) }}" title="Démarrer une intervention"><i class="material-icons">settings</i></a>
                                     </div>
                                 </div>
-                            </th>
-                            <th valign="center">{{ $vehicule->immatriculation }}</th>
+                            </td>
+                            <td valign="center">{{ $vehicule->immatriculation }}</td>
                             <td>{{ $vehicule->marque }}</td>
                             <td>{{ $vehicule->typecommercial }}</td>
                             <td>{{ $vehicule->genre->libelle }}</td>

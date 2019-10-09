@@ -7,6 +7,7 @@ use App\Genre;
 use App\Metier\Processing\VehiculeManager;
 use App\Metier\Security\Actions;
 use App\Service;
+use App\Statut;
 use App\Vehicule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,7 +24,7 @@ class RegisterController extends Controller
     {
 	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
-        $vehicules = Vehicule::with('genre');
+        $vehicules = Vehicule::with('genre')->where("status", Statut::VEHICULE_ACTIF);
 
         if(\request()->has("immatriculation") && !empty(\request()->query("immatriculation"))){
 			$vehicules = $vehicules->where("immatriculation","like","%".\request()->query("immatriculation")."%");

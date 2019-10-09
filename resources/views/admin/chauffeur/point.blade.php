@@ -50,8 +50,8 @@ $totalJours = 0;
                             <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
                             <td>{{ $mission->destination }}</td>
                             <td>{{ $mission->vehicule->immatriculation }}</td>
-                            <td class="text-center">{{ (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective)) }}</td>
-                            <td class="amount">{{ number_format((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem,0,","," ") }}</td>
+                            <td class="text-center">{{ $mission->getDuree() }}</td>
+                            <td class="amount">{{ number_format($mission->getDuree() * $mission->perdiem,0,","," ") }}</td>
 
                             <td>
                                 <ul>
@@ -73,8 +73,7 @@ $totalJours = 0;
                             </td>
                             <td class="amount">
                                 {{ number_format(
-                                ((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem) -
-                                $mission->versements->sum(function ($versement){
+                                ($mission->getDuree() * $mission->perdiem) - $mission->versements->sum(function ($versement){
                                     return $versement->montant;
                                 }),0,","," ")
                                 }}
@@ -83,8 +82,8 @@ $totalJours = 0;
                                 $totalPaye += $mission->versements->sum(function ($versement){
                                     return $versement->montant;
                                 });
-                                $totalApayer += ((new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective))*$mission->perdiem);
-                                $totalJours += (new \Carbon\Carbon($mission->debuteffectif))->diffInDays(new \Carbon\Carbon($mission->fineffective)) ;
+                                $totalApayer += $mission->getDuree() * $mission->perdiem;
+                                $totalJours += $mission->getDuree() ;
                             @endphp
                         </tr>
                         @endforeach

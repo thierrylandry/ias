@@ -29,6 +29,14 @@ class Statut
     const PIECE_COMPTABLE_FACTURE_PAYEE = 203;
     const PIECE_COMPTABLE_FACTURE_ANNULEE = 204;
 
+    const VEHICULE_ACTIF = 300;
+    const VEHICULE_VENDU = 301;
+    const VEHICULE_ENDOMAGE = 302;
+
+    const PERSONNEL_ACTIF = 400;
+    const PERSONNEL_TEMPORAIRE = 401;
+    const PERSONNEL_DEMISSIONNE = 402;
+
     /**
      * @param int $statut
      * @return null|string

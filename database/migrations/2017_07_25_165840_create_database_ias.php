@@ -43,6 +43,7 @@ class CreateDatabaseIas extends Migration
             $table->string("pieceidentite");
             $table->string("rib")->nullable();
             $table->string("cnps",100)->nullable();
+	        $table->smallInteger('status')->default(\App\Statut::PERSONNEL_ACTIF);
             $table->integer("service_id",false,true);
             $table->foreign("service_id")->references("id")->on("service");
         });
@@ -85,6 +86,7 @@ class CreateDatabaseIas extends Migration
             $table->string('energie')->nullable();
             $table->integer('nbreplace')->default(5);
             $table->integer('puissancefiscale')->nullable();
+	        $table->smallInteger('status')->default(\App\Statut::VEHICULE_ACTIF);
             $table->unsignedInteger('genre_id');
 	        $table->unsignedInteger('chauffeur_id')->nullable();
 	        $table->foreign('chauffeur_id')->references('employe_id')->on('chauffeur');

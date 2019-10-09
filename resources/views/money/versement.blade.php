@@ -12,7 +12,7 @@
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header bg-teal">
-                <h2>Versement de per diem | Mission {{ $mission->code }}</h2>
+                <h2>Versement de per diem | Mission {{ $mission->code }} | {{ $mission->chauffeur->employe->nom }} {{ $mission->chauffeur->employe->prenoms }}</h2>
             </div>
             <div class="body">
                 <form class="form-horizontal font-16" method="post">
@@ -113,7 +113,7 @@
                         @endforeach
                         @else
                         <tr>
-                            <td colspan="3"><h3 class="align-center">Aucun versement pour cette mission</h3></td>
+                            <td colspan="4"><h3 class="align-center">Aucun versement pour cette mission</h3></td>
                         </tr>
                         @endif
                         </tbody>
@@ -121,7 +121,7 @@
                         <tr class="bg-teal">
                             <th colspan="2" class="align-right">Total payé</th>
                             <th class="amount devise">{{ number_format($total, 0, ",", " ") }}</th>
-                            <th class="amount devise">Reste à payer  : {{ number_format($mission->perdiem * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)) - $total, 0, ",", " ") }}</th>
+                            <th class="amount devise">Reste à payer  : {{ number_format( ($mission->perdiem * $mission->getDuree()) - $total, 0, ",", " ") }}</th>
                         </tr>
                         </tfoot>
                     </table>
