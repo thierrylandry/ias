@@ -57,7 +57,7 @@ class HomeController extends Controller
         FROM
           mission m JOIN employe e ON m.chauffeur_id = e.id
           JOIN vehicule v ON v.id = m.vehicule_id
-        WHERE status = 100 AND datediff(m.debuteffectif,now()) <= $delai
+        WHERE m.status = 100 AND datediff(m.debuteffectif,now()) <= $delai
 EOD;
         return DB::select($sql);
     }
