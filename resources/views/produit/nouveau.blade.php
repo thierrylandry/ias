@@ -67,6 +67,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                                <label for="prixunitaire">Stock</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <input type="text" required name="stock" id="stock" class="form-control" value="{{ old("stock",0) }}" placeholder="Quantité disponible">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <hr/>
                         <div class="row clearfix">

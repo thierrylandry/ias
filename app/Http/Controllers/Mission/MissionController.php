@@ -59,22 +59,7 @@ class MissionController extends Controller
            Statut::MISSION_ANNULEE   => Statut::getStatut(Statut::MISSION_ANNULEE),
         ]);
 
-        return view("mission.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
-    }
-
-    private function getPeriode(Request $request)
-    {
-        $debut = null;
-        $fin = null;
-
-        if($request->has(["debut","fin"]))
-        {
-            $debut = Carbon::createFromFormat("d/m/Y", $request->input("debut"));
-            $fin = Carbon::createFromFormat("d/m/Y", $request->input("fin"));
-        }
-
-        $this->debut_periode = $debut;
-        $this->fin_periode = $fin;
+        return view("mission.vl.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
     }
 
     public function details($reference)
@@ -83,7 +68,7 @@ class MissionController extends Controller
             ->where("code",$reference)
             ->firstOrFail();
 
-        return view("mission.details",compact("mission"));
+        return view("mission.vl.details",compact("mission"));
     }
 
     public function reminder()

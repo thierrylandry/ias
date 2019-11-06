@@ -27,6 +27,14 @@ class CompteController extends Controller
         return view('compte.registre', compact("comptes", "utilisateurs"));
     }
 
+    public function newSortieCompte(Request $request){
+    	//dd($request->query("amount"), $request->query('mission'));
+
+	    $comptes = $this->getListCompteByUser();
+
+	    return view("compte.new-sortie", compact("comptes"));
+    }
+
 	/**
 	 * @param Request $request
 	 *
@@ -46,8 +54,13 @@ class CompteController extends Controller
 	    $souscompte = new Compte();
 		$souscompte->datecreation = Carbon::now()->toDateTimeString();
 
-    	if($this->checkExistUser($request->input('employe_id'))){
+    	if($this->checkExistUser($request->input('employe_id')))
+    	{
     		$souscompte->employe_id = $request->input('employe_id');
+	    }
+
+	    if($request->has('can_appro')){
+		    $souscompte->can_appro = true;
 	    }
 
     	$souscompte->libelle = $request->input("libelle");
@@ -138,6 +151,10 @@ class CompteController extends Controller
 		    $souscompte->employe_id = $request->input('employe_id');
 	    }
 
+	    if($request->has('can_appro')){
+		    $souscompte->can_appro = true;
+	    }
+
 	    $souscompte->save();
 
 	    $notification = new Notifications();
@@ -172,17 +189,25 @@ class CompteController extends Controller
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-    public function addNewLine(Request $request){
+    public function addNewLine(Request $request)
+    {
         $this->validRequest($request);
+        $sens = $request->input('sens');
+        $montant = $request->input('montant');
 
 	    $last = LigneCompte::where('compte_id','=', $request->input("compte_id"))
 	                       ->where("deleted_at", null)
 	                       ->latest('dateaction')->first();
 
-        $line = new LigneCompte($request->except('_token', 'sens', 'montant'));
+        $request->request->remove('_token');
+        $request->request->remove('sens');
+        $request->request->remove('montant');
+	    $request->request->all();
+
+        $line = new LigneCompte($request->request->all());
 	    $line->dateoperation = Carbon::createFromFormat('d/m/Y', $request->input('dateoperation'))->toDateString();
 	    $line->dateaction = Carbon::now()->toDateTimeString();
-	    $line->montant = intval($request->input('sens')) * $request->input('montant');
+	    $line->montant = intval($sens) * intval($montant) ;
 	    $line->balance = $last != null ? $last->balance + $line->montant : $line->montant ;
 	    $line->employe_id = Auth::id();
 

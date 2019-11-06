@@ -4,10 +4,11 @@ namespace App;
 
 use App\Http\Controllers\Order\Commercializable;
 use App\Interfaces\IAmortissement;
+use App\Interfaces\IMission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Mission extends Model implements Commercializable, IAmortissement
+class Mission extends Model implements Commercializable, IAmortissement, IMission
 {
     protected $table = 'mission';
     protected $guarded = [];
@@ -112,7 +113,7 @@ class Mission extends Model implements Commercializable, IAmortissement
 
     public function getDetails()
     {
-        return sprintf("Mission %s Destinantion(s): %s", $this->code, $this->destination);
+        return sprintf("Mission %s Destination(s): %s", $this->code, $this->destination);
     }
 
     public function getDebit()

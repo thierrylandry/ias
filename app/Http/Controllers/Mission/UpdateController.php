@@ -43,7 +43,7 @@ class UpdateController extends Controller
             ->orderBy("raisonsociale")
             ->get();
 
-        return view("mission.modifier", compact('vehicules','chauffeurs', "partenaires", "mission"));
+        return view("mission.vl.modifier", compact('vehicules','chauffeurs', "partenaires", "mission"));
     }
 
     public function update($reference, Request $request)

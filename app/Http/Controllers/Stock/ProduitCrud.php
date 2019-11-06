@@ -36,6 +36,10 @@ trait ProduitCrud
         $produit->isdisponible = isset($data["isdisponible"]);
         $produit->famille()->associate(Famille::find($data["famille_id"]));
 
+        if(key_exists("stock", $data)){
+	        $produit->stock = intval($data["stock"]);
+        }
+
         $produit->saveOrFail();
 
         return $produit;

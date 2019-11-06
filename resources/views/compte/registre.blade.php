@@ -83,6 +83,13 @@
                     </div>
 
                     <div class="row clearfix">
+                        <div class="col-md-12 col-xs-12 form-group">
+                            <input type="checkbox" name="can_appro" id="can_appro" class="chk-col-teal" />
+                            <label for="can_appro">Peut approvisionner le sous-compte</label>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
                         <div class="col-md-3 col-xs-12 form-control-label">
                             <label for="libelle">Titre</label>
                         </div>

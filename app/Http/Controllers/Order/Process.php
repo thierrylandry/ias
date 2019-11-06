@@ -13,6 +13,7 @@ use App\Application;
 use App\LignePieceComptable;
 use App\Metier\Finance\InvoiceFrom;
 use App\Mission;
+use App\MissionPL;
 use App\Partenaire;
 use App\PieceComptable;
 use App\Produit;
@@ -45,7 +46,17 @@ trait Process
             $commercializables = collect(Produit::orderBy("libelle")->get());
         }
 
+        //Pour les missions VL
         collect(Mission::with("vehicule")
+            ->where("status",Statut::MISSION_COMMANDEE)
+            ->whereNull("piececomptable_id")
+            ->get()
+        )->each(function ($value, $key) use($commercializables){
+            $commercializables->push($value);
+        });
+
+        //Pour les missions PL
+        collect(MissionPL::with("vehicule")
             ->where("status",Statut::MISSION_COMMANDEE)
             ->whereNull("piececomptable_id")
             ->get()
@@ -100,6 +111,10 @@ trait Process
                 $mission = Mission::find($lignepiece->modele_id);
                 $mission->piececomptable_id = $pieceComptable->id;
                 $mission->saveOrFail();
+            }elseif ($lignepiece->modele == MissionPL::class){
+	            $mission = MissionPL::find($lignepiece->modele_id);
+	            $mission->piececomptable_id = $pieceComptable->id;
+	            $mission->saveOrFail();
             }
         }
 

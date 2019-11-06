@@ -7,12 +7,15 @@ use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
 use App\Metier\Finance\InvoiceFrom;
 use App\Mission;
+use App\MissionPL;
 use App\Partenaire;
 use App\Statut;
 use App\Vehicule;
 use Carbon\Carbon;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class CreateController extends Controller
 {
@@ -28,7 +31,7 @@ class CreateController extends Controller
             ->orderBy("raisonsociale")
             ->get();
 
-        return view('mission.nouvelle',compact('vehicules','chauffeurs', "partenaires"));
+        return view('mission.vl.nouvelle',compact('vehicules','chauffeurs', "partenaires"));
     }
 
     /**
@@ -46,7 +49,7 @@ class CreateController extends Controller
 
         $request->session()->put(Notifications::MISSION_OBJECT, $mission);
 
-        return redirect()->route("mission.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+        return redirect()->route("mission.vl.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**
@@ -57,10 +60,7 @@ class CreateController extends Controller
     {
         $data = $request->except("_token","vehicule");
 
-        if(! array_key_exists("code",$data) || $data["code"] == null || empty($data["code"]))
-        {
-            $data["code"] = Application::getNumeroMission(true);
-        }
+        $this->generateCodeMission($data);
 
         //Check si mission est sous traitée
         if(isset($data['soustraite'])){

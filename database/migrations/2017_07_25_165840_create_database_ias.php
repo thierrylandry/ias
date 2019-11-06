@@ -171,7 +171,6 @@ class CreateDatabaseIas extends Migration
         Schema::create("mission",function (Blueprint $table){
             $table->increments('id');
             $table->string('code')->unique();
-            $table->string('destination');
             $table->date('debutprogramme');
             $table->date('debuteffectif');
             $table->date('finprogramme');
@@ -195,13 +194,33 @@ class CreateDatabaseIas extends Migration
             $table->foreign('soustraitant')->references('id')->on('partenaire');
             $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
         });
+        Schema::create("mission_pl", function (Blueprint $table){
+        	$table->increments("id");
+	        $table->string('code')->unique();
+        	$table->date("datedebut");
+        	$table->date("datefin")->nullable();
+	        $table->string('destination');
+	        $table->integer('kilometrage');
+	        $table->integer('carburant');
+	        $table->string('status',4);
+	        $table->string('observation')->nullable();
+	        $table->boolean('soustraite')->default(false);
+	        $table->unsignedInteger('partenaire_id');
+	        $table->unsignedInteger('chauffeur_id')->nullable();
+	        $table->unsignedInteger('vehicule_id')->nullable();
+	        $table->unsignedInteger('piececomptable_id')->nullable();
+	        $table->foreign('partenaire_id')->references('id')->on('partenaire');
+	        $table->foreign('vehicule_id')->references('id')->on('vehicule');
+	        $table->foreign('chauffeur_id')->references('employe_id')->on('chauffeur');
+	        $table->foreign('piececomptable_id')->references('id')->on('piececomptable');
+        });
         Schema::create("versement", function (Blueprint $table){
             $table->unsignedInteger("mission_id");
             $table->unsignedInteger("employe_id");
             $table->dateTime("dateversement");
             $table->unsignedInteger("moyenreglement_id");
             $table->integer("montant");
-            $table->string("commentaires",150)->nullable();
+            $table->string("commentaires")->nullable();
 	        $table->unsignedInteger('operateur_id')->nullable();
             $table->foreign('mission_id')->references('id')->on('mission');
             $table->foreign('employe_id')->references('employe_id')->on('chauffeur');
@@ -294,6 +313,7 @@ class CreateDatabaseIas extends Migration
         Schema::dropIfExists('lignepiece');
         Schema::dropIfExists('versement');
         Schema::dropIfExists('mission');
+        Schema::dropIfExists('mission_pl');
         Schema::dropIfExists('piececomptable');
         Schema::dropIfExists('produit');
         Schema::dropIfExists('famille');

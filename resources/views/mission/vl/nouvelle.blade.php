@@ -17,7 +17,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>Nouvelle mission</h2>
+                <h2>Nouvelle mission VL</h2>
             </div>
             <div class="body">
                 <form class="form-horizontal" method="post">

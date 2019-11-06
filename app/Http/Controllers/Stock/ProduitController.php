@@ -142,6 +142,13 @@ class ProduitController extends Controller
         return view("produit.modifier", compact("produit","familles", "ventes"));
     }
 
+	/**
+	 * @param $reference
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 * @throws \Throwable
+	 */
     public function update($reference, Request $request)
     {
         $this->valideRequest($request);

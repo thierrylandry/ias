@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css',true)}}" media="all" />
     <style>
         .page{
             page-break-after: auto;

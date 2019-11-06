@@ -10,10 +10,34 @@
         \App\Service::GESTIONNAIRE_PL, \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
     )
     <li>
-        <a href="{{ route("mission.liste") }}">
+        <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">business_center</i>
             <span>Missions</span>
         </a>
+        <ul class="ml-menu">
+
+            @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE,
+                \App\Service::GESTIONNAIRE_VL, \App\Service::ADMINISTRATION)
+            )
+            <li>
+                <a href="{{ route("mission.liste") }}">
+                    <i class="material-icons">directions_car</i>
+                    <span>Véhicule Léger (VL)</span>
+                </a>
+            </li>
+            @endif
+
+            @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE,
+                \App\Service::GESTIONNAIRE_PL, \App\Service::ADMINISTRATION)
+            )
+            <li>
+                <a href="{{ route("mission.liste-pl") }}">
+                    <i class="material-icons">directions_bus</i>
+                    <span>Poids Lourds (PL)</span>
+                </a>
+            </li>
+            @endif
+        </ul>
     </li>
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
@@ -93,7 +117,7 @@
         </a>
     </li>
     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
-    \App\Service::ADMINISTRATION, \App\Service::LOGISTIQUE))
+    \App\Service::ADMINISTRATION, \App\Service::LOGISTIQUE, \App\Service::COMPTABILITE))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">redeem</i>
@@ -115,8 +139,6 @@
         </ul>
     </li>
     @endif
-    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
-    \App\Service::ADMINISTRATION))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
             <i class="material-icons">assignment_ind</i>
@@ -129,12 +151,14 @@
             <li>
                 <a href="{{ route('admin.chauffeur.liste') }}">Chauffeurs</a>
             </li>
+            @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE, \App\Service::DG,
+            \App\Service::ADMINISTRATION, \App\Service::COMPTABILITE))
             <li>
                 <a href="{{ route('rh.salaire') }}">Salaire</a>
             </li>
+            @endif
         </ul>
     </li>
-    @endif
     @if(\Illuminate\Support\Facades\Auth::user()->authorize(\App\Service::INFORMATIQUE, \App\Service::DG))
     <li>
         <a href="javascript:void(0);" class="menu-toggle">

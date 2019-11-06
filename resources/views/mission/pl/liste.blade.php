@@ -75,14 +75,14 @@
             <div class="card">
                 <div class="header">
                     <div class="col-md-4">
-                        <h2>Mission</h2>
-                    </div>
-                    <div class="col-md-4">
-
+                        <h2>Mission PL</h2>
                     </div>
                     <div class="col-md-4 col-xs-12">
+
+                    </div>
+                    <div class="col-md-4">
                         <div class="align-right">
-                            <a href="{{ route("mission.nouvelle") }}" class="btn bg-blue waves-effect">Nouvelle mission</a>
+                            <a href="{{ route("mission.nouvelle-pl") }}" class="btn bg-blue-grey waves-effect">Nouvelle mission PL</a>
                         </div>
                     </div>
                     <br class="clearfix"/>
@@ -92,15 +92,15 @@
                         <thead>
                         <tr class="bg-green">
                             <th width=""></th>
-                            <th width="7%">Début effectif (programmé)</th>
-                            <th width="7%">Fin effective (programée)</th>
-                            <th width="4%">Jours effectifs</th>
+                            <th width="7%">Début</th>
+                            <th width="7%">Fin</th>
+                            <th width="4%">Durée</th>
                             <th width="12%">Client</th>
-                            <th width="13%">Destination</th>
+                            <th width="13%">Destination (Kilométrage)</th>
                             <th width="8%">Etat</th>
                             <th width="12%">Chauffeur</th>
                             <th width="6%">Véhicule</th>
-                            <th width="10%">Montant total</th>
+                            <th width="10%">Carburant</th>
                             <th width="10%">Ref facture</th>
                         </tr>
                         </thead>
@@ -111,33 +111,31 @@
                                     <div class="btn-toolbar" role="toolbar">
                                         <div class="btn-group btn-group-xs" role="group">
                                             @if($mission->status == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
-                                                <a class="btn bg-green waves-effect" href="{{ route("mission.modifier", ["reference" => $mission->code]) }}" title="Modifier la mission"><i class="material-icons">edit</i></a>
+                                                <a class="btn bg-green waves-effect" href="{{ route("mission.modifier-pl", ["reference" => $mission->code]) }}" title="Modifier la mission"><i class="material-icons">edit</i></a>
                                             @endif
-                                            <a class="btn bg-orange waves-effect" href="{{ route("mission.details", ["reference" => $mission->code]) }}" title="Fiche de mission"><i class="material-icons">insert_drive_file</i></a>
+                                            <a class="btn bg-orange waves-effect" href="{{ route("mission.details-pl", ["reference" => $mission->code]) }}" title="Fiche de mission"><i class="material-icons">insert_drive_file</i></a>
                                             @if($mission->status == \App\Statut::MISSION_COMMANDEE && empty($mission->piececomptable_id) )
                                                 <a class="btn bg-red waves-effect" href="#" title="Supprimer la mission"><i class="material-icons">delete</i></a>
                                             @endif
                                             @if($mission->status != \App\Statut::MISSION_TERMINEE_SOLDEE)
-                                                <a class="btn bg-teal waves-effect" href="{{ route("versement.mission.ajouter", ["code"=>$mission->code]) }}" title="Effectuer un versement"><i class="material-icons">monetization_on</i></a>
+                                                <a class="btn bg-teal waves-effect" href="{{ route("compte.sortie.new", ["mission"=>$mission->code, "amount"=> $mission->carburant]) }}" title="Effectuer une sortie de caisse"><i class="material-icons">monetization_on</i></a>
                                             @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td valign="center">
-                                    {{ (new Carbon\Carbon($mission->debuteffectif))->format("d/m/Y") }}
-                                    ({{ (new Carbon\Carbon($mission->debutprogramme))->format("d/m/Y") }})
+                                    {{ (new Carbon\Carbon($mission->datedebut))->format("d/m/Y") }}
                                 </td>
                                 <td>
-                                    {{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }}
-                                    ({{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }})
+                                    {{ $mission->datefin ? (new Carbon\Carbon($mission->datefin))->format("d/m/Y") : "" }}
                                 </td>
-                                <td>{{ $mission->getDuree() }}</td>
-                                <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
-                                <td>{{ $mission->destination }}</td>
+                                <td>{{ $mission->getDuree() }} j</td>
+                                <td>{{ $mission->client->raisonsociale }}</td>
+                                <td>{{ $mission->destination }} ({{ $mission->kilometrage }} km)</td>
                                 <td>{{ \App\Statut::getStatut($mission->status) }}</td>
                                 <td>{{ $mission->chauffeur ? $mission->chauffeur->employe->nom : 'Chauffeur de sous traitance'}} {{ $mission->chauffeur ? $mission->chauffeur->employe->prenoms : ""}}</td>
-                                <td>{{ $mission->soustraite ? $mission->immat_soustraitance : $mission->vehicule->immatriculation }}</td>
-                                <td class="amount">{{ number_format($mission->montantjour * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)),0,","," ") }}</td>
+                                <td>{{ $mission->vehicule->immatriculation }}</td>
+                                <td class="amount">{{ number_format($mission->carburant,0,","," ") }}</td>
                                 <td><a href="{{ $mission->pieceComptable ? route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) : "javascript:void(0);" }}" >{{ $mission->pieceComptable ? $mission->pieceComptable->getReference() : ""}}</a></td>
                             </tr>
                         @endforeach

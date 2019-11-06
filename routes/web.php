@@ -31,17 +31,6 @@ Route::get('/', 'HomeController@index');
 Route::get('/checking', 'HomeController@checkState')->name('rappel');
 Route::get('/maj', function (){
 	try{
-
-		\App\Http\Controllers\Core\IasUpdate::checkDataBaseMAJ();
-
-		\Illuminate\Support\Facades\Schema::table('vehicule', function (\Illuminate\Database\Schema\Blueprint $table) {
-			$table->smallInteger('status')->default(\App\Statut::VEHICULE_ACTIF);
-		});
-
-		\Illuminate\Support\Facades\Schema::table('employe', function (\Illuminate\Database\Schema\Blueprint $table) {
-			$table->smallInteger('status')->default(\App\Statut::PERSONNEL_ACTIF);
-		});
-
 		$cmd = env("APP_UPDATE_CMD", null);
 		if (substr(php_uname(), 0, 7) == "Windows"){
 			pclose(popen("start /B ". $cmd, "r"));
@@ -72,13 +61,21 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
 //Missions
 Route::prefix('missions')->middleware('auth')->group(function (){
     Route::get('nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
-    Route::post('nouvelle.html','Mission\CreateController@ajouter');
+	Route::post('nouvelle.html','Mission\CreateController@ajouter');
+    Route::get('nouvelle-pl.html','Mission\PlController@nouvellePL')->name('mission.nouvelle-pl');
+    Route::post('nouvelle-pl.html','Mission\PlController@ajouterPL');
     Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
-    Route::get('{reference}/detail.html','Mission\MissionController@details')->name('mission.details');
-    Route::post('{reference}/detail.html','Mission\UpdateController@updateAfterStart');
+    Route::get('liste-pl.html','Mission\MissionPlController@listePL')->name('mission.liste-pl');
+    Route::get('{reference}/details.html','Mission\MissionController@details')->name('mission.details');
+    Route::post('{reference}/details.html','Mission\UpdateController@updateAfterStart');
+	Route::get('{reference}/details-pl.html','Mission\MissionPlController@details')->name('mission.details-pl');
+	Route::post('{reference}/details-pl.html','Mission\UpdatePLController@updateAfterStart');
     Route::get('{reference}/modifier.html','Mission\UpdateController@modifier')->name('mission.modifier');
     Route::post('{reference}/modifier.html','Mission\UpdateController@update');
+	Route::get('{reference}/modifier-pl.html','Mission\UpdatePLController@modifier')->name('mission.modifier-pl');
+	Route::post('{reference}/modifier-pl.html','Mission\UpdatePLController@update');
     Route::get('{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatus')->name('mission.changer-statut');
+    Route::get('{reference}/{statut}/changer-statut-pl.html','Mission\MissionController@changeStatusPL')->name('mission.changer-statut-pl');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
@@ -148,6 +145,8 @@ Route::prefix('compte')->middleware('auth')->group(function (){
     Route::post('sous-compte/{slug}/reset.html','Money\CompteController@reset');
     Route::get('sous-compte/{slug}/modifier.html','Money\CompteController@modifier')->name("compte.update");
     Route::post('sous-compte/{slug}/modifier.html','Money\CompteController@updateCompte');
+    Route::get('nouvelle-depense.html','Money\CompteController@newSortieCompte')->name('compte.sortie.new');
+    Route::post('nouvelle-depense.html','Money\CompteController@addNewLine')->name('compte.sortie.new');
 });
 
 //PDF

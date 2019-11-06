@@ -51,7 +51,7 @@
 
             <div class="card">
                 <div class="header bg-green">
-                    <h2>Détails de misssion #{{ $mission->code }} @if( $mission->soustraite ) (Mission sous-traitée) @endif [ {{ \App\Statut::getStatut( $mission->status) }} ]</h2>
+                    <h2>Détails de mission #{{ $mission->code }} @if( $mission->soustraite ) (Mission sous-traitée) @endif [ {{ \App\Statut::getStatut( $mission->status) }} ]</h2>
                 </div>
                 <div class="body">
                     <div class="row clearfix">
