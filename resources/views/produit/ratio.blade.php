@@ -10,10 +10,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-md-2">
-                        <h2>
-                            Ratio des produits
-                        </h2>
+                    <div class="col-md-12">
+                        <h2><b>Ratio des produits</b></h2>
                         <br>
                     </div>
                     <div class="col-md-12">
@@ -50,15 +48,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-sm-4">
+                                <div class="col-md-2 col-sm-4">
                                     <b>Disponibilité</b>
                                     <select class="form-control selectpicker" id="available" name="available" required>
-                                        <option value="3" @if(3 == request()->query("available")) selected @endif >Tout</option>
-                                        <option value="1" @if(1 == request()->query("available")) selected @endif>Disponible</option>
-                                        <option value="0" @if(0 == request()->query("available")) selected @endif>Indisponible</option>
+                                        <option value="0" @if(3 == request()->query("available") || !request()->has("available")) selected @endif >Tout</option>
+                                        <option value="2" @if(2 == request()->query("available")) selected @endif>Disponible</option>
+                                        <option value="1" @if(1 == request()->query("available")) selected @endif>Indisponible</option>
                                     </select>
                                 </div>
-                                <div class="col-md-1 col-sm-4">
+                                <div class="col-md-2 col-sm-4">
                                     <b>Nbre ligne</b>
                                     <select class="form-control selectpicker" id="display" name="display" required>
                                         <option value="10" @if(10 == request()->query("display")) selected @endif>10</option>
@@ -67,16 +65,21 @@
                                         <option value="100" @if(100 == request()->query("display")) selected @endif>100</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <br/>
-                                    <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                                <div class="col-md-1">
+                                    <button class="btn btn-sm bg-teal waves-button waves-effect" type="submit"><i class="material-icons">search</i></button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <br class="clearfix"/>
                 </div>
+                <div class="body">
+                    <h4>Graphe des sorties de produit par client</h4>
+                    <canvas id="bar_chart" height="150"></canvas>
+                </div>
+                <hr/>
                 <div class="body table-responsive">
+                    <h4>Tableau des produits les plus sortis</h4>
                     <table class="table table-bordered table-hover ">
                         <thead>
                         <tr class="bg-green">
@@ -113,6 +116,8 @@
     <!-- Moment Plugin Js -->
     <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
     <script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
+    <!-- Chart Plugins Js -->
+    <script src="{{ asset("plugins/chartjs/Chart.bundle.js") }}"></script>
 
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
@@ -127,5 +132,29 @@
             cancelText : 'ANNULER',
             nowText : 'AUJOURD\'HUI'
         });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs());
+        });
+
+        function getChartJs() {
+            return {
+                type: 'bar',
+                data: {
+                    labels: [@if(count($graph))@foreach($graph["labels"] as $line)"{{ $line }}", @endforeach @endif],
+                    datasets: [{
+                        label: "Nombre total de produit ",
+                        data: [@if(count($graph))@foreach($graph["data"]  as $line){{ $line }}, @endforeach @endif],
+                        backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: false
+                }
+            };
+        }
     </script>
 @endsection

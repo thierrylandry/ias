@@ -99,10 +99,20 @@ class ProduitController extends Controller
         return view("produit.liste", compact("produits","familles"));
     }
 
-    public function classProduct(Request $request){
+    public function classProduct(Request $request)
+    {
 	    $familles = Famille::orderBy("libelle")->get();
-	    $produits = $this->getProduitRatio(Carbon::now()->setDate(2019,01,01), Carbon::now());
-	    return view("produit.ratio", compact("produits","familles"));
+
+	    $produits = $this->getProduitRatio();
+
+	    $graph = [];
+		foreach ($this->getDataToCharts() as $line)
+		{
+			$graph['labels'][] = $line->raisonsociale;
+			$graph['data'][] = $line->nbre;
+		}
+
+	    return view("produit.ratio", compact("produits","familles", "graph"));
     }
 
     private function filter(Builder &$builder, Request $request)

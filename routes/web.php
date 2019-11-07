@@ -130,8 +130,8 @@ Route::prefix('factures')->middleware('auth')->group(function (){
 Route::prefix("versement")->middleware("auth")->group(function (){
     Route::get("mission/{code}/nouveau.html","Money\VersementController@nouveauVersement")->name("versement.mission.ajouter");
     Route::post("mission/{code}/nouveau.html","Money\VersementController@ajouter");
-    Route::post('facture/partenaire/client','Money\ReglementController@reglementClient')->name('versement.facture.client');
-    Route::post('facture/partenaire/fournisseur','Money\ReglementController@reglementFournisseur')->name('versement.facture.fournisseur');
+    Route::post('facture/partenaire/client.html','Money\ReglementController@reglementClient')->name('versement.facture.client');
+    Route::post('facture/partenaire/fournisseur.html','Money\ReglementController@reglementFournisseur')->name('versement.facture.fournisseur');
 });
 
 //Compte

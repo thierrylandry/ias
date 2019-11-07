@@ -269,7 +269,8 @@ class CreateDatabaseIas extends Migration
             $table->date("datepiece");
             $table->string("reference")->unique();
             $table->string("objet");
-            $table->integer('montant')->default(0);
+            $table->integer('montanttva')->default(0);
+            $table->integer('montantht')->default(0);
             $table->string('observation')->nullable();
             $table->string('statut');
             $table->date('datereglement')->nullable();
@@ -280,6 +281,15 @@ class CreateDatabaseIas extends Migration
             $table->foreign('partenaire_id')->references('id')->on('partenaire');
             $table->foreign('employe_id')->references('employe_id')->on('utilisateur');
         });
+	    Schema::create("lignepiecefournisseur", function (Blueprint $table) {
+		    $table->increments('id');
+		    $table->integer("prix");
+		    $table->integer("quantite");
+		    $table->unsignedBigInteger("piecefournisseur_id");
+		    $table->unsignedInteger("produit_id");
+		    $table->foreign('piecefournisseur_id', "fk_piecefour")->references('id')->on('piecefournisseur');
+		    $table->foreign('produit_id')->references('id')->on('produit');
+	    });
         Schema::create("salaire", function (Blueprint $table){
 			$table->integer('mois');
 			$table->integer('annee');

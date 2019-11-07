@@ -75,7 +75,7 @@ $rap = 0;
                             <td>{{ (new \Carbon\Carbon($piece->datepiece))->format('d/m/Y') }}</td>
                             <td>{{ $piece->reference }}</td>
                             <td>{{ $piece->objet }}</td>
-                            <td>{{ number_format($piece->montant, 0, '', ' ') }}</td>
+                            <td>{{ number_format($piece->montantht+$piece->montanttva, 0, '', ' ') }}</td>
                             <td>{{ \App\Statut::getStatut($piece->statut) }}</td>
                             <td><span title="{{ $piece->remarquepaiement }}">{{ $piece->moyenPaiement ? $piece->moyenPaiement->libelle : null }}</span></td>
                             <td>{{ $piece->datereglement ? (new \Carbon\Carbon($piece->datereglement))->format('d/m/Y') : null }}</td>
@@ -134,7 +134,7 @@ $rap = 0;
                             @foreach($pieces as $piece)
                                 @if($piece->statut != \App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE)
                                     <input type="checkbox" id="md_checkbox_{{ $piece->id }}" name="facture[]" class="chk-col-teal" checked  value="{{ $piece->id }}"/>
-                                    <label for="md_checkbox_{{ $piece->id }}">{{ $piece->reference }} {{ $piece->objet }} : </label> {{ number_format($piece->montant, 0, '', ' ') }} F CFA
+                                    <label for="md_checkbox_{{ $piece->id }}">{{ $piece->reference }} {{ $piece->objet }} : </label> {{ number_format($piece->montantht+$piece->montanttva, 0, '', ' ') }} F CFA
                                 @endif
                             @endforeach
                             </div>
