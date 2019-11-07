@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Mission;
 
 use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Mission;
 use App\Partenaire;
+use App\Service;
 use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -16,13 +18,18 @@ class UpdateController extends Controller
 {
     use Process;
 
-    /**
-     * @param  $reference string
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+	/**
+	 * @param $reference
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function modifier($reference, Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
         try {
             $mission = $this->missionBuilder()
                 ->where("code", $reference)
@@ -46,8 +53,18 @@ class UpdateController extends Controller
         return view("mission.vl.modifier", compact('vehicules','chauffeurs', "partenaires", "mission"));
     }
 
+	/**
+	 * @param $reference
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function update($reference, Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
         $this->validate($request, $this->validateMissionMaj());
 
         try {
@@ -99,7 +116,11 @@ class UpdateController extends Controller
 	 * @throws \Throwable
 	 */
 
-    public function updateAfterStart(Request $request, string $reference){
+    public function updateAfterStart(Request $request, string $reference)
+    {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
     	$this->validate($request, [
 			"observation" => "present",
 		    "debuteffectif" => "required",

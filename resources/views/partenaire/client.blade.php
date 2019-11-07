@@ -19,11 +19,39 @@ $rap = 0;
             <div class="card">
                 <div class="header">
                     <div class="row">
-                        <div class="col-md-8 col-xs-12">
-                            <h3>Point client : {{ $partenaire->raisonsociale }}</h3>
+                        <div class="col-md-4 col-xs-12">
+                            <h3><small>Point client</small> <br/>{{ $partenaire->raisonsociale }}</h3>
                         </div>
-                        <div class="col-md-4 col-xs-12 align-right">
-                            <button class="btn btn-flat waves-effect bg-teal" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">money</i>Reglement facture</button>
+                        <form method="get">
+                        <div class="col-md-2 col-sm-6">
+                            <b>Début</b>
+                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                <div class="form-line">
+                                    <input name="debut" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("debut") ?? \Carbon\Carbon::now()->firstOfMonth()->format("d/m/Y") }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6">
+                            <b>Fin</b>
+                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                <div class="form-line">
+                                    <input name="fin" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("fin") ?? Carbon\Carbon::now()->format("d/m/Y") }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <br/>
+                            <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                        </div>
+                        </form>
+                        <div class="col-md-2 col-xs-12 align-right">
+                            <button class="btn btn-flat waves-effect bg-purple" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">money</i>Reglement facture</button>
                         </div>
                     </div>
                 </div>
@@ -72,6 +100,7 @@ $rap = 0;
                         @endif
                         </tbody>
                     </table>
+                    {{ $pieces->appends(request()->except([]))->links() }}
                 </div>
             </div>
         </div>
@@ -156,13 +185,14 @@ $rap = 0;
     </div>
 </div>
 @endsection
+@section("script")
+    <!-- Moment Plugin Js -->
+    <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
+    <script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
 
-@section('script')
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
-    <!-- Multi Select Plugin Js -->
-    <script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
-    <script type="text/javascript" >
+    <script type="text/javascript">
         $('.datepicker').bootstrapMaterialDatePicker({
             format: 'DD/MM/YYYY',
             clearButton: false,

@@ -6,9 +6,11 @@ use App\Application;
 use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
 use App\Metier\Finance\InvoiceFrom;
+use App\Metier\Security\Actions;
 use App\Mission;
 use App\MissionPL;
 use App\Partenaire;
+use App\Service;
 use App\Statut;
 use App\Vehicule;
 use Carbon\Carbon;
@@ -21,8 +23,17 @@ class CreateController extends Controller
 {
     use Process;
 
-    public function nouvelle(Request $request)
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+	public function nouvelle(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
         $vehicules = $this->listeVehiculeSelection($request);
 
         $chauffeurs = Chauffeur::with('employe')->get();
@@ -34,12 +45,18 @@ class CreateController extends Controller
         return view('mission.vl.nouvelle',compact('vehicules','chauffeurs', "partenaires"));
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function ajouter(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
+
         $this->validate($request, $this->validateMission());
 
         $mission =  $this->create($request);

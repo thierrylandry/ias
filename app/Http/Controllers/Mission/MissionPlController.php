@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Mission;
 
 use App\Chauffeur;
+use App\Metier\Security\Actions;
+use App\Service;
 use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,8 +25,17 @@ class MissionPlController extends Controller
 	 */
 	private $fin_periode;
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
 	public function listePL(Request $request)
 	{
+		$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+			Service::COMPTABILITE, Service::GESTIONNAIRE_PL]));
+
 		$this->getPeriode($request);
 
 		if($this->debut_periode && $this->fin_periode){
@@ -56,7 +67,17 @@ class MissionPlController extends Controller
 		return view("mission.pl.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
 	}
 
-	public function details($reference){
+	/**
+	 * @param $reference
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+	public function details($reference)
+	{
+		$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+			Service::COMPTABILITE, Service::GESTIONNAIRE_PL]));
+
 		$mission = $this->missionPLBuilder()
 		                ->where("code",$reference)
 		                ->firstOrFail();

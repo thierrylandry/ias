@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mission;
 
 use App\Chauffeur;
 use App\Mail\MissionReminder;
+use App\Metier\Security\Actions;
 use App\Mission;
 use App\Service;
 use App\Statut;
@@ -29,8 +30,18 @@ class MissionController extends Controller
      */
     private $fin_periode;
 
-    public function liste(Request $request)
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
+	public function liste(Request $request)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
         $this->getPeriode($request);
 
         if($this->debut_periode && $this->fin_periode){
@@ -62,8 +73,17 @@ class MissionController extends Controller
         return view("mission.vl.liste",compact("missions", "debut", "fin", "chauffeurs", "status"));
     }
 
+	/**
+	 * @param $reference
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
     public function details($reference)
     {
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+		    Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_VL]));
+
         $mission = $this->missionBuilder()
             ->where("code",$reference)
             ->firstOrFail();

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Mission;
 
 use App\Chauffeur;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Mission;
 use App\MissionPL;
 use App\Partenaire;
+use App\Service;
 use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,12 +20,17 @@ class UpdatePLController extends Controller
 	use Process;
 
 	/**
-	 * @param  $reference string
+	 * @param $reference
 	 * @param Request $request
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 *
+	 * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
 	public function modifier($reference, Request $request)
 	{
+		$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+			Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_PL]));
+
 		try {
 			$mission = $this->missionPLBuilder()
 			                ->where("code", $reference)
@@ -47,8 +54,18 @@ class UpdatePLController extends Controller
 		return view("mission.pl.modifier", compact('vehicules','chauffeurs', "partenaires", "mission"));
 	}
 
+	/**
+	 * @param $reference
+	 * @param Request $request
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 */
 	public function update($reference, Request $request)
 	{
+		$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+			Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_PL]));
+
 		$this->validate($request, $this->validateMissionPLMaj());
 
 		try {
@@ -83,7 +100,19 @@ class UpdatePLController extends Controller
 		$mission->update($data);
 	}
 
-	public function updateAfterStart(Request $request, $reference){
+	/**
+	 * @param Request $request
+	 * @param $reference
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Auth\Access\AuthorizationException
+	 * @throws \Throwable
+	 */
+	public function updateAfterStart(Request $request, $reference)
+	{
+		$this->authorize(Actions::READ, collect([Service::DG, Service::INFORMATIQUE,
+			Service::ADMINISTRATION, Service::COMPTABILITE, Service::GESTIONNAIRE_PL]));
+
 		$this->validate($request, [
 			"observation" => "present",
 			"datedebut" => "required|date_format:d/m/Y",
