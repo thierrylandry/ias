@@ -38,6 +38,22 @@
                             </div>
 
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="client">Fournisseur</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <select class="form-control selectpicker" id="partenaire_id" name="partenaire_id" data-live-search="true" required>
+                                        <option value="-1">Intervention sans fournisseur</option>
+                                        @foreach($fournisseurs as $fournisseur)
+                                            <option @if(old("partenaire_id") ==  $fournisseur->id) selected @endif value="{{ $fournisseur->id }}">{{ $fournisseur->raisonsociale }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="client">Intervention</label>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
@@ -47,6 +63,18 @@
                                             <option value="{{ $type->id }}" @if($type->id == old('typeintervention_id')) selected @endif>{{ $type->libelle }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="cout">Coût</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <input type="number" name="cout" id="cout" class="form-control" value="{{ old('cout', 0) }}">
+                                    </div>
+                                    <span class="input-group-addon">F CFA</span>
                                 </div>
                             </div>
                         </div>
@@ -71,20 +99,6 @@
                                     <div class="form-line">
                                         <input type="text" required name="fin" id="fin" class="datepicker form-control" placeholder="JJ/MM/AAAA" value="{{ old('fin', \Carbon\Carbon::now()->format("d/m/Y")) }}">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row clearfix">
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                <label for="cout">Coût</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-7">
-                                <div class="input-group">
-                                    <div class="form-line">
-                                        <input type="number" name="cout" id="cout" class="form-control" value="{{ old('cout', 0) }}">
-                                    </div>
-                                    <span class="input-group-addon">F CFA</span>
                                 </div>
                             </div>
                         </div>

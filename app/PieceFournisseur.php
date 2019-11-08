@@ -17,4 +17,12 @@ class PieceFournisseur extends Model
     public function moyenPaiement(){
         return $this->belongsTo(MoyenReglement::class,'moyenpaiement_id');
     }
+
+    public function partenaire(){
+        return $this->belongsTo(Partenaire::class,'partenaire_id');
+    }
+
+	public function lignes(){
+		return $this->hasMany(LignePieceFournisseur::class, "piecefournisseur_id");
+	}
 }

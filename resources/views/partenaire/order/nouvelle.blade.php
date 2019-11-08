@@ -205,6 +205,14 @@
         });
     </script>
     <script type="text/javascript">
+        $("#produits").change(function (e) {
+            $("#price").val($("#produits option:selected").data("price")) ;
+            var stock = $("#produits option:selected").data("stock");
+            if(stock != 'no'){
+                $("#infoProduct").text( stock +" produit(s) en stock");
+            }
+        });
+
         $("#btnajouter").click(function (e) {
             $q = $("#quantity");
             $p = $("#price");
@@ -244,20 +252,22 @@
             $quantity = $('#quantity');
 
             var id = $product.data('id') == undefined ? 0 : $product.data('id');
-            var modele = $product.data("modele") == undefined ? '{{ \App\Mission::class }}' : $product.data("modele");
+            var modele = $product.data("modele") == undefined ? '{{ \App\Intervention::class }}' : $product.data("modele");
             var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
             var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
             var amount = (parseInt($("#price").val()) * parseInt($quantity.val()));
 
             $("#piece tbody").fadeIn().append("<tr>\n" +
-                "<th data-id=\""+ id +"\" data-modele=\""+ modele +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
+                "<th><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
                 "<td><input type=\"hidden\" name=\"produit_id[]\" value=\""+id+"\">"+ reference +"</td>\n" +
-                "<td>"+ libelle + " "+ $("#complement").val() +"</td>\n" +
-                "<td class='amount text-right'><input type=\"hidden\" name=\"quantite[]\" value=\""+ $quantity.val() +"\">"+$quantity.val()+"</td>\n" +
+                "<td><input type=\"hidden\" name=\"designation[]\" value=\""+ libelle +"\">"+ libelle + " "+"</td>\n" +
+                "<td class='text-center'><input type=\"hidden\" name=\"quantite[]\" value=\""+ $quantity.val() +"\">"+$quantity.val()+"</td>\n" +
                 "<td class='price text-right' ><input type=\"hidden\" name=\"prix[]\" value=\""+$("#price").val() +"\">"+ $("#price").val() +"</td>\n" +
-                "<td class='amount text-right'>"+ amount +"</td>\n" +
+                "<td class='amount text-right'><input type=\"hidden\" name=\"modele[]\" value=\""+modele+"\">"+ amount +"</td>\n" +
                 "</tr>");
         }
+
+        //<input type="hidden" name="modele[]" value="">
 
         function delLine(arg) {
             swal({
@@ -280,7 +290,8 @@
                 });
         }
 
-        function calculAmount() {
+        function calculAmount()
+        {
             var montantHT = 0;
             $.each($(".amount"),function (key, value) {
                 montantHT = montantHT + parseInt($(value).text());
@@ -294,7 +305,8 @@
             $("#montantht").val(montantHT);
         }
 
-        function editQty(arg) {
+        function editQty(arg)
+        {
             var qty = parseInt($(arg).val());
             var $td = $(arg).parent();
             var $price = $($td).siblings(".price");

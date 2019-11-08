@@ -103,7 +103,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("partenaire.fournisseurs.factures") }}">
+                <a href="{{ route("partenaire.fournisseur.factures") }}">
                     <span>Factures fournisseurs</span>
                 </a>
             </li>

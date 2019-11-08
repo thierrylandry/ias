@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Partenaire;
 
 use App\Http\Controllers\Controller;
+use App\Intervention;
 use App\LignePieceFournisseur;
 use App\Metier\Behavior\Notifications;
 use App\Partenaire;
@@ -22,7 +23,7 @@ class FournisseurController extends Controller
 
     public function newOrder()
     {
-	    $commercializables = collect(Produit::orderBy("libelle")->get());
+	    $commercializables = $this->getCommercializableList();
 
         $partenaires = Partenaire::where('isfournisseur','=',true)->get();
 
@@ -37,7 +38,7 @@ class FournisseurController extends Controller
 
         try{
             $pieceFournisseur = new PieceFournisseur($request->except('_token','produits','price','prix','quantity',
-	            'produit_id','quantite'));
+	            'produit_id','quantite','modele', 'designation'));
             $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
             $pieceFournisseur->employe_id = Auth::id();
             $pieceFournisseur->statut = Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL;
@@ -63,34 +64,52 @@ class FournisseurController extends Controller
 	    	$line->prix = $request->input("prix")[$i];
 	    	$line->quantite = $request->input("quantite")[$i];
 	    	$line->piecefournisseur_id = $piece->id;
+	    	$line->modele = $request->input("modele")[$i];
+	    	$line->designation = $request->input("designation")[$i];
 	    	$line->save();
 
-	    	$this->updateStock($line->produit_id, $line->quantite);
+	    	if($line->modele == Produit::class)
+		    {
+			    $this->updateStock($line->produit_id, $line->quantite);
+		    }
+		    if($line->modele == Intervention::class)
+		    {
+		    	$this->updateIntervention($line->produit_id, $piece);
+		    }
+
 	    }
     }
 
-    private function updateStock(int $produit, int $qte)
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+    public function liste(Request $request)
     {
-        $produit = Produit::find($produit);
-        if($produit)
-        {
-        	$produit->stock += $qte;
-        	$produit->save();
-        }
-	}
+	    $pieces = $this->getPiecesFournisseur($request);
+	    $statuts = [
+		    Statut::PIECE_COMPTABLE_FACTURE_ANNULEE , Statut::PIECE_COMPTABLE_FACTURE_PAYEE ,
+		    Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL , Statut::PIECE_COMPTABLE_FACTURE_SANS_BL
+	    ];
+	    return view("partenaire.order.liste", compact("pieces", "statuts"));
+    }
 
-    protected function validRequest(Request $request){
-        $this->validate($request, [
-            'datepiece' => 'required|date_format:d/m/Y',
-            'objet' => 'required',
-            'reference' => 'required',
-            'montanttva' => 'required|integer',
-            'montantht' => 'required|integer',
-            'produit_id' => 'required|array',
-            'prix' => 'required|array',
-            'quantite' => 'required|array',
-            'partenaire_id' => 'required|exists:partenaire,id',
-            'observation' => 'present'
-        ]);
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
+    private function getPiecesFournisseur(Request $request)
+    {
+	    $raw = PieceFournisseur::with("partenaire","lignes")->paginate(30);
+
+	    return $raw;
+    }
+
+    public function details(int $id)
+    {
+    	$piece = PieceFournisseur::with("lignes","partenaire")->find($id);
+    	return view("partenaire.order.details", compact("piece"));
     }
 }

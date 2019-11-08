@@ -73,7 +73,7 @@ $rap = 0;
                         @foreach($pieces as $piece)
                         <tr>
                             <td>{{ (new \Carbon\Carbon($piece->datepiece))->format('d/m/Y') }}</td>
-                            <td>{{ $piece->reference }}</td>
+                            <td><a href="{{ route("partenaire.fournisseur.factures.details",["id"=>$piece->id]) }}" title="Consulter la facture">{{ $piece->reference }}</a></td>
                             <td>{{ $piece->objet }}</td>
                             <td>{{ number_format($piece->montantht+$piece->montanttva, 0, '', ' ') }}</td>
                             <td>{{ \App\Statut::getStatut($piece->statut) }}</td>

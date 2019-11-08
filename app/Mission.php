@@ -51,19 +51,17 @@ class Mission extends Model implements Commercializable, IAmortissement, IMissio
      */
     public function detailsForCommande()
     {
-        $txt = null;
-
         if($this->soustraite)
         {
-            $txt = sprintf("Location de véhicule %s <br/> Du %s au %s.<br/> Destination(s) : %s",
+            return sprintf("Location de véhicule %s <br/> Du %s au %s.<br/> Destination(s) : %s",
                 $this->immat_soustraitance ,
                 (new Carbon($this->debuteffectif))->format("d/m/Y"),
                 (new Carbon($this->fineffective))->format("d/m/Y"),
                 //(new Carbon($this->debutprogramme))->diffInDays(new Carbon($this->finprogramme))+1,
                 $this->destination
             );
-        }else {
-            $txt = sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s.<br/> Destination(s) : %s",
+        }else{
+            return sprintf("Location de véhicule de type %s <br/> immatriculé %s <br/> Du %s au %s.<br/> Destination(s) : %s",
                 $this->vehicule->genre->libelle . " " . $this->vehicule->marque . " " . $this->vehicule->typecommercial,
                 $this->vehicule->immatriculation,
                 (new Carbon($this->debuteffectif))->format("d/m/Y"),
@@ -72,8 +70,6 @@ class Mission extends Model implements Commercializable, IAmortissement, IMissio
                 $this->destination
             );
         }
-
-        return $txt;
     }
 
 	/**

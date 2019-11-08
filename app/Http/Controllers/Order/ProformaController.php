@@ -31,9 +31,9 @@ class ProformaController extends Controller
         $commercializables = null;
         $proforma = null;
 
-       if($request->query(Notifications::SOURCE) == Notifications::CREATE_FROM_PROFORMA
+        if($request->query(Notifications::SOURCE) == Notifications::CREATE_FROM_PROFORMA
           || $request->query(Notifications::SOURCE) == Notifications::UPDATE_FROM_PROFORMA)
-       {
+        {
 			$proforma = $this->getPieceComptableFromReference($request->query('ID'));
 
 			$proforma->lignes->each(function ($item, $key) use ($lignes){
@@ -51,8 +51,8 @@ class ProformaController extends Controller
 	        });
         }
 
-        if($commercializables == null){ //Facture sans intention préalable
-
+        if($commercializables == null)//Facture sans intention préalable
+        {
             $commercializables = $this->getCommercializableList($request);
         }
 

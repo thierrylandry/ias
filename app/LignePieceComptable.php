@@ -16,7 +16,6 @@ class LignePieceComptable extends Model
         return $this->belongsTo(PieceComptable::class);
     }
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Commercializable|null
      */
@@ -27,6 +26,6 @@ class LignePieceComptable extends Model
 	        return null;
         }
 
-        return $this->belongsTo($this->modele,$this->modele_id);
+        return $this->belongsTo($this->modele, $this->modele_id);
     }
 }

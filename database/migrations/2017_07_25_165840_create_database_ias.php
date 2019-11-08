@@ -100,6 +100,11 @@ class CreateDatabaseIas extends Migration
             $table->text('details')->nullable();
             $table->unsignedInteger('typeintervention_id');
             $table->unsignedInteger('vehicule_id');
+            $table->unsignedInteger("partenaire_id")->nullable();
+	        $table->unsignedBigInteger('piecefournisseur_id')->nullable();
+	        $table->foreign("piecefournisseur_id")->references('id')->on('piecefournisseur');
+	        $table->foreign("partenaire_id")->references('id')->on('partenaire');
+            $table->foreign("vehicule_id")->references("id")->on("vehicule");
             $table->foreign("vehicule_id")->references("id")->on("vehicule");
             $table->foreign("typeintervention_id")->references("id")->on("typeintervention");
         });
@@ -317,6 +322,7 @@ class CreateDatabaseIas extends Migration
     {
         Schema::dropIfExists('bulletin');
         Schema::dropIfExists('salaire');
+        Schema::dropIfExists('lignepiecefournisseur');
         Schema::dropIfExists('piecefournisseur');
         Schema::dropIfExists('lignecompte');
         Schema::dropIfExists('compte');

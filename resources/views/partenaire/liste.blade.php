@@ -32,7 +32,7 @@
                     </form>
                     <div class="col-md-2">
                         <div class="align-right">
-                            <a href="{{ route('partenaire.fournisseurs.factures') }}" class="btn bg-blue-grey waves-effect"><i class="material-icons">add</i> Facture fournisseur</a>
+                            <a href="{{ route('partenaire.fournisseur.new') }}" class="btn bg-blue-grey waves-effect"><i class="material-icons">add</i> Facture fournisseur</a>
                         </div>
                     </div>
                     <div class="col-md-2 col-xs-12">

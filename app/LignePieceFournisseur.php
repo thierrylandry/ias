@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\Order\Commercializable;
 use Illuminate\Database\Eloquent\Model;
 
 class LignePieceFournisseur extends Model
@@ -15,8 +16,16 @@ class LignePieceFournisseur extends Model
 		return $this->belongsTo(PieceFournisseur::class);
 	}
 
-	public function produit()
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Commercializable|null
+	 */
+	public function commercializable()
 	{
-		return $this->belongsTo(Produit::class);
+		if($this->modele == null || empty($this->modele) )
+		{
+			return null;
+		}
+
+		return $this->belongsTo($this->modele, $this->modele_id);
 	}
 }

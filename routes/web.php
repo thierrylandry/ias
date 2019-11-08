@@ -164,10 +164,12 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::post('{id}/modifier.html','Partenaire\RegisterController@update');
 
     Route::get("client/{id}/details.html","Partenaire\DetailsController@ficheClient")->name("partenaire.client");
-
     Route::get("fournisseur/{id}/details.html","Partenaire\DetailsController@ficheFournisseur")->name("partenaire.fournisseur");
-    Route::get("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@newOrder")->name("partenaire.fournisseurs.factures");
+
+    Route::get("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@newOrder")->name("partenaire.fournisseur.new");
     Route::post("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@addOrder");
+    Route::get("fournisseurs/factures.html","Partenaire\FournisseurController@liste")->name("partenaire.fournisseur.factures");
+    Route::get("fournisseurs/factures/{id}/details.html","Partenaire\FournisseurController@details")->name("partenaire.fournisseur.factures.details");
 });
 
 //Stock
