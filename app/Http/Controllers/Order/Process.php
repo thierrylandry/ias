@@ -184,6 +184,7 @@ trait Process
 	    $piececomptable->validite = $data->get("validite");
 	    $piececomptable->objet = $data->get("objet");
 	    $piececomptable->delailivraison = $data->get("delailivraison");
+	    $piececomptable->partenaire_id = $data->get("partenaire_id");
 
 	    $piececomptable->utilisateur_id = Auth::id();
 	    $piececomptable->tva = PieceComptable::TVA;

@@ -203,7 +203,7 @@
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form class="form-line" action="" method="post">
+        <form class="form-line" action="{{ route("compte.modifier", ["slug" => $souscompte->slug]) }}" method="post">
             <div class="modal-content">
                 <div class="modal-header bg-light-green">
                     <h4 class="modal-title" id="editModalLabel">Modification mouvement de caisse</h4>
@@ -253,7 +253,6 @@
 @section("script")
     <!-- Moment Plugin Js -->
     <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-    <script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
 
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>

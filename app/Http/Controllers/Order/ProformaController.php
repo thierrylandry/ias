@@ -80,9 +80,9 @@ class ProformaController extends Controller
 
         try{
 
-	        $paretenaire = new Partenaire(['id' => $request->input("partenaire_id")]);
+	        $partenaire = new Partenaire(['id' => $request->input("partenaire_id")]);
 
-	        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $paretenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
+	        $piececomptable = $this->createPieceComptable(PieceComptable::PRO_FORMA, $partenaire, collect($request->only(["montantht", "isexonere", "conditions", "validite", "delailivraison", "objet"])));
 
 	        $this->addLineToPieceComptable($piececomptable, $request->input("lines"));
 

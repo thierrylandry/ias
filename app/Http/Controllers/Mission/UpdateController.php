@@ -97,9 +97,11 @@ class UpdateController extends Controller
         $data = $request->except("_token");
 
         //Check si mission est sous traitée
-        if($data['soustraite']){
+        if(key_exists("soustraite", $data) && $data['soustraite']){
             $data['chauffeur_id'] = null;
             $data['vehicule_id'] = null;
+
+            unset($data["soustraite"]);
         }
 
         $data["debuteffectif"] = Carbon::createFromFormat("d/m/Y",$request->input("debuteffectif"))->toDateString();

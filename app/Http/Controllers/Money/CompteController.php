@@ -222,12 +222,12 @@ class CompteController extends Controller
     {
         $this->validate($request, [
             'id' => 'required|exists:lignecompte',
-            'dateecriture' => 'required|date_format:d/m/Y',
+            'dateoperation' => 'required|date_format:d/m/Y',
             'objet' => 'required',
         ]);
         try{
-            $line = Compte::findOrFail($request->input('id'));
-            $line->dateecriture = Carbon::createFromFormat('d/m/Y', $request->input('dateoperation'))->toDateString();
+            $line = LigneCompte::findOrFail($request->input('id'));
+            $line->dateoperation = Carbon::createFromFormat('d/m/Y', $request->input('dateoperation'))->toDateString();
             $line->objet = $request->input('objet');
             $line->saveOrFail();
         }catch (ModelNotFoundException | \Exception $e){
