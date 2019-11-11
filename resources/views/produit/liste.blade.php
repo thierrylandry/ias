@@ -6,46 +6,55 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-md-2">
-                        <h2>
-                            Liste des produits
-                        </h2>
-                    </div>
-                    <div class="col-md-7">
-                        <form method="get">
-                            <div class="row clearfix">
-                                <div class="col-md-4 col-sm-6">
-                                    <b>Familles</b>
-                                    <select class="form-control selectpicker" id="famille" name="famille" data-live-search="true" required>
-                                        <option value="all">Toutes les familles</option>
-                                        @foreach($familles as $famille)
-                                            <option @if($famille->id == request()->query("famille")) selected @endif value="{{ $famille->id }}">{{ $famille->libelle }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <b>Référence ou nom de produit</b>
-                                    <div class="input-group">
-                                        <div class="form-line">
-                                            <input name="keyword" type="text" class="form-control" placeholder="Reference ou produit" value="{{ request()->query("keyword") }}">
-                                        </div>
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">search</i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <br/>
-                                    <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-3 col-xs-12">
-                        <div class="align-right">
-                            <a href="{{ route('stock.produit.ajouter') }}" class="btn bg-blue waves-effect">Ajouter un produit</a>
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <h2><b>Liste des produits</b></h2>
+                            <br/>
                         </div>
                     </div>
+                    <div class="row clearfix">
+                        <div class="col-md-8">
+                            <form method="get">
+                                <div class="row clearfix">
+                                    <div class="col-md-4 col-sm-6">
+                                        <b>Familles</b>
+                                        <select class="form-control selectpicker" id="famille" name="famille" data-live-search="true" required>
+                                            <option value="all">Toutes les familles</option>
+                                            @foreach($familles as $famille)
+                                                <option @if($famille->id == request()->query("famille")) selected @endif value="{{ $famille->id }}">{{ $famille->libelle }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <b>Référence ou nom de produit</b>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <input name="keyword" type="text" class="form-control" placeholder="Reference ou produit" value="{{ request()->query("keyword") }}">
+                                            </div>
+                                            <span class="input-group-addon">
+                                            <i class="material-icons">search</i>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <br/>
+                                        <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <div class="align-right">
+                                <a href="{{ route('stock.produit.ajouter') }}" class="btn bg-blue waves-effect">Ajouter un produit</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <div class="align-right">
+                                <a href="{{ route('print.produits') }}" target="_blank" class="btn bg-grey waves-effect">Imprimer</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <br class="clearfix"/>
                 </div>
                 <div class="body table-responsive">

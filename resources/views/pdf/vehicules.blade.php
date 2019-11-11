@@ -1,4 +1,4 @@
-@extends("pdf.layout")
+@extends("pdf.layout-int")
 @section("titre") LISTE DES VEHICULES @endsection
 
 @section("content")

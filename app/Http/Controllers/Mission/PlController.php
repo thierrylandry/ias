@@ -57,7 +57,7 @@ class PlController extends Controller
 
 		$request->session()->put(Notifications::MISSION_OBJECT, $missionPL);
 
-		return redirect()->route("mission.pl.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+		return redirect()->route("mission.liste-pl")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
 	}
 
 	private function createPL(Request $request)

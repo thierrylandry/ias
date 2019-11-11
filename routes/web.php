@@ -60,22 +60,22 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
 
 //Missions
 Route::prefix('missions')->middleware('auth')->group(function (){
-    Route::get('nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
-	Route::post('nouvelle.html','Mission\CreateController@ajouter');
-    Route::get('nouvelle-pl.html','Mission\PlController@nouvellePL')->name('mission.nouvelle-pl');
-    Route::post('nouvelle-pl.html','Mission\PlController@ajouterPL');
-    Route::get('liste.html','Mission\MissionController@liste')->name('mission.liste');
-    Route::get('liste-pl.html','Mission\MissionPlController@listePL')->name('mission.liste-pl');
-    Route::get('{reference}/details.html','Mission\MissionController@details')->name('mission.details');
-    Route::post('{reference}/details.html','Mission\UpdateController@updateAfterStart');
-	Route::get('{reference}/details-pl.html','Mission\MissionPlController@details')->name('mission.details-pl');
-	Route::post('{reference}/details-pl.html','Mission\UpdatePLController@updateAfterStart');
-    Route::get('{reference}/modifier.html','Mission\UpdateController@modifier')->name('mission.modifier');
-    Route::post('{reference}/modifier.html','Mission\UpdateController@update');
-	Route::get('{reference}/modifier-pl.html','Mission\UpdatePLController@modifier')->name('mission.modifier-pl');
-	Route::post('{reference}/modifier-pl.html','Mission\UpdatePLController@update');
-    Route::get('{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatus')->name('mission.changer-statut');
-    Route::get('{reference}/{statut}/changer-statut-pl.html','Mission\MissionController@changeStatusPL')->name('mission.changer-statut-pl');
+    Route::get('vl/nouvelle.html','Mission\CreateController@nouvelle')->name('mission.nouvelle');
+	Route::post('vl/nouvelle.html','Mission\CreateController@ajouter');
+    Route::get('pl/nouvelle-pl.html','Mission\PlController@nouvellePL')->name('mission.nouvelle-pl');
+    Route::post('pl/nouvelle.html','Mission\PlController@ajouterPL');
+    Route::get('vl/liste.html','Mission\MissionController@liste')->name('mission.liste');
+    Route::get('pl/liste.html','Mission\MissionPlController@listePL')->name('mission.liste-pl');
+    Route::get('vl/{reference}/details.html','Mission\MissionController@details')->name('mission.details');
+    Route::post('vl/{reference}/details.html','Mission\UpdateController@updateAfterStart');
+	Route::get('pl/{reference}/details.html','Mission\MissionPlController@details')->name('mission.details-pl');
+	Route::post('pl/{reference}/details.html','Mission\UpdatePLController@updateAfterStart');
+    Route::get('vl/{reference}/modifier.html','Mission\UpdateController@modifier')->name('mission.modifier');
+    Route::post('vl/{reference}/modifier.html','Mission\UpdateController@update');
+	Route::get('pl/{reference}/modifier.html','Mission\UpdatePLController@modifier')->name('mission.modifier-pl');
+	Route::post('pl/{reference}/modifier.html','Mission\UpdatePLController@update');
+    Route::get('vl/{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatus')->name('mission.changer-statut');
+    Route::get('pl/{reference}/{statut}/changer-statut.html','Mission\MissionController@changeStatusPL')->name('mission.changer-statut-pl');
 });
 
 Route::prefix('administration')->middleware('auth')->group(function (){
@@ -153,6 +153,7 @@ Route::prefix('compte')->middleware('auth')->group(function (){
 Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("{reference}/{state}/pdf.html","Printer\PdfController@imprimerPieceComptable")->name("print.piececomptable");
     Route::get("vehicules","Printer\PdfController@imprimerVehicule")->name("print.vehicule");
+    Route::get("produits","Printer\PdfController@imprimerInventaire")->name("print.produits");
 });
 
 //Partenaires

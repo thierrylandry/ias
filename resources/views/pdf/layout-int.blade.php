@@ -18,19 +18,13 @@
         </div>
     </div>
 </header>
-<hr/>
-<div id="baner">
-    <div class="row titre">
-        <span class="h1">@yield("titre")</span>
-    </div>
-    @yield("titre-complement")
-</div>
-<hr/>
 
-<br/>
-<br/>
-<br/>
-<br/>
+<div id="baner">
+    <div class="row titre2">
+        <h2 class="h1">@yield("titre")</h2>
+    </div>
+</div>
+<br style="clear: both;"/>
 <br/>
 <main class="page">
     @yield('content')
