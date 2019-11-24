@@ -52,9 +52,11 @@ Route::prefix('vehicules')->middleware('auth')->group(function (){
     Route::post('nouveau.html','Car\RegisterController@ajouter');
     Route::get('{immatriculation}/modifier.html','Car\UpdateController@modifier')->name('vehicule.modifier');
     Route::post('{immatriculation}/modifier.html','Car\UpdateController@update');
-    Route::get('reparations.html','Car\ReparationController@index')->name('reparation.liste');
+    Route::get('interventions.html','Car\ReparationController@index')->name('reparation.liste');
     Route::get('interventions/nouvelle.html','Car\ReparationController@nouvelle')->name("reparation.nouvelle");
     Route::post('interventions/nouvelle.html','Car\ReparationController@ajouter');
+	Route::post("interventions/types/add","Car\ReparationController@addType")->name('reparation.type.add');
+	Route::get("interventions/{id}/details.html","Car\ReparationController@details")->name('reparation.details');
     Route::get("{immatriculation}/details.html","Car\FicheController@details")->name("vehicule.details");
 });
 
@@ -154,6 +156,8 @@ Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("{reference}/{state}/pdf.html","Printer\PdfController@imprimerPieceComptable")->name("print.piececomptable");
     Route::get("vehicules","Printer\PdfController@imprimerVehicule")->name("print.vehicule");
     Route::get("produits","Printer\PdfController@imprimerInventaire")->name("print.produits");
+    Route::get("sous-compte/{slug}/print","Printer\PdfController@imprimerSousCompte")->name("print.souscompte");
+    Route::get("client/{id}/point","Printer\PdfController@imprimerPointClient")->name("print.pointclient");
 });
 
 //Partenaires

@@ -56,6 +56,10 @@ class Statut
             case self::MISSION_EN_COURS : $string = "Mission en cours"; break;
             case self::MISSION_TERMINEE : $string = "Mission terminée"; break;
             case self::MISSION_ANNULEE : $string = "Mission annulée"; break;
+
+	        case self::VEHICULE_ACTIF : $string = "Véhicule actif"; break;
+	        case self::VEHICULE_VENDU : $string = "Véhicule vendu"; break;
+	        case self::VEHICULE_ENDOMAGE : $string = "Véhicule hors d'usage"; break;
         }
         return $string;
     }

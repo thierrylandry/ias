@@ -16,4 +16,23 @@ class Vehicule extends Model
     {
         return $this->belongsTo(Genre::class);
     }
+
+	/**
+	 * @param string|null PL, VL $mode
+	 *
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+    public static function getListe(string $mode = null){
+	    $vehicules = Vehicule::with("genre")
+           ->where("status","=", Statut::VEHICULE_ACTIF)
+           ->select("vehicule.*");
+
+	    if($mode != null){
+            $vehicules = $vehicules->join('genre', 'genre.id', '=', 'vehicule.genre_id')
+                                   ->where("genre.categorie", "=" , $mode);
+	    }
+
+	    return $vehicules->orderBy("immatriculation")
+	                     ->get();
+    }
 }

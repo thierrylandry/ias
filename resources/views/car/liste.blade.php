@@ -7,37 +7,39 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-md-4">
-                        <h2>
-                            Liste des véhicules
-                            <small>Liste de tous les véhicules IAS</small>
-                        </h2>
+                    <div class="row clearfix">
+                        <div class="col-md-4">
+                            <h2>Liste des véhicules</h2>
+                        </div>
                     </div>
-                    <form method="get">
-                    <div class="col-md-2">
-                        <b>Immatriculation</b>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">directions_car</i>
-                                <i class="material-icons">search</i>
-                            </span>
-                            <div class="form-line">
-                                <input name="immatriculation" type="text" class="form-control" placeholder="N° d'immatriculation (XXXX XX 01)" value="{{ old("immatriculation", request()->query('immatriculation')) }}">
+                    <div class="row clearfix">
+                        <form method="get">
+                            <div class="col-md-6">
+                                <b>Immatriculation</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">directions_car</i>
+                                        <i class="material-icons">search</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input name="immatriculation" type="text" class="form-control" placeholder="N° d'immatriculation (XXXX XX 01)" value="{{ old("immatriculation", request()->query('immatriculation')) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <br/>
+                                <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                            </div>
+                        </form>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="align-right">
+                                <a href="{{ route('vehicule.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un véhicule</a>
+                                <a target="_blank" href="{{ route('print.vehicule') }}" class="btn bg-amber waves-effect">Imprimer</a>
                             </div>
                         </div>
+                        <br class="clearfix"/>
                     </div>
-                    <div class="col-md-1">
-                        <br/>
-                        <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
-                    </div>
-                    </form>
-                    <div class="col-md-4 col-xs-12">
-                        <div class="align-right">
-                            <a href="{{ route('vehicule.nouveau') }}" class="btn bg-blue waves-effect">Ajouter un véhicule</a>
-                            <a href="{{ route('print.vehicule') }}" class="btn bg-amber waves-effect">Imprimer</a>
-                        </div>
-                    </div>
-                    <br class="clearfix"/>
+
                 </div>
                 <div class="body table-responsive">
                     <table class="table table-bordered table-hover ">

@@ -18,39 +18,54 @@ $rap = 0;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
+                    <div class="row clearfix">
+                        <div class="col-md-6 col-xs-12">
                             <h3><small>Point client</small> <br/>{{ $partenaire->raisonsociale }}</h3>
                         </div>
+                        <div class="col-md-6 col-xs-12 right">
+                            <a target="_blank" class="btn bg-blue btn-flat waves-effect" href="{{ route("print.pointclient", array_add(request()->query(),"id", request()->route('id'))) }}">Imprimer</a>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row clearfix">
                         <form method="get">
-                        <div class="col-md-2 col-sm-6">
-                            <b>Début</b>
-                            <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                <div class="form-line">
-                                    <input name="debut" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("debut") ?? \Carbon\Carbon::now()->firstOfMonth()->format("d/m/Y") }}">
+                            <div class="col-md-2 col-sm-6">
+                                <b>Début</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input name="debut" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("debut") ?? \Carbon\Carbon::now()->firstOfMonth()->format("d/m/Y") }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 col-sm-6">
-                            <b>Fin</b>
-                            <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                <div class="form-line">
-                                    <input name="fin" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("fin") ?? Carbon\Carbon::now()->format("d/m/Y") }}">
+                            <div class="col-md-2 col-sm-6">
+                                <b>Fin</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input name="fin" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("fin") ?? Carbon\Carbon::now()->format("d/m/Y") }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <br/>
-                            <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
-                        </div>
+                            <div class="col-md-3 col-sm-6">
+                                <b>Statut</b>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="*">Tous les statuts</option>
+                                    @foreach($status as $k => $v)
+                                        <option value="{{ $k }}" @if(old("status", request()->query("status")) == $k) selected @endif>{{ $v }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <br/>
+                                <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                            </div>
                         </form>
-                        <div class="col-md-2 col-xs-12 align-right">
+                        <div class="col-md-3 col-xs-12 align-right">
                             <button class="btn btn-flat waves-effect bg-purple" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">money</i>Reglement facture</button>
                         </div>
                     </div>
@@ -59,6 +74,9 @@ $rap = 0;
                     <table class="table table-bordered table-hover ">
                         <thead>
                         <tr class="bg-green">
+                            <th>
+                                <input style="position: initial;left: 0;opacity: 1;height: 20px;width: 18px;" id="md_checkbox_0" type="checkbox" class="checkbox" data-switch="0">
+                            </th>
                             <th>Date</th>
                             <th>N° Facture</th>
                             <th>N° Pro forma</th>
@@ -74,12 +92,17 @@ $rap = 0;
                         @if($pieces)
                         @foreach($pieces as $piece)
                         <tr>
+                            <td>
+                                @if($piece->etat != \App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE)
+                                <input style="position: initial;left: 0;opacity: 1;height: 20px;width: 18px;"  id="md_checkbox_{{ $piece->id }}" type="checkbox" class="checkbox facture" data-id="{{ $piece->id }}" data-montant="{{round($piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva))}}" data-facture="{{ $piece->referencefacture }}">
+                                @endif
+                            </td>
                             <td>{{ (new \Carbon\Carbon($piece->creationfacture ?? $piece->creationproforma))->format('d/m/Y') }}</td>
                             <td><a href="{{ route('facturation.details',['refrence' => $piece->referenceproforma]) }}">{{ $piece->referencefacture }}</a></td>
                             <td><a href="{{ route('facturation.details',['refrence' => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
                             <td>{{ $piece->referencebl }}</td>
                             <td>{{ $piece->objet }}</td>
-                            <td>{{ number_format($piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva), 0, '', ' ') }}</td>
+                            <td>{{ number_format(round($piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva)), 0, '', ' ') }}</td>
                             <td>{{ \App\Statut::getStatut($piece->etat) }}</td>
                             <td><span title="{{ $piece->remarquepaiement }}">{{ $piece->moyenPaiement ? $piece->moyenPaiement->libelle : null }}</span></td>
                             <td>{{ $piece->datereglement ? (new \Carbon\Carbon($piece->datereglement))->format('d/m/Y') : null }}</td>
@@ -131,27 +154,21 @@ $rap = 0;
 
                     <div class="row clearfix">
                         <div class="col-md-3 col-xs-12 form-control-label">
-                            <label>Liste des factures</label>
+                            <label>Factures</label>
                         </div>
-                        <div class="col-md-8 col-xs-12">
-                            <div class="form-group">
-                            @foreach($pieces as $piece)
-                                @if($piece->etat != \App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE)
-                                    <input type="checkbox" id="md_checkbox_{{ $piece->id }}" name="facture[]" class="chk-col-teal" checked  value="{{ $piece->id }}"/>
-                                    <label for="md_checkbox_{{ $piece->id }}">{{ $piece->referencefacture }} {{ $piece->objet }} : </label> {{ number_format($piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva), 0, '', ' ') }} F CFA
-                                @endif
-                            @endforeach
-                            </div>
+                        <div class="col-md-8 col-xs-12" >
+                            <div class="form-group" id="liste"></div>
+                            <h5 class="text-danger">Total <b id="total">0</b> F CFA</h5>
                         </div>
                     </div>
 
                     <div class="row clearfix">
                         <div class="col-md-3 col-xs-12 form-control-label">
-                            <label for="moyenpaiment_id">Moyen de paiement</label>
+                            <label for="moyenpaiement_id">Moyens de paiement</label>
                         </div>
                         <div class="col-md-8 col-xs-12">
                             <div class="form-group">
-                                <select class="form-control selectpicker" id="moyenpaiement_id" name="moyenpaiement_id" required>
+                                <select class="form-control" id="moyenpaiement_id" name="moyenpaiement_id" required>
                                     @foreach($moyenReglements as $moyenReglement)
                                         <option value="{{ $moyenReglement->id }}">{{ $moyenReglement->libelle }}</option>
                                     @endforeach
@@ -176,7 +193,7 @@ $rap = 0;
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
-                            <a href="javascript:history.back();" class="modal-close btn btn-default m-t-15 waves-effect">Annuler</a>
+                            <a data-dismiss="modal" class="modal-close btn btn-default m-t-15 waves-effect">Annuler</a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +205,6 @@ $rap = 0;
 @section("script")
     <!-- Moment Plugin Js -->
     <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-    <script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
 
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>
@@ -202,6 +218,23 @@ $rap = 0;
             lang: 'fr',
             cancelText : 'ANNULER',
             nowText : 'AUJOURD\'HUI'
+        });
+
+        var somme = 0;
+        $("#defaultModal").on('shown.bs.modal', function () {
+            $('input[type="checkbox"]:checked.facture').each(function (i) {
+                $("#liste").append("<input type=\"hidden\" name=\"facture[]\" value=\""+$(this).data("id")+"\"/><label> n°"+$(this).data("facture")+"</label> | ");
+                //console.log((this));
+                somme += parseInt($(this).data("montant"))
+            });
+            $("#total").text(somme);
+        });
+
+        $("#md_checkbox_0").click(function () {
+            console.log($("#md_checkbox_0").is(":checked"));
+            $('input[type="checkbox"].facture').each(function (i) {
+                  $(this).prop("checked",$("#md_checkbox_0").is(":checked"));
+            });
         });
     </script>
 @endsection

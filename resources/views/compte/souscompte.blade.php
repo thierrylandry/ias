@@ -58,14 +58,17 @@
             </div>
             <div class="body">
                 <div class="row clearfix">
-                    <div class="col-md-2 col-sm-6">
-                        <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal"><i class="material-icons">add</i> Nouveau mouvement</button>
+                    <div class="col-md-3 col-sm-6">
+                        <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal">Nouvelle opération</button>
                     </div>
                     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE))
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                             <a href="{{ route('compte.reset', ["slug" => $souscompte->slug]) }}" class="btn bg-red waves-button waves-effect">Remettre à zéro</a>
                     </div>
                     @endif
+                    <div class="col-md-offset-3 col-md-3 col-sm-6">
+                        <a target="_blank" href="{{ route("print.souscompte", ["slug" => $souscompte->slug]) }}" class="btn bg-light-green waves-button waves-effect">Imprimer</a>
+                    </div>
                 </div>
                 <div class="row clearfix">
                     <div class="body table-responsive">

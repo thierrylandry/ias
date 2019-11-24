@@ -92,7 +92,9 @@
                         <tbody class="table-hover">
                         @foreach($interventions as $intervention)
                         <tr>
-                            <td></td>
+                            <td>
+                                <a href="{{ route("reparation.details", ['id' => $intervention->id]) }}" class="btn bg-orange waves-effect" title="Consulter les détails de l'intervention"><i class="material-icons">insert_drive_file</i></a>
+                            </td>
                             <td>
                                 <a href="{{ route('vehicule.details',["immatriculation" => $intervention->vehicule->immatriculation]) }}">
                                     {{ $intervention->vehicule->marque }} {{ $intervention->vehicule->typecommercial }} ({{ $intervention->vehicule->immatriculation }})
@@ -102,12 +104,14 @@
                             <td>{{ (new \Carbon\Carbon($intervention->fin))->format("d/m/Y") }}</td>
                             <td>{{ (new \Carbon\Carbon($intervention->fin))->diffInDays(new \Carbon\Carbon($intervention->debut)) + 1 }} j</td>
                             <td class="amount">{{ number_format($intervention->cout, 0, ",", " ") }}</td>
-                            <td>@if($intervention->partenaire)
+                            <td>
+                                @if($intervention->partenaire)
                                 <a href="{{ route('partenaire.fournisseur', ['id' => $intervention->partenaire->id]) }}" title="Consulter le point fournisseur">
                                     {{ $intervention->partenaire->raisonsociale }}
                                 </a> @else - @endif
                             </td>
-                            <td>@if($intervention->pieceFournisseur)
+                            <td>
+                                @if($intervention->pieceFournisseur)
                                 <a href="{{ route("partenaire.fournisseur.factures.details",["id"=>$intervention->pieceFournisseur->id]) }}" title="Consulter les détails de la facture">
                                     {{ $intervention->pieceFournisseur->reference }}
                                 </a> @else - @endif

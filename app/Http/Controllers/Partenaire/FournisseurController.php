@@ -32,9 +32,7 @@ class FournisseurController extends Controller
 
     public function addOrder(Request $request)
     {
-    	//dd($request->input());
-
-        $this->validRequest($request);
+        $this->validRequestPartner($request);
 
         try{
             $pieceFournisseur = new PieceFournisseur($request->except('_token','produits','price','prix','quantity',

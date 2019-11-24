@@ -86,7 +86,7 @@
                             <div class="col-md-12 col-sm-4 col-xs-12">
                                 <blockquote class="blockquote">
                                     <p class="font-underline">Montant en lettre</p>
-                                    <footer>Facture arrêté à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter($piece->montantht + $piece->montanttva) }} francs CFA</footer>
+                                    <footer>Facture arrêté à la somme de {{ \App\Metier\Finance\NombreToLettre::getLetter(intval($piece->montantht) + $piece->montanttva) }} francs CFA</footer>
                                 </blockquote>
                             </div>
                         </div>

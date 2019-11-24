@@ -13,21 +13,26 @@ use App\Http\Controllers\Controller;
 
 class DetailsController extends Controller
 {
+	use Factures;
+
     public function ficheClient(int $id)
     {
         $partenaire = Partenaire::find($id);
         $pieces = PieceComptable::with('utilisateur','moyenPaiement')
                     ->where("partenaire_id", $partenaire->id);
 
-        $this->getPeriode($pieces);
+        $this->getParameters($pieces);
 
         $pieces = $pieces->orderBy('creationproforma')
-                    ->orderBy('creationfacture')
-                    ->paginate();
+	        ->whereNotNull("referencefacture")
+            ->orderBy('creationfacture')
+            ->paginate(30);
 
         $moyenReglements = MoyenReglement::all();
 
-        return view('partenaire.client', compact("partenaire","pieces", 'moyenReglements'));
+        $status = $this->getStatus();
+
+        return view('partenaire.client', compact("partenaire","pieces", 'moyenReglements', "status"));
     }
 
     public function ficheFournisseur(int $id)
@@ -36,30 +41,15 @@ class DetailsController extends Controller
         $pieces = PieceFournisseur::with('utilisateur','moyenPaiement')
 	        ->where("partenaire_id", $partenaire->id);
 
-        $this->getPeriode($pieces);
+        $this->getParameters($pieces);
 
 	    $pieces = $pieces->orderBy('datereglement')
-            ->paginate();
+            ->paginate(30);
 
         $moyenReglements = MoyenReglement::all();
 
-        return view('partenaire.fournisseur', compact("partenaire", "pieces", "moyenReglements"));
-    }
+	    $status = $this->getStatus();
 
-    private function getPeriode(Builder &$builder)
-    {
-	    $du = request()->has("debut") ? Carbon::createFromFormat("d/m/Y", request()->query("debut")) : null;
-	    $au = request()->has("fin") ? Carbon::createFromFormat("d/m/Y", request()->query("fin")) : null;
-
-	    if($du && $au)
-	    {
-	    	if($builder->getModel() instanceof PieceComptable){
-	    		$builder->whereBetween("creationproforma", [$du->toDateString(), $au->toDateString()])
-				    ->orWhereBetween("creationfacture",[$du->toDateString(), $au->toDateString()]);
-		    }
-	    	if($builder->getModel() instanceof PieceFournisseur){
-			    $builder->whereBetween("datepiece", [$du->toDateString(), $au->toDateString()]);
-		    }
-	    }
+        return view('partenaire.fournisseur', compact("partenaire", "pieces", "moyenReglements", "status"));
     }
 }

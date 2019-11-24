@@ -10,10 +10,10 @@
             <div class="body">
                 <div class="row clearfix">
                     @if(\Illuminate\Support\Facades\Auth::user()->authorizes(
-                        \App\Service::INFORMATIQUE, \App\Service::ADMINISTRATION, \App\Service::DG)
+                        \App\Service::INFORMATIQUE, \App\Service::COMPTABILITE, \App\Service::DG)
                     )
                     <div class="col-md-2 col-sm-6">
-                        <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal"><i class="material-icons left">add</i> Nouveau compte</button>
+                        <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal">Nouveau compte</button>
                     </div>
                     @endif
                 </div>

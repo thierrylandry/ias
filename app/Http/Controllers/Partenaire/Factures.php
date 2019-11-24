@@ -11,12 +11,25 @@ namespace App\Http\Controllers\Partenaire;
 
 use App\Http\Controllers\Order\Commercializable;
 use App\Intervention;
+use App\PieceComptable;
 use App\PieceFournisseur;
 use App\Produit;
+use App\Statut;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 trait Factures
 {
+	private function getStatus(): array {
+		return [
+			Statut::PIECE_COMPTABLE_FACTURE_PAYEE => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_PAYEE),
+			Statut::PIECE_COMPTABLE_FACTURE_ANNULEE => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_ANNULEE),
+			Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL),
+			Statut::PIECE_COMPTABLE_FACTURE_SANS_BL => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_SANS_BL),
+		];
+	}
+
 	/**
 	 * @return \Illuminate\Support\Collection|Commercializable
 	 */
@@ -55,7 +68,7 @@ trait Factures
 		}
 	}
 
-	protected function validRequest(Request $request){
+	protected function validRequestPartner(Request $request){
 		$this->validate($request, [
 			'datepiece' => 'required|date_format:d/m/Y',
 			'objet' => 'required',
@@ -70,5 +83,28 @@ trait Factures
 			'partenaire_id' => 'required|exists:partenaire,id',
 			'observation' => 'present'
 		]);
+	}
+
+	/**
+	 * @param Builder $builder
+	 */
+	private function getParameters(Builder &$builder)
+	{
+		$du = request()->has("debut") ? Carbon::createFromFormat("d/m/Y", request()->query("debut")) : null;
+		$au = request()->has("fin") ? Carbon::createFromFormat("d/m/Y", request()->query("fin")) : null;
+
+		if($du && $au)
+		{
+			if($builder->getModel() instanceof PieceComptable){
+				$builder->whereBetween("creationproforma", [$du->toDateString(), $au->toDateString()]);
+			}
+			if($builder->getModel() instanceof PieceFournisseur){
+				$builder->whereBetween("datepiece", [$du->toDateString(), $au->toDateString()]);
+			}
+		}
+
+		if(request()->has("status") && request()->query("status") != "*"){
+			$builder->where("etat", "=", request()->query("status"));
+		}
 	}
 }

@@ -16,7 +16,14 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <h2>Nouvelle intervention</h2>
+                    <div class="row clearfix">
+                        <div class="col-md-6 col-sm-12">
+                            <h2>Nouvelle intervention</h2>
+                        </div>
+                        <div class="col-md-offset-3 col-md-2 col-sm-12">
+                            <button class="btn bg-blue" data-toggle="modal" data-target="#defaultModal">Nouveau type d'intervention</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="body">
                     <form class="form-horizontal" method="post">
@@ -121,7 +128,7 @@
                         <div class="row clearfix">
                             <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                                 <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
-                                <button type="reset" class="btn btn-default m-t-15 waves-effect">Annuler</button>
+                                <a href="javascript:history.back();" class="btn btn-default m-t-15 waves-effect">Annuler</a>
                             </div>
                         </div>
 
@@ -130,12 +137,45 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <form class="form-line" action="{{ route("reparation.type.add") }}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header bg-light-green">
+                        <h4 class="modal-title" id="defaultModalLabel">Ajouter un nouveau type d'intervention</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        <div class="row clearfix">
+                            <div class="col-md-3 col-xs-12 form-control-label">
+                                <label for="libelle">Libellés</label>
+                            </div>
+                            <div class="col-md-8 col-xs-12">
+                                <div class="form-group">
+                                    <input id="libelle" name="libelle" class="form-control" placeholder="Saisir le nom" type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row clearfix">
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
+                                <a data-dismiss="modal" class="modal-close btn btn-default m-t-15 waves-effect">Annuler</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @section('script')
 <!-- Moment Plugin Js -->
 <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
-<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
 <!-- Bootstrap Tags Input Plugin Js -->
 <script src="{{ asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>

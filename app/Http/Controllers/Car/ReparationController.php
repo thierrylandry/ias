@@ -10,13 +10,13 @@ use App\Service;
 use App\TypeIntervention;
 use App\Vehicule;
 use Carbon\Carbon;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class ReparationController extends Controller
 {
+	use Interventions;
 	/**
 	 * @param Request $request
 	 *
@@ -25,7 +25,8 @@ class ReparationController extends Controller
 	 */
     public function index(Request $request)
     {
-	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
+	    $this->authorize(Actions::READ, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE,
+		    Service::GESTIONNAIRE_PL, Service::GESTIONNAIRE_VL]));
 
         $debut = Carbon::now()->firstOfMonth();
         $fin = Carbon::now();
@@ -49,9 +50,30 @@ class ReparationController extends Controller
             $interventions->where("typeintervention_id", $request->input("type"));
         }
 
+	    if(Auth::user()->employe->service->code == Service::GESTIONNAIRE_PL){
+		    $interventions = $interventions
+			    ->join("vehicule","vehicule.id", "=", "intervention.vehicule_id")
+			    ->join("genre","genre.id","=","vehicule.genre_id")
+			    ->where("genre.categorie", "=", "PL");
+	    }elseif(Auth::user()->employe->service->code == Service::GESTIONNAIRE_VL){
+		    $interventions = $interventions
+			    ->join("vehicule","vehicule.id", "=", "intervention.vehicule_id")
+			    ->join("genre","genre.id","=","vehicule.genre_id")
+			    ->where("genre.categorie", "=", "VL");
+		}
+
         $interventions = $interventions->paginate(30);
 
-        $vehicules = Vehicule::all();
+	    $vehicules = null;
+
+	    if(Auth::user()->employe->service->code == Service::GESTIONNAIRE_PL){
+		    $vehicules = Vehicule::getListe("PL");
+	    }elseif (Auth::user()->employe->service->code == Service::GESTIONNAIRE_VL){
+		    $vehicules = Vehicule::getListe("VL");
+	    }else{
+		    $vehicules = Vehicule::getListe();
+	    }
+
         $types = TypeIntervention::all();
 
         return view('car.intervention.reparations', compact("debut", "fin", "interventions", "vehicules", "types"));
@@ -65,7 +87,16 @@ class ReparationController extends Controller
     {
 	    $this->authorize(Actions::CREATE, collect([Service::DG, Service::ADMINISTRATION, Service::INFORMATIQUE, Service::GESTIONNAIRE_VL, Service::GESTIONNAIRE_PL]));
 
-        $vehicules = Vehicule::all();
+        $vehicules = null;
+
+	    if(Auth::user()->employe->service->code == Service::GESTIONNAIRE_PL){
+		    $vehicules = Vehicule::getListe("PL");
+	    }elseif (Auth::user()->employe->service->code == Service::GESTIONNAIRE_VL){
+		    $vehicules = Vehicule::getListe("VL");
+	    }else{
+		    $vehicules = Vehicule::getListe();
+	    }
+
         $types = TypeIntervention::all();
         $fournisseurs = Partenaire::where('isfournisseur','=',true)->orderBy('raisonsociale')->get();
         return view("car.intervention.nouveau", compact("vehicules", "types", "fournisseurs"));
@@ -102,21 +133,28 @@ class ReparationController extends Controller
         return redirect()->route("reparation.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
-    private function validateRules()
-    {
-        return [
-        	[
-	            "debut" => "required|date_format:d/m/Y",
-	            "fin" => "required|date_format:d/m/Y",
-	            "vehicule_id" => "required|exists:vehicule,id",
-	            "typeintervention_id" => "required|exists:typeintervention,id",
-	            "cout" => "required|integer|min:1",
-	            "details" => "required",
-		        "partenaire_id" => "required"
-            ],
-	        [
-	        	"cout.min" => "Le coût de la réparation ne peut pas être égale à 0"
-	        ]
-        ];
+
+    public function details(int $id){
+
+    	$intervention = Intervention::with("typeIntervention","vehicule", "partenaire", "pieceFournisseur")->find($id);
+
+    	if($intervention == null){
+    		return redirect()->back()->withErrors("Intervention introuvable");
+	    }
+
+    	return view("car.intervention.details", compact("intervention"));
     }
+
+	public function addType(){
+
+		$this->validate(request(), ["libelle" => "required"]);
+
+		$type = new TypeIntervention();
+		$type->libelle = request()->input("libelle");
+		$type->save();
+
+		$notification = new Notifications();
+		$notification->add(Notifications::SUCCESS,"Nouveau type d'intervention ajouté avec succès");
+		return redirect()->back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+	}
 }

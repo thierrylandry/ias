@@ -13,6 +13,7 @@ use App\Application;
 use App\Metier\Behavior\Notifications;
 use App\Mission;
 use App\MissionPL;
+use App\Statut;
 use App\Vehicule;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -131,11 +132,14 @@ trait Process
     {
         if($request->has('vehicule'))
         {
-            return Vehicule::where('immatriculation',$request->input('vehicule'))->get();
+            return Vehicule::with("genre")
+                           ->where('immatriculation',$request->input('vehicule'))
+                           ->get();
         }else{
 	        return Vehicule::with("genre")
                 ->join('genre', 'genre.id', '=', 'vehicule.genre_id')
 		        ->where("genre.categorie", "=" , $mode)
+		        ->where("status","=", Statut::VEHICULE_ACTIF)
 		        ->select("vehicule.*")
 		        ->get();
         }
