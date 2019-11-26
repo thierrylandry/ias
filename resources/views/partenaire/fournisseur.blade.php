@@ -18,17 +18,20 @@ $rap = 0;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
+                    <div class="row clearfix">
+                        <div class="col-md-12 col-xs-12">
                             <h3><small>Point fournisseur</small> <br/>{{ $partenaire->raisonsociale }}</h3>
+                            <hr/>
                         </div>
+                    </div>
+                    <div class="row clearfix">
                         <form method="get">
                             <div class="col-md-2 col-sm-6">
                                 <b>Début</b>
                                 <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
                                     <div class="form-line">
                                         <input name="debut" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("debut") ?? \Carbon\Carbon::now()->firstOfMonth()->format("d/m/Y") }}">
                                     </div>
@@ -37,9 +40,9 @@ $rap = 0;
                             <div class="col-md-2 col-sm-6">
                                 <b>Fin</b>
                                 <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
                                     <div class="form-line">
                                         <input name="fin" type="text" class="form-control datepicker" placeholder="Ex: 30/07/2016" value="{{ request()->query("fin") ?? Carbon\Carbon::now()->format("d/m/Y") }}">
                                     </div>
@@ -47,11 +50,16 @@ $rap = 0;
                             </div>
                             <div class="col-md-2">
                                 <br/>
-                                <button class="btn bg-teal waves-button waves-effect" type="submit">Rechercher</button>
+                                <button class="btn bg-light-green waves-button waves-effect" type="submit">Rechercher</button>
                             </div>
                         </form>
                         <div class="col-md-2 col-xs-12 align-right">
+                            <br>
                             <button class="btn waves-li waves-effect bg-brown" data-toggle="modal" data-target="#defaultModal"><i class="material-icons left">attach_money</i>Reglement facture</button>
+                        </div>
+                        <div class="col-md-2 col-xs-12 align-right">
+                            <br>
+                            <a href="{{ route("partenaire.fournisseur.new") }}" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">insert_drive_file</i> Nouvelle facture fournisseur</a>
                         </div>
                     </div>
                 </div>

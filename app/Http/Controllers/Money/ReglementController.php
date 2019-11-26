@@ -63,7 +63,7 @@ class ReglementController extends Controller
 
     public function reglementFournisseur(Request $request)
     {
-        $this->validatePaiementClient($request);
+        $this->validatePaiementFournisseur($request);
 
         $piece = null;
         try{
