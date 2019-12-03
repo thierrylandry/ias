@@ -21,6 +21,7 @@ class CreateDatabaseIas extends Migration
 			$table->integer("numerobl")->default(1);
 			$table->integer("numerofacture")->default(1);
 			$table->integer("numeromission")->default(1);
+			$table->integer("numerobc")->default(1);
 			$table->string("prefix",10)->default("");
 			$table->primary('version');
 		});
@@ -256,7 +257,8 @@ class CreateDatabaseIas extends Migration
 		Schema::create("piecefournisseur", function (Blueprint $table){
 			$table->bigIncrements('id');
 			$table->date("datepiece");
-			$table->string("reference")->unique();
+			$table->string("reference")->nullable()->unique();
+			$table->string("numerobc")->nullable()->unique();
 			$table->string("objet");
 			$table->integer('montanttva')->default(0);
 			$table->integer('montantht')->default(0);
@@ -279,7 +281,7 @@ class CreateDatabaseIas extends Migration
 			$table->unsignedBigInteger("piecefournisseur_id");
 			$table->unsignedInteger("produit_id");
 			$table->foreign('piecefournisseur_id', "fk_piecefour")->references('id')->on('piecefournisseur');
-			$table->foreign('produit_id')->references('id')->on('produit');
+			//$table->foreign('produit_id')->references('id')->on('produit');
 		});
 		Schema::create("intervention",function (Blueprint $table){
 			$table->increments('id');

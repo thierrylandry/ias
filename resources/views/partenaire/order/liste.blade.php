@@ -99,7 +99,7 @@
                                 <td>
                                     <a class="btn bg-deep-purple waves-effect" href="{{ route('partenaire.fournisseur.factures.details', ['id' => $piece->id]) }}" title="Détails facture"><i class="material-icons">insert_drive_file</i></a>
                                 </td>
-                                <td>{{ $piece->reference }}</td>
+                                <td>{{ $piece->reference ?? $piece->numerobc }}</td>
                                 <td>{{ (new \Carbon\Carbon($piece->d))->format("d/m/Y") }}</td>
                                 <td>{{ $piece->objet }}</td>
                                 <td>{{ $piece->partenaire->raisonsociale }}</td>

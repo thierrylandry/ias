@@ -158,6 +158,7 @@ Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("produits","Printer\PdfController@imprimerInventaire")->name("print.produits");
     Route::get("sous-compte/{slug}/print","Printer\PdfController@imprimerSousCompte")->name("print.souscompte");
     Route::get("client/{id}/point","Printer\PdfController@imprimerPointClient")->name("print.pointclient");
+    Route::get("fournisseur/{id}/bc","Printer\PdfController@imprimerBC")->name("print.bc");
 });
 
 //Partenaires
@@ -175,6 +176,7 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::post("fournisseurs/factures/nouvelle.html","Partenaire\FournisseurController@addOrder");
     Route::get("fournisseurs/factures.html","Partenaire\FournisseurController@liste")->name("partenaire.fournisseur.factures");
     Route::get("fournisseurs/factures/{id}/details.html","Partenaire\FournisseurController@details")->name("partenaire.fournisseur.factures.details");
+    Route::post("fournisseur/facture/switch","Partenaire\FournisseurController@switchPiece")->name("partenaire.bc.switch");
 });
 
 //Stock

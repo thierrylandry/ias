@@ -25,6 +25,18 @@
 
                         <div class="row clearfix">
                             <div class="col-md-2 col-sm-6 col-xs-12 form-control-label">
+                                <label for="objet">Mode</label>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control selectpicker" id="mode" name="mode" required>
+                                    <option value="{{ \App\Statut::PIECE_COMPTABLE_BON_COMMANDE }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_BON_COMMANDE) }}</option>
+                                    <option value="{{ \App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL) }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-control-label">
                                 <label for="datepiece">Date facture</label>
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -54,7 +66,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" required name="reference" id="reference" class="form-control" placeholder="N° de la facture" value="{{ old('reference') }}">
+                                        <input type="text" name="reference" id="reference" class="form-control" placeholder="N° de la facture" value="{{ old('reference') }}">
                                     </div>
                                 </div>
                             </div>
@@ -113,6 +125,19 @@
                             <button type="button" id="btnajouter" class="btn btn-primary m-t-15 waves-effect">Ajouter</button>
                         </div>
 
+                        <div class="row clearfix">
+                            <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
+                                <label for="client">Complément</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <textarea required name="complement" id="complement" class="form-control" placeholder="Description de la ligne">{{ old('complement') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr/>
 
                         <table id="piece" class="table table-bordered">
@@ -138,7 +163,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label id="exonerelabel">TVA 18% </label> <br/>
+                                            <label id="exonerelabel">TVA 18%</label> <br/>
                                         </td>
                                         <td id="montantTVA">0</td>
                                     </tr>
@@ -253,7 +278,7 @@
 
             var id = $product.data('id') == undefined ? 0 : $product.data('id');
             var modele = $product.data("modele") == undefined ? '{{ \App\Intervention::class }}' : $product.data("modele");
-            var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
+            var libelle = $product.data("libelle") == undefined ? $("#complement").val() : $product.data("libelle");
             var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
             var amount = (parseInt($("#price").val()) * parseInt($quantity.val()));
 

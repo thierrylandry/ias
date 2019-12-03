@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Partenaire;
 
+use App\Application;
 use App\Http\Controllers\Controller;
 use App\Intervention;
 use App\LignePieceFournisseur;
@@ -36,10 +37,16 @@ class FournisseurController extends Controller
 
         try{
             $pieceFournisseur = new PieceFournisseur($request->except('_token','produits','price','prix','quantity',
-	            'produit_id','quantite','modele', 'designation'));
+	            'produit_id','quantite','modele', 'designation', 'complement', 'mode'));
             $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
             $pieceFournisseur->employe_id = Auth::id();
-            $pieceFournisseur->statut = Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL;
+
+            $pieceFournisseur->statut = $request->input("mode");
+
+            if($pieceFournisseur->statut == Statut::PIECE_COMPTABLE_BON_COMMANDE){
+            	$pieceFournisseur->numerobc = Application::getNumeroBC(true);
+            }
+
             $pieceFournisseur->save();
 
             $this->saveLines($request, $pieceFournisseur);
@@ -103,6 +110,22 @@ class FournisseurController extends Controller
 	    $raw = PieceFournisseur::with("partenaire","lignes")->paginate(30);
 
 	    return $raw;
+    }
+
+    public function switchPiece(){
+
+    	try{
+		    $bc = PieceFournisseur::find(request()->input("id"));
+		    $bc->reference = request()->input("reference");
+		    $bc->statut = Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL;
+		    $bc->save();
+	    }catch (ModelNotFoundException $e){
+    		return redirect()->back()->withErrors("Pièce introuvable");
+	    }
+
+	    $notification = new Notifications();
+	    $notification->add(Notifications::SUCCESS,"Bon de commande transformé en facture !");
+	    return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     public function details(int $id)

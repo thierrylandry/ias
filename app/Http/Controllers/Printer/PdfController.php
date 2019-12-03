@@ -8,6 +8,7 @@ use App\LigneCompte;
 use App\Partenaire;
 use App\Pdf\PdfMaker;
 use App\PieceComptable;
+use App\PieceFournisseur;
 use App\Produit;
 use App\Statut;
 use App\Vehicule;
@@ -69,5 +70,13 @@ class PdfController extends Controller
 
 	    $liste = PDF::loadView('pdf.point-client', compact("partenaire","pieces"))->setPaper('a4','portrait');
 	    return $liste->stream("Point client {$partenaire->raisonsociale}.pdf");
+    }
+
+    public function imprimerBC(string $id){
+
+    	$bc = PieceFournisseur::with("lignes","partenaire","utilisateur.employe")->find($id);;
+
+	    $liste = PDF::loadView('pdf.boncommande', compact("bc"))->setPaper('a4','portrait');
+	    return $liste->stream("Bon de commande {$bc->numerobc}.pdf");
     }
 }

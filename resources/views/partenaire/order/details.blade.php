@@ -5,8 +5,18 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
                     <div class="header">
-                        <h2><b>Détails facture #{{ $piece->reference }}</b></h2>
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                <h2><b>Détails pièce #{{ $piece->reference ??  $piece->numerobc }} - {{ \App\Statut::getStatut($piece->statut) }}</b></h2>
+                            </div>
+                            <div class="col-md-6">
+                                @if($piece->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE)
+                                <a class="align-right btn btn-flat waves-effect bg-light-green" target="_blank" href="{{ route("print.bc", ["id"=> $piece->id]) }}">Imprimer</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
+
                     <div class="body">
                         <div class="p-r-10 p-l-10">
                             <div class="row clearfix">
@@ -15,11 +25,15 @@
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
                                     <p class="font-15">Référence facture : <b>{{ $piece->reference }}</b></p>
+                                    <p class="font-15">Numéro BC : <b>{{ $piece->numerobc }}</b></p>
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">
                                     <a class="btn btn-flat waves-effect bg-teal" href="{{ route("partenaire.fournisseur",["id" => $piece->partenaire->id]) }}">
                                         Consulter le fournisseur
                                     </a>
+                                    @if($piece->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE)
+                                    <a class="btn btn-flat tranform waves-effect bg-light-blue">Transformer en Facture</a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -95,4 +109,46 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form class="form-line" action="{{ route("partenaire.bc.switch") }}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header bg-light-green">
+                        <h4 class="modal-title" id="defaultModalLabel">Passer de BC à facture</h4>
+                    </div>
+                    <div class="modal-body row">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $piece->id }}">
+                        <div class="col-md-4">
+                            <label class="form-label">N° facture</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" required class="form-control date" placeholder="N° facture fournisseur" name="reference" id="reference">
+                                </div>
+                                <span class="input-group-addon">
+                                    <i class="material-icons">send</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-link waves-effect">Valider</button>
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+@section("script")
+    <script type="application/javascript">
+        $(function () {
+            $('.tranform.btn').on('click', function () {
+                $('#defaultModal').modal('show');
+            });
+        });
+    </script>
 @endsection

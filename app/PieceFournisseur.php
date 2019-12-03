@@ -11,7 +11,7 @@ class PieceFournisseur extends Model
     public $timestamps = false;
 
     public function utilisateur(){
-        return $this->belongsTo(Utilisateur::class,'utilisateur_id');
+        return $this->belongsTo(Utilisateur::class,'employe_id');
     }
 
     public function moyenPaiement(){

@@ -46,6 +46,21 @@ class Application extends Model
      * @param bool $increment
      * @return integer
      */
+    public static function getNumeroBC($increment = false)
+    {
+        $numeroBC = sprintf("%08d", self::getApplicationInstance()->numerobc);
+
+        if($increment){
+            self::getApplicationInstance()->numerobc++;
+            self::getApplicationInstance()->save();
+        }
+        return $numeroBC;
+    }
+
+    /**
+     * @param bool $increment
+     * @return integer
+     */
     public static function getNumeroBL($increment = false)
     {
         $numeroBL = sprintf("%08d", self::getApplicationInstance()->numerobl);

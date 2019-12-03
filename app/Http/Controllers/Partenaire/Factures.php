@@ -27,6 +27,7 @@ trait Factures
 			Statut::PIECE_COMPTABLE_FACTURE_ANNULEE => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_ANNULEE),
 			Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL),
 			Statut::PIECE_COMPTABLE_FACTURE_SANS_BL => Statut::getStatut(Statut::PIECE_COMPTABLE_FACTURE_SANS_BL),
+			Statut::PIECE_COMPTABLE_BON_COMMANDE => Statut::getStatut(Statut::PIECE_COMPTABLE_BON_COMMANDE),
 		];
 	}
 
@@ -72,7 +73,8 @@ trait Factures
 		$this->validate($request, [
 			'datepiece' => 'required|date_format:d/m/Y',
 			'objet' => 'required',
-			'reference' => 'required',
+			'mode' => 'required',
+			'reference' => 'required_if:mode,'.Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL,
 			'montanttva' => 'required|integer',
 			'montantht' => 'required|integer',
 			'produit_id' => 'required|array',
