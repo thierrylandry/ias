@@ -83,14 +83,15 @@ $rap = 0;
                             <td>{{ (new \Carbon\Carbon($piece->datepiece))->format('d/m/Y') }}</td>
                             <td><a href="{{ route("partenaire.fournisseur.factures.details",["id"=>$piece->id]) }}" title="Consulter la facture">{{ $piece->reference }}</a></td>
                             <td>{{ $piece->objet }}</td>
-                            <td>{{ number_format($piece->montantht+$piece->montanttva, 0, '', ' ') }}</td>
+                            <td>{{ number_format($piece->montantht + $piece->montanttva, 0, '', ' ') }}</td>
                             <td>{{ \App\Statut::getStatut($piece->statut) }}</td>
                             <td><span title="{{ $piece->remarquepaiement }}">{{ $piece->moyenPaiement ? $piece->moyenPaiement->libelle : null }}</span></td>
                             <td>{{ $piece->datereglement ? (new \Carbon\Carbon($piece->datereglement))->format('d/m/Y') : null }}</td>
                         </tr>
                         @php
-                            if($piece->statut != \App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE){
-                                $rap += $piece->montant;
+                            if(!in_array($piece->statut, [\App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE,
+                            $piece->statut != \App\Statut::PIECE_COMPTABLE_BON_COMMANDE ], false)){
+                                $rap += $piece->montantht + $piece->montanttva;
                             }
                         @endphp
                         @endforeach
