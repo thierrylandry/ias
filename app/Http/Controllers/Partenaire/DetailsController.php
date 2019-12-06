@@ -43,7 +43,7 @@ class DetailsController extends Controller
 
         $this->getParameters($pieces);
 
-	    $pieces = $pieces->orderBy('datereglement')
+	    $pieces = $pieces->orderBy('datepiece','desc')->orderBy('datereglement')
             ->paginate(30);
 
         $moyenReglements = MoyenReglement::all();

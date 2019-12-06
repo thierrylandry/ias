@@ -177,6 +177,7 @@ Route::prefix('partenaires')->middleware('auth')->group(function (){
     Route::get("fournisseurs/factures.html","Partenaire\FournisseurController@liste")->name("partenaire.fournisseur.factures");
     Route::get("fournisseurs/factures/{id}/details.html","Partenaire\FournisseurController@details")->name("partenaire.fournisseur.factures.details");
     Route::post("fournisseur/facture/switch","Partenaire\FournisseurController@switchPiece")->name("partenaire.bc.switch");
+    Route::get("fournisseur/facture/{id}/valide","Partenaire\FournisseurController@validePiece")->name("partenaire.bc.valide");
 });
 
 //Stock

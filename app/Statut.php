@@ -29,6 +29,7 @@ class Statut
     const PIECE_COMPTABLE_FACTURE_PAYEE = 203;
     const PIECE_COMPTABLE_FACTURE_ANNULEE = 204;
     const PIECE_COMPTABLE_BON_COMMANDE = 205;
+    const PIECE_COMPTABLE_BON_COMMANDE_VALIDE = 206;
 
     const VEHICULE_ACTIF = 300;
     const VEHICULE_VENDU = 301;
@@ -52,7 +53,8 @@ class Statut
             case self::PIECE_COMPTABLE_FACTURE_SANS_BL : $string = "Facture non livrée (Impayé)"; break;
             case self::PIECE_COMPTABLE_FACTURE_PAYEE : $string = "Facture (Payé)"; break;
             case self::PIECE_COMPTABLE_FACTURE_ANNULEE : $string = "Facture Annulée"; break;
-            case self::PIECE_COMPTABLE_BON_COMMANDE : $string = "Bon de commande"; break;
+            case self::PIECE_COMPTABLE_BON_COMMANDE : $string = "Bon de commande (Non Signé)"; break;
+            case self::PIECE_COMPTABLE_BON_COMMANDE_VALIDE : $string = "Bon de commande (Signé)"; break;
 
             case self::MISSION_COMMANDEE : $string = "Mission commandée"; break;
             case self::MISSION_EN_COURS : $string = "Mission en cours"; break;

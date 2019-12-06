@@ -307,3 +307,25 @@ table.with-border td{
 table td.text-center {
     text-align: center; !important;
 }
+.bc .douze-cm{
+    width: 12cm;
+}
+.bc .six-cm{
+    width: 6cm;
+}
+.bc .quatre-cm{
+    width: 3cm;
+    margin: 0 0.5cm;
+}
+.bc .two-col{
+    width: 10cm;
+}
+.bc .two-col.reference .t1, .bc .two-col.client .t1{
+    font-size: 12pt;
+}
+.bc .two-col.reference, .bc .two-col.client{
+    font-size: 9pt;
+}
+.bc p.location{
+    font-size: 5pt;
+}

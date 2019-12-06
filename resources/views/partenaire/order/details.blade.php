@@ -6,11 +6,16 @@
                 <div class="card">
                     <div class="header">
                         <div class="row clearfix">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <h2><b>Détails pièce #{{ $piece->reference ??  $piece->numerobc }} - {{ \App\Statut::getStatut($piece->statut) }}</b></h2>
                             </div>
-                            <div class="col-md-6">
-                                @if($piece->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE)
+                            <div class="col-md-2">
+                                @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE))
+                                    <a class="align-right btn btn-flat waves-effect bg-red" href="{{ route("partenaire.bc.valide", ['id' => $piece->id]) }}">Valider le BC</a>
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                @if(in_array($piece->statut, [\App\Statut::PIECE_COMPTABLE_BON_COMMANDE,\App\Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE ]))
                                 <a class="align-right btn btn-flat waves-effect bg-light-green" target="_blank" href="{{ route("print.bc", ["id"=> $piece->id]) }}">Imprimer</a>
                                 @endif
                             </div>

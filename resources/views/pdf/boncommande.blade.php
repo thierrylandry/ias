@@ -1,49 +1,20 @@
-@extends("pdf.layout")
-@section("titre") BON DE COMMANDE @endsection
-@section("titre-complement")
-    <div class="row quatre-cm">Fournisseur :<br/><strong>{{ $bc->partenaire->raisonsociale }}</strong> </div>
-    <div class="row quatre-cm">N° C.C. :<br/><strong>{{ $bc->partenaire->comptecontribuable }}</strong> </div>
-    <div class="row quatre-cm">Téléphone :<br/> <strong>{{ $bc->partenaire->telephone }}</strong> </div>
+@extends("pdf.layout-bc")
+@section("titre")BON DE COMMANDE <br/> <br/>@endsection
+@section("reference")
+    <p class="t1">N° : <strong>{{ \App\Application::getprefixOrder() }}{{ $bc->numerobc }}</strong></p><br/>
+    <p>Date : <strong>{{ (new Carbon\Carbon($bc->datepiece))->format("d/m/Y") }}</strong></p>
+    <p>Emetteur : <strong>{{ $bc->utilisateur->employe->nom }} {{ $bc->utilisateur->employe->prenoms }}</strong></p>
+    <p>Contact : <strong>(+225) 24 00 25 54 / 07 93 97 12</strong></p>
+@endsection
+@section("client")
+    <p class="t1"><strong>{{ $bc->partenaire->raisonsociale }}</strong></p><br/>
+    <p>N° C.C. : <strong>{{ $bc->partenaire->comptecontribuable }}</strong> </p>
+    <p>Téléphone : <strong>{{ $bc->partenaire->telephone }}</strong> </p>
     <br style="clear: both" />
 @endsection
 
 @section("content")
-    <div class="">
-        <div class="row" style="width: 6cm; margin: 0 0.5cm">
-
-        </div>
-
-        <div class="row quatre-cm">
-            <p><strong>N° BC</strong></p>
-            <hr/>
-            <p class="item">{{ \App\Application::getprefixOrder() }}{{ $bc->numerobc }}</p>
-        </div>
-
-        <div class="row quatre-cm">
-            <p><strong>Date</strong></p>
-            <hr/>
-            <p class="item">{{ (new Carbon\Carbon($bc->datepiece))->format("d/m/Y") }}</p>
-        </div>
-
-        <div class="row quatre-cm">
-            <p><strong>Emetteur</strong></p>
-            <hr/>
-            <p class="item">{{ $bc->utilisateur->employe->nom }} {{ $bc->utilisateur->employe->prenoms }}</p>
-        </div>
-
-        <!--
-        <div class="row" style="width: 6cm; margin: 0 0.5cm">
-            <p><strong>Emmetteur</strong></p>
-            <hr/>
-            <p class="item"></p>
-        </div>
-        -->
-    </div>
     <br style="clear: both"/>
-    <br/>
-    <br/>
-    <br/>
-
     <div class="objet"><span><strong>Objet : </strong>{{ $bc->objet }}</span></div>
     <br/>
     <br/>
@@ -105,4 +76,10 @@
         </div>
         -->
     </div>
+    <div style="margin-left: 10cm;" class="row six-cm">
+        @if($bc->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE)
+        <img alt="signature" width="300" src="{{ asset('images/signature.jpg') }}"/>
+        @endif
+    </div>
+    <br class="clearfix" />
 @endsection

@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Intervention;
 use App\LignePieceFournisseur;
 use App\Metier\Behavior\Notifications;
+use App\Metier\Security\Actions;
 use App\Partenaire;
 use App\PieceFournisseur;
 use App\Produit;
+use App\Service;
 use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -126,6 +128,22 @@ class FournisseurController extends Controller
 	    $notification = new Notifications();
 	    $notification->add(Notifications::SUCCESS,"Bon de commande transformé en facture !");
 	    return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+    }
+
+    public function validePiece(int $id){
+    	$this->authorize(Actions::UPDATE, [ Service::INFORMATIQUE, Service::DG]);
+
+    	try{
+    		$piece = PieceFournisseur::find($id);
+    		$piece->statut = Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE;
+    		$piece->save();
+
+		    $notification = new Notifications();
+		    $notification->add(Notifications::SUCCESS,"Bon de commande validé !");
+		    return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+	    }catch (\Exception $e){
+    		return back()->withErrors($e->getMessage());
+	    }
     }
 
     public function details(int $id)
