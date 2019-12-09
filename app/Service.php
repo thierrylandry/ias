@@ -16,4 +16,8 @@ class Service extends Model
 
     public $timestamps = false;
     protected $table = "service";
+
+    public function employes(){
+    	return $this->hasMany(Employe::class,"service_id");
+    }
 }

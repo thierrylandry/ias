@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Partenaire;
 
 use App\Application;
+use App\Events\BCcreated;
 use App\Http\Controllers\Controller;
 use App\Intervention;
 use App\LignePieceFournisseur;
@@ -52,6 +53,8 @@ class FournisseurController extends Controller
             $pieceFournisseur->save();
 
             $this->saveLines($request, $pieceFournisseur);
+
+            event(new BCcreated($pieceFournisseur));
 
         }catch (ModelNotFoundException $e){
             return back()->with('Impossible d\'ajouter cette facture. La référence est déjà utilisée. <br>'.$e->getMessage());
