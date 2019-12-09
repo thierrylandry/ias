@@ -140,6 +140,7 @@ Route::prefix("versement")->middleware("auth")->group(function (){
 Route::prefix('compte')->middleware('auth')->group(function (){
     Route::get('livre.html','Money\CompteController@registre')->name('compte.registre');
 	Route::post('livre.html','Money\CompteController@addNewSousCompte');
+    Route::get('sous-compte/synthese.html','Money\CompteController@syntheseSousCompte')->name('compte.synthese');
     Route::get('sous-compte/{slug}/registre.html','Money\CompteController@detailsSousCompte')->name('compte.souscompte');
 	Route::post('sous-compte/{slug}/registre.html','Money\CompteController@addNewLine');
     Route::post('sous-compte/{slug}/modifier-line.html','Money\CompteController@updateLine')->name('compte.modifier');

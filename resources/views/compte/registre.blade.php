@@ -15,6 +15,9 @@
                     <div class="col-md-2 col-sm-6">
                         <button class="btn bg-blue waves-button waves-effect" data-toggle="modal" data-target="#defaultModal">Nouveau compte</button>
                     </div>
+                    <div class="col-md-2 col-sm-6">
+                        <a href="{{ route("compte.synthese") }}" class="btn bg-blue-grey waves-button waves-effect">Synthèse des comptes</a>
+                    </div>
                     @endif
                 </div>
                 <div class="row clearfix">

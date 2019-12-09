@@ -239,5 +239,19 @@ class CompteController extends Controller
         return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
+	public function syntheseSousCompte(){
 
+		$lignes = LigneCompte::with('utilisateur.employe',"compte")
+			->join("compte", "compte.id","=","compte_id")
+			->join("employe","employe.id", "=", "compte.employe_id")
+			->join("service", "service.id", "=", "employe.service_id");
+
+		if(Auth::user()->employe->service->code != Service::DG){
+			$lignes = $lignes->where('service.code','<>', Service::DG);
+		}
+
+		$lignes = $lignes->orderBy('dateaction', 'desc')->paginate(30);
+
+		return view("compte.synthese", compact("lignes"));
+	}
 }

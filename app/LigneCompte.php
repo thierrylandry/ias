@@ -19,6 +19,6 @@ class LigneCompte extends Model
     }
 
     public function compte(){
-    	return $this->hasOne(Compte::class);
+    	return $this->belongsTo(Compte::class);
     }
 }
