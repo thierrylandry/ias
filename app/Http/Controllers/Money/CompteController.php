@@ -250,8 +250,12 @@ class CompteController extends Controller
 			$lignes = $lignes->where('service.code','<>', Service::DG);
 		}
 
+		$debut = $fin = null;
+
+		$lignes = $this->extractData($lignes, request(), $debut, $fin);
+
 		$lignes = $lignes->orderBy('dateaction', 'desc')->paginate(30);
 
-		return view("compte.synthese", compact("lignes"));
+		return view("compte.synthese", compact("lignes","debut", "fin"));
 	}
 }

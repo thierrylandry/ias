@@ -34,7 +34,10 @@
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control selectpicker" id="mode" name="mode" required>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+                                        \App\Service::DG, \App\Service::COMPTABILITE))
                                     <option value="{{ \App\Statut::PIECE_COMPTABLE_BON_COMMANDE }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_BON_COMMANDE) }}</option>
+                                    @endif
                                     <option value="{{ \App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL) }}</option>
                                 </select>
                             </div>

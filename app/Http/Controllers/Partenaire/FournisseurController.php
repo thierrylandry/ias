@@ -40,7 +40,7 @@ class FournisseurController extends Controller
 
         try{
             $pieceFournisseur = new PieceFournisseur($request->except('_token','produits','price','prix','quantity',
-	            'produit_id','quantite','modele', 'designation', 'complement', 'mode'));
+	            'produit_id','quantite','modele', 'designation', 'complement', 'mode', 'from'));
             $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
             $pieceFournisseur->employe_id = Auth::id();
 
@@ -54,7 +54,9 @@ class FournisseurController extends Controller
 
             $this->saveLines($request, $pieceFournisseur);
 
-            event(new BCcreated($pieceFournisseur));
+	        if($pieceFournisseur->statut == Statut::PIECE_COMPTABLE_BON_COMMANDE){
+		        event(new BCcreated($pieceFournisseur));
+	        }
 
         }catch (ModelNotFoundException $e){
             return back()->with('Impossible d\'ajouter cette facture. La référence est déjà utilisée. <br>'.$e->getMessage());

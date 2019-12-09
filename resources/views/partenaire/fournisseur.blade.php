@@ -90,13 +90,13 @@ $rap = 0;
                         </tr>
                         @php
                             if(!in_array($piece->statut, [\App\Statut::PIECE_COMPTABLE_FACTURE_PAYEE,
-                            $piece->statut != \App\Statut::PIECE_COMPTABLE_BON_COMMANDE ], false)){
+                            \App\Statut::PIECE_COMPTABLE_BON_COMMANDE ], false)){
                                 $rap += $piece->montantht + $piece->montanttva;
                             }
                         @endphp
                         @endforeach
                         <tr>
-                            <td colspan="10"><h5>Total : {{ number_format($rap, 0, '', ' ') }} F CFA</h5></td>
+                            <td colspan="10"><h5>RAP/Total : {{ number_format($rap, 0, '', ' ') }} F CFA / {{ number_format($CA->somme, 0, '', ' ') }} F CFA</h5></td>
                         </tr>
                         @else
                             <td colspan="10">

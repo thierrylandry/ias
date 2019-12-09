@@ -106,6 +106,8 @@ trait Process
             $lignepiece->piececomptable()->associate($pieceComptable);
             $lignepiece->saveOrFail();
 
+	        $lignepiece->modele = str_replace("\\", "\\\\", $lignepiece->modele);
+
             if($lignepiece->modele == Mission::class)
             {
                 $mission = Mission::find($lignepiece->modele_id);

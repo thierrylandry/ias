@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Partenaire;
 
 use App\Http\Controllers\Order\Commercializable;
 use App\Intervention;
+use App\Partenaire;
 use App\PieceComptable;
 use App\PieceFournisseur;
 use App\Produit;
@@ -18,6 +19,7 @@ use App\Statut;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 trait Factures
 {
@@ -108,5 +110,18 @@ trait Factures
 		if(request()->has("status") && request()->query("status") != "*"){
 			$builder->where("etat", "=", request()->query("status"));
 		}
+	}
+
+	private function getSommeTotale(Partenaire $partenaire){
+		$du = request()->has("debut") ? Carbon::createFromFormat("d/m/Y", request()->query("debut")) : null;
+		$au = request()->has("fin") ? Carbon::createFromFormat("d/m/Y", request()->query("fin")) : null;
+
+		$statut = implode("','",[Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE, Statut::PIECE_COMPTABLE_BON_COMMANDE]);
+		$sql = "select sum(montantht+montanttva) as somme from piecefournisseur where partenaire_id = {$partenaire->id} and statut not in ('$statut')";
+
+		if($du && $au){
+			$sql .= " and creationproforma between {$du->toDateString()} and {$au->toDateString()} ";
+		}
+		return DB::select($sql)[0];
 	}
 }

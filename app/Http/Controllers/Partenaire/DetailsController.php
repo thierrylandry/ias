@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class DetailsController extends Controller
 {
@@ -38,18 +39,21 @@ class DetailsController extends Controller
     public function ficheFournisseur(int $id)
     {
         $partenaire = Partenaire::find($id);
+
         $pieces = PieceFournisseur::with('utilisateur','moyenPaiement')
 	        ->where("partenaire_id", $partenaire->id);
 
         $this->getParameters($pieces);
 
-	    $pieces = $pieces->orderBy('datepiece','desc')->orderBy('datereglement')
+	    $pieces = $pieces->orderBy('datepiece','desc')
             ->paginate(30);
+
+	    $CA = $this->getSommeTotale($partenaire);
 
         $moyenReglements = MoyenReglement::all();
 
 	    $status = $this->getStatus();
 
-        return view('partenaire.fournisseur', compact("partenaire", "pieces", "moyenReglements", "status"));
+        return view('partenaire.fournisseur', compact("partenaire", "pieces", "moyenReglements", "status","CA"));
     }
 }

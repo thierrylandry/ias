@@ -160,6 +160,7 @@ Route::prefix('impression')->middleware('auth')->group(function (){
     Route::get("sous-compte/{slug}/print","Printer\PdfController@imprimerSousCompte")->name("print.souscompte");
     Route::get("client/{id}/point","Printer\PdfController@imprimerPointClient")->name("print.pointclient");
     Route::get("fournisseur/{id}/bc","Printer\PdfController@imprimerBC")->name("print.bc");
+    Route::get("compte/synthese","Printer\PdfController@imprimerSyntheseCompte")->name("print.compte.synthese");
 });
 
 //Partenaires

@@ -127,7 +127,7 @@ EOF;
 	    $au = $periode->get("au");
 
     	if($du && $au){
-		    $complement = " JOIN piececomptable p ON t1.piececomptable_id = p.id WHERE p.creationbl BETWEEN '{$du->format('Ymd')}' AND '{$au->format('Ymd')}' ";
+		    $complement = " JOIN piececomptable p ON t1.piececomptable_id = p.id WHERE p.creationfacture BETWEEN '{$du->format('Ymd')}' AND '{$au->format('Ymd')}' ";
 	    }
 
 	    if(!empty(request()->query('famille')) && request()->query('famille') != "all")
@@ -150,14 +150,16 @@ EOF;
 
 	    $produit = Produit::class;
 	    if(empty($complement)){
-		    $complement .= " WHERE t1.modele = '$produit'";
+		    $complement .= " WHERE (t1.modele = '".str_replace("\\","\\\\",Produit::class)."' OR t1.modele = '".str_replace("\\","",Produit::class)."') ";
 	    }else{
-		    $complement .= " AND t1.modele = '$produit'";
+		    $complement .= " AND (t1.modele = '".str_replace("\\","\\\\",Produit::class)."' OR t1.modele = '".str_replace("\\","",Produit::class)."') ";
 	    }
 
 	    $display = request()->query('display') ?? 10;
 
+
     	return DB::select($sql.$complement." GROUP BY 1,2,3,4,5,6 ORDER BY 7 DESC LIMIT $display;");
+
     }
 
 

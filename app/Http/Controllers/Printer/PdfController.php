@@ -10,11 +10,13 @@ use App\Pdf\PdfMaker;
 use App\PieceComptable;
 use App\PieceFournisseur;
 use App\Produit;
+use App\Service;
 use App\Statut;
 use App\Vehicule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
 
 class PdfController extends Controller
 {
@@ -54,6 +56,25 @@ class PdfController extends Controller
 
 	    $liste = PDF::loadView('pdf.souscompte', compact("lignes", "souscompte"))->setPaper('a4','portrait');
 	    return $liste->stream("Situation sous-compte {$souscompte->libelle}.pdf");
+    }
+
+    public function imprimerSyntheseCompte(){
+	    $debut = null;
+	    $fin = null;
+
+	    $lignes = LigneCompte::with('utilisateur.employe',"compte")
+	                         ->join("compte", "compte.id","=","compte_id")
+	                         ->join("employe","employe.id", "=", "compte.employe_id")
+	                         ->join("service", "service.id", "=", "employe.service_id");
+
+	    if(Auth::user()->employe->service->code != Service::DG){
+		    $lignes = $lignes->where('service.code','<>', Service::DG);
+	    }
+
+	    $lignes = $this->extractData($lignes, \request(), $debut, $fin)->get();
+
+	    $liste = PDF::loadView('pdf.synthese', compact("lignes"))->setPaper('a4','portrait');
+	    return $liste->stream("Synyhèse compte.pdf");
     }
 
     public function imprimerPointClient(int $id){

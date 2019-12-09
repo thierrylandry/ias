@@ -33,7 +33,7 @@ class BCcreatedListener
 		    ->where("code","=", Service::DG)
 	        ->first();
 
-    	$to = ['glamolondon@gmail.com'];
+    	$to = [];
 
     	foreach ($dg->employes as $p){
     		$to[] = $p->utilisateur->login;

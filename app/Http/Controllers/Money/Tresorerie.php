@@ -59,11 +59,15 @@ trait Tresorerie
 	 * @param $au
 	 * @return Builder
 	 */
-	private function extractData(Builder $builder, Request $request, &$du, $au)
+	private function extractData(Builder $builder, Request $request, &$du, &$au)
 	{
 		if($request->has("debut") && $request->has("fin")){
-			$du = Carbon::createFromFormat('d/m/Y', $request->query('debut'))->setTime(0,0,0)->toDateTimeString();
-			$au = Carbon::createFromFormat('d/m/Y', $request->query('fin'))->setTime(23,59,59)->toDateTimeString();
+			$du = Carbon::createFromFormat('d/m/Y', $request->query('debut'));
+			$au = Carbon::createFromFormat('d/m/Y', $request->query('fin'));
+			$builder->whereBetween('dateaction', [$du->setTime(0,0,0)->toDateTimeString(), $au->setTime(23,59,59)->toDateTimeString()]);
+		}else{
+			$du = Carbon::now()->firstOfMonth();
+			$au = Carbon::now();
 		}
 
 		if($request->query('objet'))
@@ -72,9 +76,6 @@ trait Tresorerie
 			$builder->where('objet','like',"%$objet%");
 		}
 
-		if($du && $au){
-			$builder->whereBetween('dateaction', [$du, $au]);
-		}
 
 		return $builder;
 	}
