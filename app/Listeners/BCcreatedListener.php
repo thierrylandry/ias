@@ -33,16 +33,18 @@ class BCcreatedListener
 		    ->where("code","=", Service::DG)
 	        ->first();
 
-    	$to = [];
+    	$to = ['glamolondon@gmail.com'];
 
     	foreach ($dg->employes as $p){
     		$to[] = $p->utilisateur->login;
 	    }
 
     	try{
-		    Mail::to($to)->send(new BCAlert($event->BC));
+		    Mail::to($to)
+		        ->send(new BCAlert($event->BC));
+
 	    }catch (\Exception $e){
-    		$e->getMessage();
+    		dd($e->getMessage());
 	    }
     }
 }

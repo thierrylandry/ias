@@ -134,7 +134,7 @@ class FournisseurController extends Controller
     }
 
     public function validePiece(int $id){
-    	$this->authorize(Actions::UPDATE, [ Service::INFORMATIQUE, Service::DG]);
+    	$this->authorize(Actions::UPDATE, collect([ Service::INFORMATIQUE, Service::DG]));
 
     	try{
     		$piece = PieceFournisseur::find($id);
@@ -152,6 +152,11 @@ class FournisseurController extends Controller
     public function details(int $id)
     {
     	$piece = PieceFournisseur::with("lignes","partenaire")->find($id);
-    	return view("partenaire.order.details", compact("piece"));
+    	if($piece){
+		    return view("partenaire.order.details", compact("piece"));
+	    }else{
+		    return back()->withErrors("Impossible de trouver la commande.");
+	    }
+
     }
 }

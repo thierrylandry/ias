@@ -4,6 +4,11 @@
     <link href="{{ asset('plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet" />
     <!-- Bootstrap Select Css -->
     <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
+    <style>
+        .barre{
+            text-decoration: line-through;
+        }
+    </style>
 @endsection
 
 @section("content")
@@ -53,7 +58,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control selectpicker" id="partenaire_id" name="partenaire_id" data-live-search="true" required>
                                     @foreach($partenaires as $partenaire)
-                                        <option value="{{ $partenaire->id }}" @if(old('partenaire_id') == $partenaire->id)  selected @endif >{{ $partenaire->raisonsociale }}</option>
+                                        <option value="{{ $partenaire->id }}" @if(old('partenaire_id', request()->query("from")) == $partenaire->id)  selected @endif >{{ $partenaire->raisonsociale }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -127,12 +132,12 @@
 
                         <div class="row clearfix">
                             <div class="col-lg-1 col-md-1 col-sm-4 col-xs-5 form-control-label">
-                                <label for="client">Complément</label>
+                                <label for="complement">Complément</label>
                             </div>
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <textarea required name="complement" id="complement" class="form-control" placeholder="Description de la ligne">{{ old('complement') }}</textarea>
+                                        <textarea  name="complement" id="complement" class="form-control" placeholder="Description de la ligne">{{ old('complement') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +169,8 @@
                                     <tr>
                                         <td>
                                             <label id="exonerelabel">TVA 18%</label> <br/>
+                                            <input type="checkbox" id="isexonere" class="form-control"/>
+                                            <label for="isexonere" class="">Exonéré</label>
                                         </td>
                                         <td id="montantTVA">0</td>
                                     </tr>
@@ -256,9 +263,9 @@
 
         $('#isexonere').click(function (e) {
             if($(e.target).is(":checked"))
-                $("#exonerelabel").text("TVA 18% (Exonéré de TVA)");
+                $("#exonerelabel").addClass("barre");
             else
-                $("#exonerelabel").text("TVA 18%");
+                $("#exonerelabel").removeClass("barre");
 
             //MAJ des montants
             calculAmount();
@@ -278,7 +285,7 @@
 
             var id = $product.data('id') == undefined ? 0 : $product.data('id');
             var modele = $product.data("modele") == undefined ? '{{ \App\Intervention::class }}' : $product.data("modele");
-            var libelle = $product.data("libelle") == undefined ? $("#complement").val() : $product.data("libelle");
+            var libelle = $product.data("libelle") == undefined ? $("#complement").val() : $product.data("libelle") + " " + $("#complement").val();
             var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
             var amount = (parseInt($("#price").val()) * parseInt($quantity.val()));
 
@@ -295,24 +302,13 @@
         //<input type="hidden" name="modele[]" value="">
 
         function delLine(arg) {
-            swal({
-                    title: "Suppression de ligne",
-                    text: "Voulez-vous vraiment supprimer cette ligne ?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Oui",
-                    cancelButtonText: "Non",
-                    closeOnConfirm: false
-                },
-                function(){
-                    swal.close();
-                    $parent_tr = $(arg).parent().parent().parent();
-                    $($parent_tr).fadeOut(500,function () {
-                        $($parent_tr).remove();
-                        calculAmount();
-                    });
+            if(confirm("Voulez-vous variment supprimer cette ligne ?")){
+                $parent_tr = $(arg).parent().parent().parent();
+                $($parent_tr).fadeOut(500,function () {
+                    $($parent_tr).remove();
+                    calculAmount();
                 });
+            }
         }
 
         function calculAmount()
@@ -322,12 +318,20 @@
                 montantHT = montantHT + parseInt($(value).text());
             });
 
-            $("#montantHT").text(montantHT);
-            $("#montantTVA").text(Math.ceil(montantHT * 0.18));
-            $("#montantTTC").text(Math.ceil(montantHT * 1.18));
+            var taux = 0.18;
+            if($("#isexonere").is(":checked")){
+                taux = 0;
+            }
 
-            $("#montanttva").val(Math.ceil(montantHT*0.18));
+            $("#montantHT").text(montantHT);
+
+            $("#montantTVA").text(Math.ceil(montantHT * taux));
+            $("#montantTTC").text(Math.ceil(montantHT * (1+taux)));
+
+            $("#montanttva").val(Math.ceil(montantHT*taux));
             $("#montantht").val(montantHT);
+
+
         }
 
         function editQty(arg)

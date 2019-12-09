@@ -59,7 +59,7 @@ $rap = 0;
                         </div>
                         <div class="col-md-2 col-xs-12 align-right">
                             <br>
-                            <a href="{{ route("partenaire.fournisseur.new") }}" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">insert_drive_file</i> Nouvelle facture fournisseur</a>
+                            <a href="{{ route("partenaire.fournisseur.new", ["from" => $partenaire->id]) }}" class="btn btn-flat waves-effect bg-teal"><i class="material-icons">insert_drive_file</i> Nouvelle facture fournisseur</a>
                         </div>
                     </div>
                 </div>

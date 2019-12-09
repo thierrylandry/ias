@@ -34,7 +34,8 @@ class BCAlert extends Mailable
      */
     public function build()
     {
-        return $this->subject("Validation BC n°".$this->piece->numerobc)
+        return $this->subject("Validation BC N°".$this->piece->numerobc)
+	        ->from(env("MAIL_USERNAME"))
             ->view('mail.bc');
     }
 }
