@@ -75,14 +75,14 @@
             <div class="card">
                 <div class="header">
                     <div class="col-md-4">
-                        <h2>Mission VL</h2>
+                        <h2>Mission</h2>
                     </div>
                     <div class="col-md-4">
 
                     </div>
                     <div class="col-md-4 col-xs-12">
                         <div class="align-right">
-                            <a href="{{ route("mission.nouvelle") }}" class="btn bg-blue waves-effect">Nouvelle mission VL</a>
+                            <a href="{{ route("mission.nouvelle") }}" class="btn bg-blue waves-effect">Nouvelle mission</a>
                         </div>
                     </div>
                     <br class="clearfix"/>
@@ -94,7 +94,7 @@
                             <th width=""></th>
                             <th width="7%">Début effectif (programmé)</th>
                             <th width="7%">Fin effective (programée)</th>
-                            <th width="4%">Durée</th>
+                            <th width="4%">Jours effectifs</th>
                             <th width="12%">Client</th>
                             <th width="13%">Destination</th>
                             <th width="8%">Etat</th>
@@ -131,13 +131,13 @@
                                     {{ (new Carbon\Carbon($mission->fineffective))->format("d/m/Y") }}
                                     ({{ (new Carbon\Carbon($mission->finprogramme))->format("d/m/Y") }})
                                 </td>
-                                <td>{{ $mission->getDuree() }} j</td>
+                                <td>{{ $mission->getDuree() }}</td>
                                 <td>{{ $mission->clientPartenaire->raisonsociale }}</td>
                                 <td>{{ $mission->destination }}</td>
                                 <td>{{ \App\Statut::getStatut($mission->status) }}</td>
                                 <td>{{ $mission->chauffeur ? $mission->chauffeur->employe->nom : 'Chauffeur de sous traitance'}} {{ $mission->chauffeur ? $mission->chauffeur->employe->prenoms : ""}}</td>
                                 <td>{{ $mission->soustraite ? $mission->immat_soustraitance : $mission->vehicule->immatriculation }}</td>
-                                <td class="amount">{{ number_format($mission->montantjour * $mission->getDuree(),0,","," ") }}</td>
+                                <td class="amount">{{ number_format($mission->montantjour * (new Carbon\Carbon($mission->fineffective))->diffInDays(new Carbon\Carbon($mission->debuteffectif)),0,","," ") }}</td>
                                 <td><a href="{{ $mission->pieceComptable ? route("facturation.details", ["reference" => $mission->pieceComptable->getReference() ]) : "javascript:void(0);" }}" >{{ $mission->pieceComptable ? $mission->pieceComptable->getReference() : ""}}</a></td>
                             </tr>
                         @endforeach
@@ -153,6 +153,7 @@
 @section("script")
 <!-- Moment Plugin Js -->
 <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('plugins/momentjs/moment-with-locales.min.js') }}"></script>
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
 <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' )}}"></script>

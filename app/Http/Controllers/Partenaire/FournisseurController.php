@@ -114,7 +114,7 @@ class FournisseurController extends Controller
 	 */
     private function getPiecesFournisseur(Request $request)
     {
-	    $raw = PieceFournisseur::with("partenaire","lignes")->paginate(30);
+	    $raw = PieceFournisseur::with("partenaire","lignes")->orderBy("datepiece", "desc")->paginate(30);
 
 	    return $raw;
     }

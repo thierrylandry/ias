@@ -75,6 +75,25 @@
                                 <span id="infoProduct" class="new badge blue"></span>
                             </div>
                         </div>
+                        <div class="col-lg-4 col-md-4">
+                            <input style="position: initial;left: 0;opacity: 1;height: 20px;width: 18px;" type="checkbox" name="activeDispo" id="activeDispo">
+                            <span>Activer la disponibilité</span>
+                            <div id="divDispo" class="hidden">
+                                <div class="form-group">
+                                    <b>Disponibilité</b> <br/>
+                                    <select class="form-control" id="disponibilite">
+                                        <option>Non disponible</option>
+                                        <option>Disponible</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <b>Période de disponibilité</b>
+                                    <div class="form-line">
+                                        <input type="text" name="periode" class="form-control" value="" id="periode">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row clearfix">
@@ -262,8 +281,7 @@
         cancelText : 'ANNULER',
         nowText : 'AUJOURD\'HUI'
     });
-</script>
-<script type="application/ecmascript">
+
     var facture = {
         lines : [],
         isexonere: null,
@@ -371,6 +389,17 @@
         var stock = $("#produits option:selected").data("stock");
         if(stock != 'no'){
             $("#infoProduct").text( stock +" produit(s) en stock");
+            if(parseInt(stock) == 0){
+                $("#activeDispo").prop("ckecked",true);
+            }
+        }
+    });
+
+    $("#activeDispo").click(function (e) {
+        if($(e.target).is(":checked")){
+            $("#divDispo").removeClass("hidden");
+        }else{
+            $("#divDispo").addClass("hidden");
         }
     });
 
@@ -414,7 +443,7 @@
 
         var id = $product.data('id') == undefined ? 0 : $product.data('id');
         var modele = $product.data("modele") == undefined ? '{{ \App\Mission::class }}' : $product.data("modele");
-        var libelle = $product.data("libelle") == undefined ? '' : $product.data("libelle");
+        var libelle = getLibelle();
         var reference = $product.data("reference") == undefined ? '#' : $product.data("reference");
         var remise = parseFloat($("#remise").val() != NaN ? $("#remise").val() : 0);
         var amount = (parseInt($("#price").val()) * parseInt($quantity.val())) -  Math.round(parseInt($("#price").val()) * parseInt($quantity.val()) * (remise/100));
@@ -422,12 +451,26 @@
         $("#piece tbody").fadeIn().append("<tr>\n" +
             "<th data-id=\""+ id +"\" data-modele=\""+ modele +"\"><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
             "<td>"+ reference +"</td>\n" +
-            "<td>"+ libelle + " "+ $("#complement").val() +"</td>\n" +
+            "<td>"+ libelle +"</td>\n" +
             "<td><input type=\"number\" class=\"form-control quantite\" value=\""+ $quantity.val() +"\"></td>\n" +
             "<td class='price text-right'>"+ $("#price").val() +"</td>\n" +
             "<td class='remise text-right'>"+ $("#remise").val() +"</td>\n" +
             "<td class='amount text-right'>"+ amount +"</td>\n" +
             "</tr>");
+    }
+
+    function getLibelle() {
+        var text = $product.data("libelle") == undefined ? '' : $product.data("libelle");
+        text += " "+ $("#complement").val();
+
+        if($("#activeDispo").is(":checked")){
+            text += " - " + $("#disponibilite option:selected").text();
+
+            if($("#periode").val() != ""){
+                text += " (" + $("#periode").val() + ")";
+            }
+        }
+        return text;
     }
 
     function delLine(arg) {

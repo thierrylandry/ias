@@ -10,7 +10,7 @@
                                 <h2><b>Détails pièce #{{ $piece->reference ??  $piece->numerobc }} - {{ \App\Statut::getStatut($piece->statut) }}</b></h2>
                             </div>
                             <div class="col-md-2">
-                                @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE) && !in_array($piece->statut, [\App\Statut::PIECE_COMPTABLE_BON_COMMANDE,\App\Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE ]))
+                                @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::DG, \App\Service::INFORMATIQUE) && !in_array($piece->statut, [\App\Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE ]))
                                     <a class="align-right btn btn-flat waves-effect bg-red" href="{{ route("partenaire.bc.valide", ['id' => $piece->id]) }}">Valider le BC</a>
                                 @endif
                             </div>
@@ -36,7 +36,7 @@
                                     <a class="btn btn-flat waves-effect bg-teal" href="{{ route("partenaire.fournisseur",["id" => $piece->partenaire->id]) }}">
                                         Consulter le fournisseur
                                     </a>
-                                    @if($piece->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE)
+                                    @if($piece->statut == \App\Statut::PIECE_COMPTABLE_BON_COMMANDE_VALIDE )
                                     <a class="btn btn-flat tranform waves-effect bg-light-blue">Transformer en Facture</a>
                                     @endif
                                 </div>

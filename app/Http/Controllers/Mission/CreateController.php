@@ -66,7 +66,7 @@ class CreateController extends Controller
 
         $request->session()->put(Notifications::MISSION_OBJECT, $mission);
 
-        return redirect()->route("mission.vl.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+        return redirect()->route("mission.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
 
     /**

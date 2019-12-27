@@ -21,7 +21,7 @@
                                         <a href="{{ route('admin.chauffeur.ajouter') }}" class="btn bg-orange waves-effect"><i class="material-icons">drive_eta</i> Ajouter un chauffeur </a>
                                     </div>
                                     <div class="btn-group">
-                                        <a href="{{ '#' }}" class="btn bg-blue waves-effect"><i class="material-icons">person_add</i> Ajouter un employé </a>
+                                        <a href="{{ route('admin.employe.ajouter') }}" class="btn bg-blue waves-effect"><i class="material-icons">person_add</i> Ajouter un employé </a>
                                     </div>
                                 </div>
                             </div>
