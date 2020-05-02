@@ -40,7 +40,7 @@ class FournisseurController extends Controller
 
         try{
             $pieceFournisseur = new PieceFournisseur($request->except('_token','produits','price','prix','quantity',
-	            'produit_id','quantite','modele', 'designation', 'complement', 'mode', 'from'));
+	            'produit_id','quantite','modele', 'designation', 'complement', 'mode', 'from', "reference"));
             $pieceFournisseur->datepiece = Carbon::createFromFormat('d/m/Y', $request->input('datepiece'));
             $pieceFournisseur->employe_id = Auth::id();
 
@@ -78,6 +78,7 @@ class FournisseurController extends Controller
 	    	$line->piecefournisseur_id = $piece->id;
 	    	$line->modele = $request->input("modele")[$i];
 	    	$line->designation = $request->input("designation")[$i];
+	    	$line->reference = $request->input("reference")[$i];
 	    	$line->save();
 
 	    	if($line->modele == Produit::class)

@@ -76,7 +76,7 @@
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a class="btn bg-blue-grey waves-effect" href="{{ route("stock.produit.modifier", ["reference" => $produit->reference]) }}" title="Modifier le produit"><i class="material-icons">edit</i></a>
-                                        <a class="btn bg-red waves-effect" href="{{ route("stock.produit.modifier", ["reference" => $produit->reference]) }}" title="Supprimer le produit"><i class="material-icons">delete</i></a>
+                                        <a class="btn bg-red waves-effect" onclick="return confirm('Voulez-vous vraiment supprimer leprroduit ?')" href="{{ route("stock.produit.supprimer", ["reference" => $produit->reference]) }}" title="Supprimer le produit"><i class="material-icons">delete</i></a>
                                     </div>
                                 </div>
                             </td>

@@ -82,7 +82,7 @@ $rap = 0;
                         <tr>
                             <td>{{ (new \Carbon\Carbon($piece->datepiece))->format('d/m/Y') }}</td>
                             <td><a href="{{ route("partenaire.fournisseur.factures.details",["id"=>$piece->id]) }}" title="Consulter la facture">{{ $piece->reference ?? $piece->numerobc }}</a></td>
-                            <td>{{ $piece->objet }}</td>
+                            <td><a href="{{ route("partenaire.fournisseur.factures.details",["id"=>$piece->id]) }}" title="Consulter la facture">{{ $piece->objet }}</a></td>
                             <td>{{ number_format($piece->montantht + $piece->montanttva, 0, '', ' ') }}</td>
                             <td>{{ \App\Statut::getStatut($piece->statut) }}</td>
                             <td><span title="{{ $piece->remarquepaiement }}">{{ $piece->moyenPaiement ? $piece->moyenPaiement->libelle : null }}</span></td>

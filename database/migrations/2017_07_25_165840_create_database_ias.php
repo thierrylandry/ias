@@ -130,6 +130,7 @@ class CreateDatabaseIas extends Migration
 			$table->boolean('isdisponible')->default(true);
 			$table->unsignedInteger('famille_id');
 			$table->foreign('famille_id')->references('id')->on('famille');
+			$table->dropSoftDeletes();
 		});
 		Schema::create("piececomptable",function (Blueprint $table){
 			$table->increments('id');

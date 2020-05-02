@@ -174,4 +174,17 @@ class ProduitController extends Controller
         $notification->add(Notifications::SUCCESS,"Produit modifié avec succès !");
         return redirect()->route("stock.produit.liste")->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
     }
+
+    public function delete($reference, Request $request){
+	    try{
+		    $produit = Produit::with("famille")->where("reference", $reference)->firstOrFail();
+		    $produit->delete();
+	    }catch (ModelNotFoundException $e){
+		    return back()->withErrors("Une erreur de suppression a été rencontrée.");
+	    }
+
+	    $notification = new Notifications();
+	    $notification->add(Notifications::SUCCESS,"Produit supprimé avec succès !");
+	    return back()->with(Notifications::NOTIFICATION_KEYS_SESSION, $notification);
+    }
 }

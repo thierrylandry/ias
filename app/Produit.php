@@ -4,9 +4,14 @@ namespace App;
 
 use App\Http\Controllers\Order\Commercializable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Produit extends Model implements Commercializable
 {
+	use SoftDeletes;
+
+	protected $dates = ['deleted_at'];
+
 	const DISPONIBLE = "1";
 	const INDISPONIBLE = "0";
 

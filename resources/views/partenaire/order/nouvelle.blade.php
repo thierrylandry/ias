@@ -34,11 +34,11 @@
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control selectpicker" id="mode" name="mode" required>
-                                    @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
-                                        \App\Service::DG, \App\Service::COMPTABILITE))
                                     <option value="{{ \App\Statut::PIECE_COMPTABLE_BON_COMMANDE }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_BON_COMMANDE) }}</option>
-                                    @endif
+                                @if(\Illuminate\Support\Facades\Auth::user()->authorizes(\App\Service::INFORMATIQUE,
+                                        \App\Service::DG, \App\Service::COMPTABILITE))
                                     <option value="{{ \App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL }}">{{ \App\Statut::getStatut(\App\Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL) }}</option>
+                                @endif
                                 </select>
                             </div>
                         </div>
@@ -293,7 +293,7 @@
             var amount = (parseInt($("#price").val()) * parseInt($quantity.val()));
 
             $("#piece tbody").fadeIn().append("<tr>\n" +
-                "<th><a class=\"delete\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i> </a></th>\n" +
+                '<th><a class="delete" href="javascript:void(0);"><i class="material-icons">delete_forever</i> <input type="hidden" name="reference[]" value="'+ reference +'"></a></th>\n' +
                 "<td><input type=\"hidden\" name=\"produit_id[]\" value=\""+id+"\">"+ reference +"</td>\n" +
                 "<td><input type=\"hidden\" name=\"designation[]\" value=\""+ libelle +"\">"+ libelle + " "+"</td>\n" +
                 "<td class='text-center'><input type=\"hidden\" name=\"quantite[]\" value=\""+ $quantity.val() +"\">"+$quantity.val()+"</td>\n" +

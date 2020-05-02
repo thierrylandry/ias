@@ -191,6 +191,7 @@ Route::prefix('stock')->middleware('auth')->group(function (){
     Route::get("produits","Stock\ProduitController@liste");
     Route::get("produits/{reference}/modifier.html","Stock\ProduitController@modifier")->name("stock.produit.modifier");
     Route::post("produits/{reference}/modifier.html","Stock\ProduitController@update");
+    Route::get("produits/{reference}/supprimer.html","Stock\ProduitController@delete")->name("stock.produit.supprimer");
 
     Route::post("produits/famille/add","Stock\FamilleController@addFamille")->name("stock.produit.famille.ajouter");
     Route::get("produits/famille/liste.html","Stock\FamilleController@liste")->name("stock.produit.famille");
