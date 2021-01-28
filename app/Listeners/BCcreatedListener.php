@@ -36,7 +36,9 @@ class BCcreatedListener
     	$to = [];
 
     	foreach ($dg->employes as $p){
-    		$to[] = $p->utilisateur->login;
+    	    if($p->utilisateur){
+                $to[] = $p->utilisateur->login;
+            }
 	    }
 
     	try{
