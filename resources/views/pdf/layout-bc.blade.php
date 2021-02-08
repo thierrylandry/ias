@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{public_path('pdf/pdf.css')}}" media="all" />
+
     <style>
         .page{
             page-break-after: auto;
@@ -14,7 +15,7 @@
 <header class="clearfix">
     <div>
         <div id="logo" class="row douze-cm">
-            <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
+            <a href="{{ config('app.url') }}"><img src="{{ public_path('images/logo-ias.png') }}"/></a>
         </div>
         <div class="row" style="border: 1px solid #0258c3;height: 1.7cm;margin-left:0.5cm; margin-right: 0.6cm;"></div>
         <div class="row six-cm location">
@@ -26,6 +27,7 @@
     </div>
 </header>
 <br />
+
 <div id="baner" class="clearfix">
     <span class="h1">@yield("titre")</span>
 </div>

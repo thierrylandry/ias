@@ -43,7 +43,7 @@ class PieceComptable extends Model
                 return route("print.piececomptable",["reference"=> $this->referenceproforma, "state" => PieceComptable::PRO_FORMA]);
                 break;
             case  Statut::PIECE_COMPTABLE_FACTURE_SANS_BL || Statut::PIECE_COMPTABLE_FACTURE_AVEC_BL || Statut::PIECE_COMPTABLE_FACTURE_PAYEE:
-                return route("print.piececomptable",["reference"=> $this->referencefacture, "state" => PieceComptable::FACTURE]);
+                return route("print.piececomptable",["reference"=> $this->referencefacture ?? '0000', "state" => PieceComptable::FACTURE]);
                 break;
 
             default : return null; break;

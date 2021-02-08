@@ -82,7 +82,7 @@
           <ul class="dropdown-menu pull-right">
             <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profil</a></li>
             <li role="seperator" class="divider"></li>
-            <li><a href="{{ route("maj") }}"><i class="material-icons">autorenew</i>Mise à jour</a></li>
+            <li><a href="#1"><i class="material-icons">autorenew</i>Mise à jour</a></li>
             <li role="seperator" class="divider"></li>
             <li><a href="{{ route("logout") }}"><i class="material-icons">input</i>Déconnexion</a></li>
           </ul>

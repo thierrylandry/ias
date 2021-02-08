@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{public_path('pdf/pdf.css')}}" media="all" />
     <style>
         .page{
             page-break-after: auto;
@@ -36,14 +36,5 @@
 <main class="page">
     @yield('content')
 </main>
-<!--
-<footer>
-    <p></p>
-    <p></p>
-    <p></p>
-    <p></p>
-    <p></p>
-</footer>
--->
 </body>
 </html>

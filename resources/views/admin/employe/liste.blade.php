@@ -53,7 +53,7 @@
                                         <div class="btn-group btn-group-xs" role="group">
                                             <a class="btn bg-blue-grey waves-effect" href="{{ route("admin.employe.fiche", ["matricule" => $employe->matricule]) }}" title="Fiche d'employé"><i class="material-icons">person_outline</i></a>
                                             <a class="btn bg-orange waves-effect" href="{{ route("admin.employe.modifier", ["matricule" => $employe->matricule]) }}" title="Modifier"><i class="material-icons">mode_edit</i></a>
-                                            <!-- <a class="btn bg-light-green waves-effect" href="{{ route("rh.paie", ["anneee" => date('Y'), "mois" => date('m')]) }}" title="Salaire"><i class="material-icons">assignment</i></a> -->
+                                            <!-- <a class="btn bg-light-green waves-effect" href="{{ route("rh.paie", ["annee" => date('Y'), "mois" => date('m')]) }}" title="Salaire"><i class="material-icons">assignment</i></a> -->
                                         </div>
                                     </div>
                                 </td>

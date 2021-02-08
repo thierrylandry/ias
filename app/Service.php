@@ -13,6 +13,7 @@ class Service extends Model
 	const GESTIONNAIRE_PL = 'GESPL';
 	const GESTIONNAIRE_VL = 'GESVL';
 	const DG = 'DIRG';
+	const CHAUFFEUR = 'CHAUF';
 
     public $timestamps = false;
     protected $table = "service";

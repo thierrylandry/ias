@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{public_path('pdf/pdf.css')}}" media="all" />
     <style>
         .page{
             page-break-after: auto;
@@ -14,7 +14,7 @@
 <header class="clearfix">
     <div>
         <div id="logo">
-            <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo-ias.png') }}"/></a>
+            <a href="{{ config('app.url') }}"><img src="{{ public_path('images/logo-ias.png') }}"/></a>
         </div>
     </div>
 </header>

@@ -29,21 +29,6 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/accueil.html', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
 Route::get('/checking', 'HomeController@checkState')->name('rappel');
-Route::get('/maj', function (){
-	try{
-		$cmd = env("APP_UPDATE_CMD", null);
-		if (substr(php_uname(), 0, 7) == "Windows"){
-			pclose(popen("start /B ". $cmd, "r"));
-		}
-		else {
-			exec($cmd . " > /dev/null &");
-		}
-	}catch (Exception $e){
-		//
-	}
-
-	return back();
-})->name('maj');
 
 //Véhicules
 Route::prefix('vehicules')->middleware('auth')->group(function (){
@@ -149,7 +134,7 @@ Route::prefix('compte')->middleware('auth')->group(function (){
     Route::get('sous-compte/{slug}/modifier.html','Money\CompteController@modifier')->name("compte.update");
     Route::post('sous-compte/{slug}/modifier.html','Money\CompteController@updateCompte');
     Route::get('nouvelle-depense.html','Money\CompteController@newSortieCompte')->name('compte.sortie.new');
-    Route::post('nouvelle-depense.html','Money\CompteController@addNewLine')->name('compte.sortie.new');
+    Route::post('nouvelle-depense.html','Money\CompteController@addNewLine');
 });
 
 //PDF
