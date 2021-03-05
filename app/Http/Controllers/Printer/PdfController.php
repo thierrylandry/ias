@@ -95,7 +95,7 @@ class PdfController extends Controller
 
     public function imprimerBC(string $id){
 
-    	$bc = PieceFournisseur::with("lignes","partenaire","utilisateur.employe")->find($id);;
+    	$bc = PieceFournisseur::with("lignes","partenaire","utilisateur.employe")->find($id);
 
 	    $liste = PDF::loadView('pdf.boncommande', compact("bc"))->setPaper('a4','portrait');
 	    return $liste->stream("Bon de commande {$bc->numerobc}.pdf");

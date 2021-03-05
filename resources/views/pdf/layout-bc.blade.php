@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ config('app.url') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{public_path('pdf/pdf.css')}}" media="all" />
+    <link rel="stylesheet" type="text/css" href="{{ public_path('pdf/pdf.css') }}" media="all" />
 
     <style>
         .page{
