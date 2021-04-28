@@ -23,7 +23,7 @@ $rap = 0;
                             <h3><small>Point client</small> <br/>{{ $partenaire->raisonsociale }}</h3>
                         </div>
                         <div class="col-md-6 col-xs-12 right">
-                            <a target="_blank" class="btn bg-blue btn-flat waves-effect" href="{{ route("print.pointclient", array_add(request()->query(),"id", request()->route('id'))) }}">Imprimer</a>
+                            <a target="_blank" class="btn bg-blue btn-flat waves-effect" href="{{ route("print.pointclient", ["id" => request()->route('id')]) }}">Imprimer</a>
                         </div>
                     </div>
                     <hr/>
@@ -98,8 +98,8 @@ $rap = 0;
                                 @endif
                             </td>
                             <td>{{ (new \Carbon\Carbon($piece->creationfacture ?? $piece->creationproforma))->format('d/m/Y') }}</td>
-                            <td><a href="{{ route('facturation.details',['refrence' => $piece->referenceproforma]) }}">{{ $piece->referencefacture }}</a></td>
-                            <td><a href="{{ route('facturation.details',['refrence' => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
+                            <td><a href="{{ route('facturation.details',['reference' => $piece->referenceproforma]) }}">{{ $piece->referencefacture }}</a></td>
+                            <td><a href="{{ route('facturation.details',['reference' => $piece->referenceproforma]) }}">{{ $piece->referenceproforma }}</a></td>
                             <td>{{ $piece->referencebl }}</td>
                             <td>{{ $piece->objet }}</td>
                             <td>{{ number_format(round($piece->montantht * 1+ ($piece->isexonere ? 0 : $piece->tva)), 0, '', ' ') }}</td>
